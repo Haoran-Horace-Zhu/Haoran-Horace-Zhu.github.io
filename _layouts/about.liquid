@@ -35,15 +35,52 @@ layout: default
         {% if page.profile.more_info %}
           <div class="more-info">{{ page.profile.more_info }}</div>
         {% endif %}
+        <!-- Social -->
+        {% if page.social %}
+          <div class="social">
+            <div class="contact-icons">{% include social.liquid %}</div>
+            <div class="contact-note">{{ site.contact_note }}</div>
+          </div>
+        {% endif %}
       </div>
     {% endif %}
 
     <div class="clearfix">{{ content }}</div>
 
+    <div class="row">
+      {% if page.education %}
+          <div class="col-md-6">
+              <h2>Education</h2>
+              <ul class="ul-edu fa-ul">
+                  {% for eItem in page.education.courses %}
+                      <li>
+                          <i class="fa-li fas fa-graduation-cap"></i>
+                          <div class="description">
+                              <div class="course">{{ eItem.course  |  markdownify  | remove: '<p>' | remove: '</p>' }}{{ eItem.year }}</div>
+                              <div class="institution">{{ eItem.institution  |  markdownify | remove: '<p>' | remove: '</p>'}}</div>
+                          </div>
+                      </li>
+                  {% endfor %}
+
+              </ul>
+          </div>
+      {% endif %}
+      {% if page.interests %}
+          <div class="col-md-6">
+              <h2>Research Interests</h2>
+              <ul class="ul-interests">
+                  {% for interest in page.interests %}
+                      <li class="">{{ interest |  markdownify  | remove: '<p>' | remove: '</p>'}}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      {% endif %}
+    </div>
+  
     <!-- News -->
     {% if page.news and site.announcements.enabled %}
       <h2>
-        <a href="{{ '/news/' | relative_url }}" style="color: inherit">news</a>
+        <a href="{{ '/news/' | relative_url }}" style="color: inherit">News</a>
       </h2>
       {% include news.liquid limit=true %}
     {% endif %}
@@ -62,15 +99,6 @@ layout: default
         <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
       </h2>
       {% include selected_papers.liquid %}
-    {% endif %}
-
-    <!-- Social -->
-    {% if page.social %}
-      <div class="social">
-        <div class="contact-icons">{% include social.liquid %}</div>
-
-        <div class="contact-note">{{ site.contact_note }}</div>
-      </div>
     {% endif %}
 
     {% if site.newsletter.enabled and site.footer_fixed %}

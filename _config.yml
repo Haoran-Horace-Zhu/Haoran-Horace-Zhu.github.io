@@ -41,7 +41,7 @@ repo_trophies:
 # will use title and url fields
 # Take a look to https://github.com/jekyll/jekyll-feed for more customization
 
-rss_icon: true
+rss_icon: false
 
 # -----------------------------------------------------------------------------
 # Layout
@@ -72,13 +72,14 @@ og_image: # The site-wide (default for all links) Open Graph preview image
 # -----------------------------------------------------------------------------
 
 acm_id: # your dl.acm.org/profile/id
+arxiv_id: zhu_h_7
 blogger_url: # your blogger URL
 bluesky_url: # your bluesky URL
 dblp_url: # your DBLP profile url
 discord_id: # your discord id (18-digit unique numerical identifier)
 facebook_id: # your facebook id
 flickr_id: # your flickr id
-github_username: Haoran-Horace-Zhu # your GitHub user name
+github_username: # your GitHub user name
 gitlab_username: # your GitLab user name
 ieee_id: # your ieeexplore.ieee.org/author/id
 inspirehep_id: # Inspire HEP author ID
@@ -90,13 +91,13 @@ lattes_id: # your ID on Lattes (Brazilian Lattes CV)
 linkedin_username: # your LinkedIn user name
 mastodon_username: # your mastodon instance+username in the format instance.tld/@username
 medium_username: # your Medium username
-orcid_id: # your ORCID ID
+orcid_id: 0009-0009-2777-1140
 osf_id: # your OSF ID
 pinterest_id: # your pinterest id
 publons_id: # your ID on Publons
 quora_username: # your Quora username
 research_gate_profile: # your profile on ResearchGate
-scholar_userid: # your Google Scholar ID
+scholar_userid: BB5H9Z0AAAAJ
 scopus_id: # your profile on Scopus
 semanticscholar_id: # your Semantic Scholar ID
 spotify_id: # your spotify id
@@ -112,8 +113,7 @@ x_username: # your X handle
 youtube_id: # your youtube channel id (youtube.com/@<youtube_id>)
 zotero_username: # your zotero username
 
-contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
+contact_note: 
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
@@ -341,10 +341,10 @@ scholar:
 # Display different badges withs stats for your publications
 # Customize badge behavior in _layouts/bib.liquid
 enable_publication_badges:
-  altmetric: true # Altmetric badge (Customization options: https://badge-docs.altmetric.com/index.html)
-  dimensions: true # Dimensions badge (Customization options: https://badge.dimensions.ai/)
-  google_scholar: true # Google Scholar badge (https://scholar.google.com/intl/en/scholar/citations.html)
-  inspirehep: true # Inspire HEP badge (https://help.inspirehep.net/knowledge-base/citation-metrics/)
+  altmetric: false # Altmetric badge (Customization options: https://badge-docs.altmetric.com/index.html)
+  dimensions: false # Dimensions badge (Customization options: https://badge.dimensions.ai/)
+  google_scholar: false # Google Scholar badge (https://scholar.google.com/intl/en/scholar/citations.html)
+  inspirehep: false # Inspire HEP badge (https://help.inspirehep.net/knowledge-base/citation-metrics/)
 
 # Filter out certain bibtex entry keywords used internally from the bib output
 filtered_bibtex_keywords:
@@ -378,7 +378,7 @@ max_author_limit: 3 # leave blank to always show all authors
 more_authors_animation_delay: 10 # more authors are revealed on click using animation; smaller delay means faster animation
 
 # Enables publication thumbnails. If disabled, none of the publications will display thumbnails, even if specified in the bib entry.
-enable_publication_thumbnails: true
+enable_publication_thumbnails: false
 
 # -----------------------------------------------------------------------------
 # Jekyll Link Attributes
