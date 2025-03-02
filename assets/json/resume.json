@@ -20,6 +20,15 @@
   ],
   "work": [
     {
+      "name": "North Carolina State University",
+      "position": "REU student",
+      "url": "https://example.com",
+      "startDate": "2024-06",
+      "endDate": "2024-08",
+      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
+      "highlights": ["Relativity"] ["Relativity"]
+    }
+    {
       "name": "Institute for Advanced Study, Princeton University",
       "position": "Professor of Theoretical Physics",
       "url": "https://example.com",

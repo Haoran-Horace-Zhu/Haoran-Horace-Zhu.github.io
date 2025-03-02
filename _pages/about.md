@@ -9,9 +9,11 @@ profile:
   image: mypic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>SPMS</p>
+    <p>Nanyang Technological University, 21 Nanyang Link</p>
+    <p>Singapore 637371</p>
+
+     
 
 education:
   courses:
@@ -28,10 +30,11 @@ education:
 interests:
   - Algebraic Graph Theory
   - Vertex Operator Calculus
+  - Enumerative Algebra
   - Combinatorial Design Theory
   - Representation Theory
   - Mathematical Physics
-  - Post Quantum Differential Calculus
+
 
 news: true # includes a list of news items
 selected_papers: false # includes a list of papers marked as "selected={true}"
