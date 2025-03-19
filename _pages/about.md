@@ -9,7 +9,7 @@ profile:
   image: mypic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>SPMS</p>
+    <p>SPMS-MAS-04-02</p>
     <p>Nanyang Technological University, 21 Nanyang Link</p>
     <p>Singapore 637371</p>
 
@@ -25,7 +25,7 @@ education:
       year:
     - course: B.Sc. Mathematics and Applied Mathematics
       institution: Northeastern University
-      year:
+      year: 2020-2024
 
 interests:
   - Algebraic Graph Theory
@@ -41,8 +41,6 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I am a
-
-My research lies on the interface of algebra, combinatorics, and mathematical physics with computational leanings. The motivations come from and applications of these topics in the fields of conformal field theory, quantum physics, and computer science. 
+My research lies on the interface of algebra, combinatorics, and mathematical physics with computational leanings. The motivations come from these topics and their applications in the fields of conformal field theory, quantum physics, and computer science. 
 
 Potential Collaborations: If you are interested in related topics, feel free to get in touch!

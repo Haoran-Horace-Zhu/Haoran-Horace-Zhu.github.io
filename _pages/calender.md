@@ -7,19 +7,17 @@ nav: true
 nav_order: 5
 ---
 
-### Incoming
+### Upcoming
 
 ---
+
+#### 1. XVI. International Workshop Lie theory and its applications in Physics
+16-22 June 2025, Varna, Bulgaria 
 
 ### Past
 
 ---
 
-##### 1. COnference anananjsdndf
+##### 1. NCSU & NEU Summer Colloquium
 
-akjdn df ljdf dfj sdf ljf d
-
-##### 2. NCSU & NEU Summer Colloquium
-
-University of the Philippines Tacloban College, Philippines
-sdd  s fd f sd fdfs d
+August 2021, Shenyang, China & Raleigh, USA
