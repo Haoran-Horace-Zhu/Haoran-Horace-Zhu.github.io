@@ -7,11 +7,7 @@ profile:
   align: left
   image: mypic.jpg
   image_circular: false
-  more_info: >
-    <p>SPMS-MAS-04-02</p>
-    <p>Nanyang Technological University</p>
-    <p>21 Nanyang Link</p>
-    <p>Singapore 637371</p>
+  more_info: "<p>SPMS-MAS-04-02</p><p>Nanyang Technological University</p><p>21 Nanyang Link</p><p>Singapore 637371</p>"
 
 education:
   courses:
@@ -26,7 +22,9 @@ interests:
   - Combinatorics
   - Probability Theory
   - Mathematical Physics
-
+  - Spectral Graph Theory
+  - Representation Theory
+  - Vertex Operators
 
 news: true
 selected_papers: false
