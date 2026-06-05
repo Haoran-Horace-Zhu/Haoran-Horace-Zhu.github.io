@@ -6,7 +6,7 @@ permalink: /
 
 profile:
   align: left
-  image: mypic.jpg
+  image: IMG_2639.jpeg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>SPMS-MAS-04-02</p>
