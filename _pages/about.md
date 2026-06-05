@@ -5,7 +5,7 @@ permalink: /
 
 profile:
   align: left
-  image: IMG_2639.jpeg
+  image: mypic.jpg
   image_circular: false
   more_info: >
     <p>SPMS-MAS-04-02</p>
