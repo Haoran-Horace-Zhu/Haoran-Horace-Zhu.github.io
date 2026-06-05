@@ -9,30 +9,25 @@ profile:
   image: IMG_2639.jpeg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>SPMS-MAS-04-02</p>
-    <p>Nanyang Technological University, 21 Nanyang Link</p>
-    <p>Singapore 637371</p>
+SPMS-MAS-04-02
+Nanyang Technological University
+21 Nanyang Link
+Singapore 637371
 
      
 
 education:
-  courses:
-   # - course: PhD
-   #   institution: 
-   #   year:
-    - course: M.Sc. 
-      institution: 
-      year:
-    - course: B.Sc. Mathematics and Applied Mathematics
-      institution: Northeastern University
-      year: 2020-2024
+courses:
+- course: Ph.D. student in Mathematics
+institution: Nanyang Technological University
+year:
+- course: B.Sc. in Mathematics and Applied Mathematics
+institution: Northeastern University
+year: 2020–2024
 
 interests:
-  - Algebraic Graph Theory
-  - Vertex Operator Calculus
-  - Enumerative Algebra
-  - Combinatorial Design Theory
-  - Representation Theory
+  - Combinatorics
+  - Probability Theory
   - Mathematical Physics
 
 
@@ -41,6 +36,10 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-My research lies on the interface of algebra, combinatorics, and mathematical physics with computational leanings. The motivations come from these topics and their applications in the fields of conformal field theory, quantum physics, and computer science. 
+I am a PhD student in Mathematics at Nanyang Technological University, working under the supervision of Professor Gary Greaves. My research lies at the interface of combinatorics, probability theory, and mathematical physics.
 
-Potential Collaborations: If you are interested in related topics, feel free to get in touch!
+In particular, I am interested in spectral gap problems for Cayley graphs, with applications to random walks and Markov chains, as well as related aspects of the representation theory of symmetric groups. I am also interested in variants of the Schur process studied via vertex operators.
+
+Please feel free to get in touch if you are interested in related topics or potential collaborations.
+
+
