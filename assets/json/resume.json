@@ -3,7 +3,7 @@
     "name": "Haoran Zhu",
     "label": "PhD Student in Mathematics",
     "image": "",
-    "email": "haoran.zhu@ntu.edu.sg",
+    "email": "haoran.horace.zhu@gmail.com",
     "url": "https://haoran-horace-zhu.github.io",
     "summary": "PhD student in Mathematics at Nanyang Technological University working in combinatorics, probability theory, and mathematical physics.",
     "profiles": [
@@ -71,31 +71,6 @@
       "endDate": "2022-08",
       "summary": "Research project: Quantum computation and combinatorial optimisation.",
       "highlights": ["Supervisor: Naihuan Jing"]
-    }
-  ],
-  "interests": [
-    {
-      "name": "Combinatorics",
-      "keywords": [
-        "Cayley graphs",
-        "Asymptotic representation theory",
-        "Symmetric functions",
-        "Quantum determinants",
-        "Quadratic forms",
-        "Harmonic analysis on infinite symmetric groups"
-      ]
-    },
-    {
-      "name": "Probability Theory",
-      "keywords": ["Markov chains", "Random walks", "Random partitions", "Random matrices"]
-    },
-    {
-      "name": "Mathematical Physics",
-      "keywords": ["Vertex-operator calculus", "Integrable systems", "Boson–fermion correspondence", "Quantum information"]
-    },
-    {
-      "name": "Other Interests",
-      "keywords": ["Lie algebras", "Arithmetic schemes", "Hypermatrices", "Hurwitz composition problem"]
     }
   ]
 }

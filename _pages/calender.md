@@ -3,8 +3,9 @@ layout: page
 permalink: /calendar/
 title: Calendar
 description: Selected conferences, workshops, and academic visits.
-nav: true
+nav: false
 nav_order: 5
+published: false
 ---
 
 ### Selected academic activities

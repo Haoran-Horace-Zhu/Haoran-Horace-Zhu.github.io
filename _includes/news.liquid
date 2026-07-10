@@ -5,6 +5,8 @@
       class="table-responsive"
       {% if include.limit and site.announcements.scrollable and news_size > 3 %}
         style="max-height: 60vw"
+        tabindex="0"
+        aria-label="News archive; scroll for earlier items"
       {% endif %}
     >
       <table class="table table-sm table-borderless">
@@ -28,6 +30,9 @@
         {% endfor %}
       </table>
     </div>
+    {% if include.limit and site.announcements.scrollable and news_size > 3 %}
+      <p class="news-scroll-hint" aria-hidden="true">Scroll for earlier news ↓</p>
+    {% endif %}
   {% else %}
     <p>No news so far...</p>
   {% endif %}
