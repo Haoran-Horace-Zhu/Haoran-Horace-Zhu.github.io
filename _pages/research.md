@@ -39,6 +39,11 @@ My research connects combinatorics with probability theory and mathematical phys
 
 </section>
 
+<details class="additional-interests">
+  <summary>Other interests</summary>
+  <p>Lie algebras, arithmetic schemes, hypermatrices, and the Hurwitz composition problem.</p>
+</details>
+
 <section class="research-output">
   <span class="academic-overview__eyebrow">Research output</span>
   <h2>Publications and Preprints</h2>

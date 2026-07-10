@@ -264,6 +264,45 @@ body {
   }
 }
 
+.additional-interests {
+  border-bottom: 1px solid var(--global-divider-color);
+  border-top: 1px solid var(--global-divider-color);
+  margin: 0.25rem 0 2rem;
+  padding: 0.8rem 0;
+
+  summary {
+    color: var(--global-text-color);
+    cursor: pointer;
+    display: flex;
+    font-size: 0.82rem;
+    font-weight: 700;
+    justify-content: space-between;
+    letter-spacing: 0.08em;
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    color: var(--global-theme-color);
+    content: "+";
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  &[open] summary::after {
+    content: "–";
+  }
+
+  p {
+    color: var(--global-text-color-light);
+    margin: 0.7rem 0 0;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .interest-card:not([open]):hover > .interest-card__detail,
   .interest-card:not([open]):focus-within > .interest-card__detail {
