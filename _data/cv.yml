@@ -8,7 +8,7 @@
     - name: Affiliation
       value: School of Physical and Mathematical Sciences, Nanyang Technological University
     - name: Email
-      value: <a href="mailto:haoran.zhu@ntu.edu.sg">haoran.zhu@ntu.edu.sg</a>
+      value: <a href="mailto:haoran.horace.zhu@gmail.com">haoran.horace.zhu@gmail.com</a>
 
 - title: Education
   type: time_table
@@ -42,20 +42,11 @@
         - "Research programme: Hurwitz problem on compositions of quadratic forms"
         - "Principal investigator: Professor Chi Zhang"
     - title: Research Experience for Undergraduates (REU) Student
-      institution: North Carolina State University
+      institution: North Carolina State University, Raleigh, USA
       year: Jun–Aug 2022
       description:
         - "Research project: Quantum computation and combinatorial optimisation"
         - "Supervisor: Professor Naihuan Jing"
-
-- title: Research Interests
-  type: list
-  contents:
-    - Combinatorics
-    - Probability Theory
-    - Mathematical Physics
-    - Other algebraic and arithmetic interests
-    - Detailed themes are available on the <a href="/research/">Research page</a>.
 
 - title: Academic Profiles
   type: list

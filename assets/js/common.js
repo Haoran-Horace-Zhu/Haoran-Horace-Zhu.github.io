@@ -1,19 +1,25 @@
 $(document).ready(function () {
-  // add toggle functionality to abstract, award and bibtex buttons
-  $("a.abstract").click(function () {
-    $(this).parent().parent().find(".abstract.hidden").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden.open").toggleClass("open");
+  // add toggle functionality to publication titles, award and bibtex buttons
+  $("button.article-title-toggle, a.abstract").click(function () {
+    const $item = $(this).closest(".pub-list-item");
+    const $abstract = $item.find(".abstract.hidden").first();
+    const willOpen = !$abstract.hasClass("open");
+
+    $abstract.toggleClass("open", willOpen);
+    $item.find(".article-title-toggle, a.abstract").attr("aria-expanded", willOpen);
+    $item.find(".award.hidden.open, .bibtex.hidden.open").removeClass("open");
   });
   $("a.award").click(function () {
-    $(this).parent().parent().find(".abstract.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden.open").toggleClass("open");
+    const $item = $(this).closest(".pub-list-item");
+    $item.find(".abstract.hidden.open, .bibtex.hidden.open").removeClass("open");
+    $item.find(".article-title-toggle, a.abstract").attr("aria-expanded", false);
+    $item.find(".award.hidden").toggleClass("open");
   });
   $("a.bibtex").click(function () {
-    $(this).parent().parent().find(".abstract.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".award.hidden.open").toggleClass("open");
-    $(this).parent().parent().find(".bibtex.hidden").toggleClass("open");
+    const $item = $(this).closest(".pub-list-item");
+    $item.find(".abstract.hidden.open, .award.hidden.open").removeClass("open");
+    $item.find(".article-title-toggle, a.abstract").attr("aria-expanded", false);
+    $item.find(".bibtex.hidden").toggleClass("open");
   });
   $("a").removeClass("waves-effect waves-light");
 

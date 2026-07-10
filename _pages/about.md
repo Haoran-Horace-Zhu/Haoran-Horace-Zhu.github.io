@@ -20,12 +20,9 @@ education:
       year: "2020–2024"
 
 interests:
-  - Algebraic and Enumerative Combinatorics
-  - Probability and Markov Chains
+  - Combinatorics
+  - Probability Theory
   - Mathematical Physics
-  - Spectral Graph Theory
-  - Representation Theory
-  - Vertex Operator Methods
 
 news: true
 selected_papers: false
@@ -34,13 +31,11 @@ social: true
 
 <p class="academic-kicker">Combinatorics · Probability · Mathematical Physics</p>
 
-I am a PhD student in Mathematics at Nanyang Technological University, working under the supervision of [Professor Gary Greaves](https://www.ntu.edu.sg/spms/about-us/mathematics/people/faculty). My research lies at the interface of combinatorics, probability, and mathematical physics.
-
-I am especially interested in problems where algebraic structure reveals new probabilistic or physical phenomena. Before beginning my PhD, I was a Project Officer at NTU working on Schur rings and cyclotomy.
+I am a PhD student in Mathematics at Nanyang Technological University, working under the supervision of [Professor Gary Greaves](https://grwgrvs.github.io/). My research lies at the interface of combinatorics, probability, and mathematical physics.
 
 <div class="research-focus">
   <span class="research-focus__label">Research areas</span>
   <p>Combinatorics · Probability Theory · Mathematical Physics</p>
 </div>
 
-Please feel free to [get in touch](mailto:haoran.zhu@ntu.edu.sg) if you are interested in related topics or potential collaborations.
+Please feel free to [get in touch](mailto:haoran.horace.zhu@gmail.com) if you are interested in related topics or potential collaborations.

@@ -8,9 +8,21 @@
       <span class="coauthor-line">With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</span>
     {% endif %}
 
-    <span class="article-title"
-      ><strong>{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</strong></span
-    >
+    {% if entry.abstract %}
+      <button
+        class="article-title article-title-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="abstract-{{ entry.key }}"
+      >
+        <strong>{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</strong>
+        <span class="article-title-toggle__hint">Abstract</span>
+      </button>
+    {% else %}
+      <span class="article-title"
+        ><strong>{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</strong></span
+      >
+    {% endif %}
 
     <!-- Journal/Book title and date -->
     {% assign proceedings = 'inproceedings,incollection' | split: ',' %}
@@ -55,9 +67,6 @@
         <a class="award btn btn-sm z-depth-0" role="button">
           {%- if entry.award_name %}{{ entry.award_name }}{% else %}Awarded{% endif -%}
         </a>
-      {% endif %}
-      {% if entry.abstract %}
-        <a class="abstract btn btn-sm z-depth-0" role="button">Abs</a>
       {% endif %}
       {% if entry.doi %}
         {% if entry.doi contains '://' %}
@@ -216,7 +225,7 @@
 
     {% if entry.abstract %}
       <!-- Hidden abstract block -->
-      <div class="abstract hidden">
+      <div id="abstract-{{ entry.key }}" class="abstract hidden">
         <p>{{ entry.abstract }}</p>
       </div>
     {% endif %}
