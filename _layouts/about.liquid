@@ -49,34 +49,36 @@ layout: default
 
     <div class="row">
       {% if page.education %}
-          <div class="col-md-6">
-              <h2>Education</h2>
-              <ul class="ul-edu fa-ul">
-                  {% for eItem in page.education.courses %}
-                      <li>
-                          <i class="fa-li fas fa-graduation-cap"></i>
-                          <div class="description">
-                              <div class="course">{{ eItem.course  |  markdownify  | remove: '<p>' | remove: '</p>' }}{{ eItem.year }}</div>
-                              <div class="institution">{{ eItem.institution  |  markdownify | remove: '<p>' | remove: '</p>'}}</div>
-                          </div>
-                      </li>
-                  {% endfor %}
-
-              </ul>
-          </div>
+        <div class="col-md-6">
+          <h2>Education</h2>
+          <ul class="ul-edu fa-ul">
+            {% for eItem in page.education.courses %}
+              <li>
+                <i class="fa-li fas fa-graduation-cap"></i>
+                <div class="description">
+                  <div class="course">
+                    {{ eItem.course | markdownify | remove: '<p>' | remove: '</p>' }}
+                    <span class="course-year">{{ eItem.year }}</span>
+                  </div>
+                  <div class="institution">{{ eItem.institution | markdownify | remove: '<p>' | remove: '</p>' }}</div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       {% endif %}
       {% if page.interests %}
-          <div class="col-md-6">
-              <h2>Research Interests</h2>
-              <ul class="ul-interests">
-                  {% for interest in page.interests %}
-                      <li class="">{{ interest |  markdownify  | remove: '<p>' | remove: '</p>'}}</li>
-                  {% endfor %}
-              </ul>
-          </div>
+        <div class="col-md-6">
+          <h2>Research Interests</h2>
+          <ul class="ul-interests">
+            {% for interest in page.interests %}
+              <li class="">{{ interest | markdownify | remove: '<p>' | remove: '</p>' }}</li>
+            {% endfor %}
+          </ul>
+        </div>
       {% endif %}
     </div>
-  
+
     <!-- News -->
     {% if page.news and site.announcements.enabled %}
       <h2>
