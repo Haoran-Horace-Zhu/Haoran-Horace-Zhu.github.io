@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://Haoran-Horace-Zhu.github.io/sitemap.xml
+Sitemap: https://haoran-horace-zhu.github.io/sitemap.xml
