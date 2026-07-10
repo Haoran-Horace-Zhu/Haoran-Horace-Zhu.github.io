@@ -2,12 +2,52 @@
 layout: page
 permalink: /research/
 title: Research
-description: My main research interests are in algebraic graph theory, vertex operator calculus, Combinatorial design theory.
+description: Publications and preprints in combinatorics, probability, algebra, and mathematical physics.
 nav: true
 nav_order: 2
 ---
 
-<!-- _pages/publications.md -->
+My research connects combinatorics with probability theory and mathematical physics. Hover over a research area to see its current themes, or select a card on a touch device.
+
+<section class="interest-grid" aria-label="Research interests">
+  <details class="interest-card">
+    <summary>
+      <span class="interest-card__number">01</span>
+      <span class="interest-card__title">Combinatorics</span>
+      <span class="interest-card__hint">View themes</span>
+    </summary>
+    <p class="interest-card__detail">Cayley graphs, asymptotic representation theory, symmetric functions, quantum determinants, quadratic forms, and harmonic analysis on infinite symmetric groups.</p>
+  </details>
+
+  <details class="interest-card">
+    <summary>
+      <span class="interest-card__number">02</span>
+      <span class="interest-card__title">Probability Theory</span>
+      <span class="interest-card__hint">View themes</span>
+    </summary>
+    <p class="interest-card__detail">Markov chains, random walks, random partitions, and random matrices.</p>
+  </details>
+
+  <details class="interest-card">
+    <summary>
+      <span class="interest-card__number">03</span>
+      <span class="interest-card__title">Mathematical Physics</span>
+      <span class="interest-card__hint">View themes</span>
+    </summary>
+    <p class="interest-card__detail">Vertex-operator calculus, integrable systems, the boson–fermion correspondence, and quantum information.</p>
+  </details>
+
+  <details class="interest-card">
+    <summary>
+      <span class="interest-card__number">04</span>
+      <span class="interest-card__title">Other Interests</span>
+      <span class="interest-card__hint">View themes</span>
+    </summary>
+    <p class="interest-card__detail">Lie algebras, arithmetic schemes, hypermatrices, and the Hurwitz composition problem.</p>
+  </details>
+</section>
+
+The list below is maintained from my published papers and current preprints. You can also find the latest versions on [arXiv](https://arxiv.org/a/zhu_h_7.html) and [Google Scholar](https://scholar.google.com/citations?user=BB5H9Z0AAAAJ).
 
 <!-- Bibsearch Feature -->
 

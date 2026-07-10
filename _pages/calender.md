@@ -1,23 +1,20 @@
 ---
 layout: page
-permalink: /Calendar/
+permalink: /calendar/
 title: Calendar
-description: Here is a list of some conferences and research visits.
+description: Selected conferences, workshops, and academic visits.
 nav: true
 nav_order: 5
 ---
 
-### Upcoming
+### Selected academic activities
 
 ---
 
-#### 1. XVI. International Workshop Lie theory and its applications in Physics
-16-22 June 2025, Varna, Bulgaria 
+#### XVI International Workshop: Lie Theory and Its Applications in Physics
 
-### Past
+16–22 June 2025 · Varna, Bulgaria
 
----
+#### NCSU & NEU Summer Colloquium
 
-##### 1. NCSU & NEU Summer Colloquium
-
-August 2021, Shenyang, China & Raleigh, USA
+August 2021 · Shenyang, China & Raleigh, USA

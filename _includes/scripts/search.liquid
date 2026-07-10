@@ -106,9 +106,9 @@
                 {%- assign title = item.title | newline_to_br | replace: "<br />", " " | replace: "<br/>", " " | strip_html | strip_newlines | escape | strip -%}
               {%- endif -%}
               id: "{{ collection.label }}-{{ title | slugify }}",
-              title: '{{ title | emojify | truncatewords: 13 }}',
-              description: "{{ item.description | strip_html | strip_newlines | escape | strip }}",
-              section: "{{ collection.label | capitalize }}",
+              title: {{ title | emojify | truncatewords: 13 | jsonify }},
+              description: {{ item.description | strip_html | strip_newlines | strip | jsonify }},
+              section: {{ collection.label | capitalize | jsonify }},
               {%- unless item.inline -%}
                 handler: () => {
                   window.location.href = "{{ item.url | relative_url }}";

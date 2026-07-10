@@ -1,0 +1,303 @@
+/*******************************************************************************
+ * Haoran Zhu — site-specific visual system
+ ******************************************************************************/
+
+:root {
+  --global-bg-color: #fbfaf7;
+  --global-card-bg-color: #ffffff;
+  --global-text-color: #17212b;
+  --global-text-color-light: #66727d;
+  --global-theme-color: #0f6b67;
+  --global-hover-color: #0a514e;
+  --global-divider-color: rgba(23, 33, 43, 0.12);
+}
+
+html[data-theme="dark"] {
+  --global-bg-color: #111719;
+  --global-card-bg-color: #182124;
+  --global-text-color: #edf3f2;
+  --global-text-color-light: #aab8b6;
+  --global-theme-color: #72d2ca;
+  --global-hover-color: #a2e6df;
+  --global-divider-color: rgba(237, 243, 242, 0.14);
+}
+
+body {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.navbar {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.navbar-brand,
+.post-title,
+.post h2,
+.post h3 {
+  font-family:
+    Iowan Old Style,
+    Palatino Linotype,
+    Book Antiqua,
+    Palatino,
+    Georgia,
+    serif;
+}
+
+.post-header {
+  margin-bottom: 1.75rem;
+
+  .post-title {
+    color: var(--global-text-color);
+    font-size: clamp(2.4rem, 7vw, 4.25rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .desc {
+    color: var(--global-text-color-light);
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    margin-top: 0.7rem;
+  }
+}
+
+.profile {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 1.25rem;
+  box-shadow: 0 18px 48px rgba(23, 33, 43, 0.08);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  padding: 0.65rem;
+
+  img {
+    aspect-ratio: 4 / 5;
+    border-radius: 0.9rem !important;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .more-info {
+    color: var(--global-text-color-light);
+    font-family: inherit;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin: 0.8rem 0 0.35rem;
+    text-align: center;
+
+    p {
+      display: block;
+      margin: 0.08rem 0;
+    }
+  }
+
+  .social {
+    text-align: center;
+  }
+}
+
+.academic-kicker {
+  color: var(--global-theme-color);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.research-focus {
+  background: color-mix(in srgb, var(--global-theme-color) 8%, var(--global-card-bg-color));
+  border: 1px solid color-mix(in srgb, var(--global-theme-color) 22%, transparent);
+  border-radius: 1rem;
+  margin: 1.35rem 0;
+  padding: 1rem 1.15rem;
+
+  p {
+    margin: 0.2rem 0 0;
+  }
+}
+
+.research-focus__label {
+  color: var(--global-theme-color);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.interest-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 1.5rem 0 2rem;
+}
+
+.interest-card {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(23, 33, 43, 0.04);
+  min-height: 9.25rem;
+  padding: 1.05rem 1.15rem;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+
+  &:hover,
+  &:focus-within,
+  &[open] {
+    border-color: color-mix(in srgb, var(--global-theme-color) 42%, transparent);
+    box-shadow: 0 14px 32px rgba(23, 33, 43, 0.09);
+    transform: translateY(-2px);
+  }
+
+  summary {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    list-style: none;
+    outline: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    color: var(--global-theme-color);
+    content: "+";
+    font-size: 1.35rem;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    line-height: 1;
+  }
+
+  &[open] summary::after {
+    content: "–";
+  }
+}
+
+.interest-card__number {
+  color: var(--global-theme-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.interest-card__title {
+  color: var(--global-text-color);
+  font-family:
+    Iowan Old Style,
+    Palatino Linotype,
+    Book Antiqua,
+    Palatino,
+    Georgia,
+    serif;
+  font-size: 1.35rem;
+  grid-column: 1;
+  line-height: 1.2;
+  margin-top: 0.3rem;
+}
+
+.interest-card__hint {
+  color: var(--global-text-color-light);
+  font-size: 0.66rem;
+  font-weight: 700;
+  grid-column: 1;
+  letter-spacing: 0.09em;
+  margin-top: 1.35rem;
+  text-transform: uppercase;
+}
+
+.interest-card__detail {
+  color: var(--global-text-color-light);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0.95rem 0 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interest-card:not([open]):hover > .interest-card__detail,
+  .interest-card:not([open]):focus-within > .interest-card__detail {
+    display: block;
+  }
+}
+
+.course-year {
+  color: var(--global-text-color-light);
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.12rem;
+}
+
+.ul-edu li,
+.ul-interests li {
+  margin-bottom: 0.72rem;
+}
+
+.publications .bibliography > li {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(23, 33, 43, 0.04);
+  margin-bottom: 0.85rem;
+  padding: 1rem 1.1rem;
+}
+
+.pub-list-item {
+  margin-bottom: 0 !important;
+}
+
+.coauthor-line {
+  color: var(--global-text-color-light);
+  display: block;
+  font-size: 0.88rem;
+  margin-bottom: 0.15rem;
+}
+
+.article-title {
+  color: var(--global-text-color);
+  display: block;
+  line-height: 1.45;
+}
+
+.periodical {
+  color: var(--global-text-color-light);
+  margin-top: 0.3rem;
+}
+
+.links .btn {
+  border-radius: 999px;
+  margin-top: 0.4rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@media (max-width: 575.98px) {
+  .interest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile {
+    float: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 22rem;
+  }
+
+  .post-header .post-title {
+    font-size: 2.65rem;
+  }
+}

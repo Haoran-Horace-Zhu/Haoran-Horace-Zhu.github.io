@@ -1,95 +1,101 @@
 {
   "basics": {
     "name": "Haoran Zhu",
+    "label": "PhD Student in Mathematics",
     "image": "",
     "email": "haoran.zhu@ntu.edu.sg",
-    "languages":"nantonese, Chinese, English"
+    "url": "https://haoran-horace-zhu.github.io",
+    "summary": "PhD student in Mathematics at Nanyang Technological University working in combinatorics, probability theory, and mathematical physics.",
+    "profiles": [
+      {
+        "network": "Google Scholar",
+        "username": "Haoran Zhu",
+        "url": "https://scholar.google.com/citations?user=BB5H9Z0AAAAJ"
+      },
+      {
+        "network": "arXiv",
+        "username": "zhu_h_7",
+        "url": "https://arxiv.org/a/zhu_h_7.html"
+      },
+      {
+        "network": "GitHub",
+        "username": "Haoran-Horace-Zhu",
+        "url": "https://github.com/Haoran-Horace-Zhu"
+      }
+    ]
   },
-
   "education": [
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "location": "Zurich, Switzerland",
-      "area": "Software Development",
+      "institution": "Nanyang Technological University",
+      "location": "Singapore",
+      "area": "Mathematics",
       "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "10",
-      "courses": ["Theory of Relativity","Theory of Relativity"]
+      "startDate": "2026-01",
+      "endDate": "",
+      "courses": ["Supervisor: Gary Greaves", "Thesis topic: To be determined"]
+    },
+    {
+      "institution": "Northeastern University",
+      "location": "Shenyang, China",
+      "area": "Mathematics and Applied Mathematics",
+      "studyType": "B.Sc.",
+      "startDate": "2020-09",
+      "endDate": "2024-06",
+      "score": "88.2/100",
+      "courses": ["Thesis: Coxeter groups, irreducible representations, and spectral realisations"]
     }
   ],
   "work": [
     {
+      "name": "Nanyang Technological University",
+      "location": "Singapore",
+      "position": "Project Officer",
+      "startDate": "2025-03",
+      "endDate": "2026-01",
+      "summary": "Research programme: Schur rings and cyclotomy.",
+      "highlights": ["Principal investigator: Gary Greaves"]
+    },
+    {
+      "name": "Northeastern University",
+      "location": "Shenyang, China",
+      "position": "Research Assistant",
+      "startDate": "2024-08",
+      "endDate": "2025-01",
+      "summary": "Research programme: Hurwitz problem on compositions of quadratic forms.",
+      "highlights": ["Principal investigator: Chi Zhang"]
+    },
+    {
       "name": "North Carolina State University",
-      "position": "REU student",
-      "url": "https://example.com",
-      "startDate": "2024-06",
-      "endDate": "2024-08",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity"] ["Relativity"]
-    }
-    {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity"]
+      "position": "Research Experience for Undergraduates (REU) Student",
+      "startDate": "2022-06",
+      "endDate": "2022-08",
+      "summary": "Research project: Quantum computation and combinatorial optimisation.",
+      "highlights": ["Supervisor: Naihuan Jing"]
     }
   ],
-  "awards": [
+  "interests": [
     {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-location-dot"
+      "name": "Combinatorics",
+      "keywords": [
+        "Cayley graphs",
+        "Asymptotic representation theory",
+        "Symmetric functions",
+        "Quantum determinants",
+        "Quadratic forms",
+        "Harmonic analysis on infinite symmetric groups"
+      ]
     },
     {
-      "name": "Quantum Computing",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-tag"
+      "name": "Probability Theory",
+      "keywords": ["Markov chains", "Random walks", "Random partitions", "Random matrices"]
     },
     {
-      "name": "Quantum Information",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-envelope"
+      "name": "Mathematical Physics",
+      "keywords": ["Vertex-operator calculus", "Integrable systems", "Boson–fermion correspondence", "Quantum information"]
     },
     {
-      "name": "Quantum Cryptography",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-hashtag"
-    },
-    {
-      "name": "Quantum Communication",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-calendar"
-    },
-    {
-      "name": "Quantum Teleportation",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-clipboard-check"
+      "name": "Other Interests",
+      "keywords": ["Lie algebras", "Arithmetic schemes", "Hypermatrices", "Hurwitz composition problem"]
     }
   ]
-
 }
