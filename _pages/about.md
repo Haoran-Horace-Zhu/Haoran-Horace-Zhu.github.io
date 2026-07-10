@@ -20,12 +20,10 @@ education:
       year: "2020–2024"
 
 interests:
-  - Algebraic and Enumerative Combinatorics
-  - Probability and Markov Chains
+  - Combinatorics
+  - Probability Theory
   - Mathematical Physics
-  - Spectral Graph Theory
-  - Representation Theory
-  - Vertex Operator Methods
+  - Other Interests
 
 news: true
 selected_papers: false
