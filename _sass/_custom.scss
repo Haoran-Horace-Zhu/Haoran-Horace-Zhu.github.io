@@ -104,6 +104,27 @@ body {
   .social {
     text-align: center;
   }
+
+  .contact-icons {
+    align-items: center;
+    display: grid;
+    gap: 0.35rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0.8rem auto 0.25rem;
+
+    a {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      margin: 0;
+      min-height: 2.25rem;
+    }
+
+    i {
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+  }
 }
 
 .academic-kicker {

@@ -4,7 +4,7 @@ permalink: /cv/
 title: CV
 nav: true
 nav_order: 6
-description: Education, research positions, and academic interests.
+description: Profile, education, and research positions.
 toc:
   sidebar: left
 ---
