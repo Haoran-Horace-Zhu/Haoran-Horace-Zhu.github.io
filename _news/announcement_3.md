@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-New preprint with Gary R. W. Greaves: [Spectral gap of biased adjacent-transposition chains](https://arxiv.org/abs/2603.26303).
+New preprint with Gary Greaves: [Spectral gap of biased adjacent-transposition chains](https://arxiv.org/abs/2603.26303).
