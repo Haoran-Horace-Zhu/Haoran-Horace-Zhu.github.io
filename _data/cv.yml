@@ -9,6 +9,8 @@
       value: School of Physical and Mathematical Sciences, Nanyang Technological University
     - name: Email
       value: <a href="mailto:haoran.horace.zhu@gmail.com">haoran.horace.zhu@gmail.com</a>
+    - name: Academic Service
+      value: Journal referee for <em>The Electronic Journal of Combinatorics</em>.
 
 - title: Education
   type: time_table
