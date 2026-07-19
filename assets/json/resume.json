@@ -6,7 +6,6 @@
     "email": "haoran.horace.zhu@gmail.com",
     "url": "https://haoran-horace-zhu.github.io",
     "summary": "PhD student in Mathematics at Nanyang Technological University working in combinatorics, probability theory, and mathematical physics.",
-    "academicService": "The Electronic Journal of Combinatorics",
     "profiles": [
       {
         "network": "Google Scholar",
@@ -73,6 +72,12 @@
       "endDate": "2022-08",
       "summary": "Research project: Quantum computation and combinatorial optimisation.",
       "highlights": ["Supervisor: Naihuan Jing"]
+    }
+  ],
+  "service": [
+    {
+      "category": "Journal Refereeing",
+      "items": ["The Electronic Journal of Combinatorics"]
     }
   ]
 }

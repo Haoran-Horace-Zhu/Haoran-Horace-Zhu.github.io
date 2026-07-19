@@ -10,11 +10,7 @@
 
     <tr>
       <td class="p-1 pr-2 font-weight-bold">
-        {% if content[0] == 'academicService' %}
-          <b>Academic Service</b>
-        {% else %}
-          <b>{{ content[0] | capitalize }}</b>
-        {% endif %}
+        <b>{{ content[0] | capitalize }}</b>
       </td>
       <td class="p-1 pl-2 font-weight-light text">
         {% if content[0] == 'url' %}
@@ -23,8 +19,6 @@
           <a href="mailto:{{ content[1] }}" target="_blank">{{ content[1] }}</a>
         {% elsif content[0] == 'phone' %}
           <a href="tel:{{ content[1] }}">{{ content[1] }}</a>
-        {% elsif content[0] == 'academicService' %}
-          Journal referee for <em>{{ content[1] }}</em>.
         {% else %}
           {{ content[1] }}
         {% endif %}

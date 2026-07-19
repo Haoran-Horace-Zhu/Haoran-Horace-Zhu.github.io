@@ -84,6 +84,8 @@ layout: default
                   Profile
                 {% when 'work' %}
                   Positions
+                {% when 'service' %}
+                  Academic Service
                 {% when 'interests' %}
                   Research Interests
                 {% else %}
@@ -98,6 +100,8 @@ layout: default
                   {% include resume/education.liquid %}
                 {% when 'work' %}
                   {% include resume/work.liquid %}
+                {% when 'service' %}
+                  {% include resume/service.liquid %}
                 {% when 'volunteer' %}
                   {% include resume/volunteer.liquid %}
                 {% when 'projects' %}
