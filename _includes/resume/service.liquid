@@ -1,0 +1,14 @@
+<table class="table table-cv table-sm table-borderless table-responsive">
+  {% for content in data[1] %}
+    <tr>
+      <td class="p-1 pr-2 font-weight-bold">
+        <b>{{ content.category }}</b>
+      </td>
+      <td class="p-1 pl-2 font-weight-light text">
+        {% for item in content.items %}
+          <em>{{ item }}</em>{% unless forloop.last %}<br>{% endunless %}
+        {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+</table>

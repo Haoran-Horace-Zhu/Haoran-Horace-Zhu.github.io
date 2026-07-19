@@ -14,7 +14,7 @@ footer_text: >
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 keywords: Haoran Zhu, combinatorics, probability, mathematical physics, spectral graph theory, Nanyang Technological University
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: ⚛️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: zhu-favicon.png # the favicon image in /assets/img/
 
 url: https://haoran-horace-zhu.github.io # the base hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root
@@ -639,6 +639,7 @@ jekyll_get_json:
 jsonresume:
   - basics
   - work
+  - service
   - education
   - publications
   - projects
