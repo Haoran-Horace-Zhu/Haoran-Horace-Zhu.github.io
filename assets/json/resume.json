@@ -32,10 +32,7 @@
       "studyType": "PhD",
       "startDate": "2026-01",
       "endDate": "",
-      "courses": [
-        "Supervisor: Gary Greaves",
-        "Thesis topic: To be determined"
-      ]
+      "courses": ["Supervisor: Gary Greaves", "Thesis topic: To be determined"]
     },
     {
       "institution": "Northeastern University",
@@ -45,10 +42,7 @@
       "startDate": "2020-09",
       "endDate": "2024-06",
       "score": "88.2/100",
-      "courses": [
-        "CGPA: 88.2/100",
-        "Thesis: Coxeter groups, irreducible representations, and spectral realisations"
-      ]
+      "courses": ["CGPA: 88.2/100", "Thesis: Coxeter groups, irreducible representations, and spectral realisations"]
     }
   ],
   "work": [
@@ -59,9 +53,7 @@
       "startDate": "2025-03",
       "endDate": "2026-01",
       "summary": "Research programme: Schur rings and cyclotomy.",
-      "highlights": [
-        "Principal investigator: Gary Greaves"
-      ]
+      "highlights": ["Principal investigator: Gary Greaves"]
     },
     {
       "name": "Northeastern University",
@@ -70,9 +62,7 @@
       "startDate": "2024-08",
       "endDate": "2025-01",
       "summary": "Research programme: Hurwitz problem on compositions of quadratic forms.",
-      "highlights": [
-        "Principal investigator: Chi Zhang"
-      ]
+      "highlights": ["Principal investigator: Chi Zhang"]
     },
     {
       "name": "North Carolina State University",
@@ -81,18 +71,13 @@
       "startDate": "2022-06",
       "endDate": "2022-08",
       "summary": "Research project: Quantum computation and combinatorial optimisation.",
-      "highlights": [
-        "Supervisor: Naihuan Jing"
-      ]
+      "highlights": ["Supervisor: Naihuan Jing"]
     }
   ],
   "service": [
     {
       "category": "Refereeing",
-      "items": [
-        "ACM–SIAM Symposium on Discrete Algorithms (SODA)",
-        "The Electronic Journal of Combinatorics"
-      ]
+      "items": ["ACM–SIAM Symposium on Discrete Algorithms (SODA)", "The Electronic Journal of Combinatorics"]
     }
   ]
 }
