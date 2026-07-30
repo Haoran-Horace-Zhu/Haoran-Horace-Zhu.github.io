@@ -78,6 +78,10 @@
     {
       "category": "Refereeing",
       "items": ["ACM–SIAM Symposium on Discrete Algorithms (SODA)", "The Electronic Journal of Combinatorics"]
+    },
+    {
+      "category": "Reviewing",
+      "items": ["Mathematical Reviews (MathSciNet)", "zbMATH Open"]
     }
   ]
 }
