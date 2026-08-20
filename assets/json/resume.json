@@ -77,7 +77,11 @@
   "service": [
     {
       "category": "Refereeing",
-      "items": ["ACM–SIAM Symposium on Discrete Algorithms (SODA)", "The Electronic Journal of Combinatorics"]
+      "items": [
+        "ACM–SIAM Symposium on Discrete Algorithms (SODA)",
+        "The Electronic Journal of Combinatorics",
+        "European Journal of Combinatorics"
+      ]
     },
     {
       "category": "Reviewing",
