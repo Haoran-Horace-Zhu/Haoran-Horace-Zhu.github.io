@@ -156,8 +156,9 @@ layout: default
       if (!scroller || !controls || !controls.length) return;
 
       var updateControls = function () {
-        var atStart = scroller.scrollLeft <= 2;
-        var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2;
+        var edgeTolerance = 16;
+        var atStart = scroller.scrollLeft <= edgeTolerance;
+        var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - edgeTolerance;
 
         controls.forEach(function (control) {
           var direction = Number(control.dataset.selectedPublicationsDirection);
