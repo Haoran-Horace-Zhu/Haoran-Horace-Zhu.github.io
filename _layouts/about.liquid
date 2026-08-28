@@ -149,26 +149,26 @@ layout: default
 {% if page.selected_papers %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const section = document.querySelector('.home-selected-publications');
-      const scroller = section?.querySelector('.selected-publications-scroll');
-      const controls = section?.querySelectorAll('[data-selected-publications-direction]');
+      var section = document.querySelector('.home-selected-publications');
+      var scroller = section ? section.querySelector('.selected-publications-scroll') : null;
+      var controls = section ? section.querySelectorAll('[data-selected-publications-direction]') : null;
 
-      if (!scroller || !controls?.length) return;
+      if (!scroller || !controls || !controls.length) return;
 
-      const updateControls = function () {
-        const atStart = scroller.scrollLeft <= 2;
-        const atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2;
+      var updateControls = function () {
+        var atStart = scroller.scrollLeft <= 2;
+        var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2;
 
         controls.forEach(function (control) {
-          const direction = Number(control.dataset.selectedPublicationsDirection);
+          var direction = Number(control.dataset.selectedPublicationsDirection);
           control.disabled = direction < 0 ? atStart : atEnd;
         });
       };
 
       controls.forEach(function (control) {
         control.addEventListener('click', function () {
-          const direction = Number(control.dataset.selectedPublicationsDirection);
-          const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var direction = Number(control.dataset.selectedPublicationsDirection);
+          var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           scroller.scrollBy({ left: direction * scroller.clientWidth * 0.82, behavior: reduceMotion ? 'auto' : 'smooth' });
         });
       });
