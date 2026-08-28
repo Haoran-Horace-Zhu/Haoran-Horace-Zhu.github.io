@@ -1,3 +1,11 @@
-<div class="publications">
-  {% bibliography --group_by none --query @*[selected=true]* %}
+<div
+  class="selected-publications-scroll"
+  tabindex="0"
+  role="group"
+  aria-label="Selected publication cards"
+>
+  <div class="selected-publications-list">
+    {% bibliography --template bib_home --group_by none --query @*[selected=true]* %}
+  </div>
 </div>
+<p class="selected-publications-scroll-hint" aria-hidden="true">Scroll to explore →</p>
