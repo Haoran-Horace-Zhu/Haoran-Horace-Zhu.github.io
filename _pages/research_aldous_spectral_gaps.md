@@ -18,6 +18,7 @@ nav: false
 [Aldous spectral gap conjecture](#aldous-spectral-gap-conjecture)<br>
 [$\alpha$-shuffle spectral gap conjecture](#alpha-shuffle-spectral-gap-conjecture)<br>
 [Fill spectral gap conjecture](#fill-spectral-gap-conjecture)<br>
+[Spectral gaps in random quantum circuits](#spectral-gaps-in-random-quantum-circuits)<br>
 [Other spectral questions](#other-spectral-questions)
 
 ## Aldous spectral gap conjecture
@@ -164,6 +165,40 @@ For a regular vector, $m_{\mathbf{p}}\leq 1/2$, so Fill's inequality follows. Eq
   <li>J. A. Fill, <em>An interesting spectral gap problem, from Jim Fill</em>, unpublished notes (2003), posted as arXiv:2508.12557 (2025).</li>
   <li>R. Gheissari, H. Lee and E. Vigoda, <em>Mixing of general biased adjacent transposition chains</em>, Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC 2026), 1236–1241.</li>
   <li>G. Greaves and H. Zhu, <em>Spectral gap of biased adjacent-transposition chains</em>, arXiv:2603.26303 (2026).</li>
+</ol>
+
+<hr class="research-note__divider" aria-hidden="true">
+
+## Spectral gaps in random quantum circuits
+
+Local random quantum circuits build global randomness from repeated two-qubit gates. At second-moment order, the rate of convergence towards Haar randomness is governed by the spectral gap of a moment operator: a larger gap means faster convergence towards a unitary $2$-design. This turns the choice of gate into a spectral optimisation problem. For a fixed interaction graph, which two-qubit gate gives the largest gap? Work of Kong, Li and Liu pointed to the ironed iSWAP gadget and led to two closely related conjectures.
+
+**A complete-graph equality.** In joint work with Yanying Liang, we first considered ironed two-qubit gadgets on the complete graph $K&#95;{n}$. We proved that, for $n\geq5$, every gadget with KAK-derived parameter $a=5/9$ has the same second-moment spectral gap as iSWAP:
+
+$$
+\Delta\!\left(T^{\mathrm{IG}}_{2,K_n}\right)
+=
+\Delta\!\left(T^{\mathrm{iSWAP}}_{2,K_n}\right).
+$$
+
+This includes the iSWAP, $B$-gate and CNOT families. The complete graph has enough symmetry for Schur–Weyl duality to split the relevant operator into total-spin sectors. The main point is that the eigenvalue controlling the gap always occurs in the highest-spin sector. Once this is known, the remaining KAK parameter no longer affects the gap.
+
+**Optimality on arbitrary graphs.** The complete-graph symmetry disappears for a general interaction graph. In companion work, we proved that on every connected graph with at least three vertices, the ironed iSWAP ensemble maximises the second-moment spectral gap among all two-local unitary circuit ensembles whose moment operator is Hermitian. The gate distribution may even vary from one edge to another. In symbols,
+
+$$
+\Delta\!\left(T^{\mathcal E}_{2,G}\right)
+\leq
+\Delta\!\left(T^{\mathrm{iSWAP}}_{2,G}\right).
+$$
+
+Here the proof takes a different route. Local Haar compression reduces the comparison to a four-dimensional space, and an invariant cone of asymmetric four-point inequalities produces a Perron–Frobenius comparison certificate. Together, the two results give complementary answers: a whole family of gates matches iSWAP on the complete graph, while no Hermitian two-local ensemble can surpass it on any connected interaction graph.
+
+### References
+
+<ol class="research-references">
+  <li>L. Kong, Z. Li and Z.-W. Liu, <em>Convergence efficiency of quantum gates and circuits</em>, arXiv:2411.04898 (2024).</li>
+  <li>Y. Liang and H. Zhu, <em>iSWAP maximises the second-moment spectral gap in random quantum circuits</em>, arXiv:2607.29551 (2026).</li>
+  <li>Y. Liang and H. Zhu, <em>Spectral gaps of ironed two-qubit gadgets matching the iSWAP gap</em>, arXiv:2607.28521 (2026).</li>
 </ol>
 
 <hr class="research-note__divider" aria-hidden="true">
