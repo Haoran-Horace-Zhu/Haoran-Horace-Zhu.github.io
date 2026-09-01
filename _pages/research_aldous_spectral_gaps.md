@@ -50,7 +50,7 @@ nav: false
     </li>
     <li>
       <a href="#other-spectral-questions">Other spectral questions</a>
-      <ul>
+      <ul class="research-note__contents-tertiary">
         <li><a href="#generalised-pancake-graphs">Generalised pancake graphs</a></li>
         <li><a href="#haemers-toughness-conjecture">Haemers' toughness conjecture</a></li>
       </ul>
