@@ -6,14 +6,17 @@ description: A developing account of the questions and structures that currently
 nav: false
 ---
 
-<nav class="current-research-index" aria-label="On this page">
-  <span class="current-research-index__label">On this page</span>
-  <a href="#aldous-type-spectral-gaps">Aldous-type spectral gaps</a>
-  <a href="#vertex-operators-and-symmetric-functions">Vertex operators and symmetric functions</a>
-  <a href="#association-schemes-and-distance-regular-graphs">Association schemes and distance-regular graphs</a>
-  <a href="#hurwitz-sum-of-squares-problems">Hurwitz sum-of-squares problems</a>
-  <a href="#hom-lie-algebras">Hom–Lie algebras and their mathematical analogues</a>
-</nav>
+{% comment %}
+
+  <nav class="current-research-index" aria-label="On this page">
+    <span class="current-research-index__label">On this page</span>
+    <a href="#aldous-type-spectral-gaps">Aldous-type spectral gaps</a>
+    <a href="#vertex-operators-and-symmetric-functions">Vertex operators and symmetric functions</a>
+    <a href="#association-schemes-and-distance-regular-graphs">Association schemes and distance-regular graphs</a>
+    <a href="#hurwitz-sum-of-squares-problems">Hurwitz sum-of-squares problems</a>
+    <a href="#hom-lie-algebras">Hom–Lie algebras and their arithmetic analogues</a>
+  </nav>
+{% endcomment %}
 
 <section id="aldous-type-spectral-gaps" class="current-research-section">
   <span class="current-research-section__number" aria-hidden="true">01</span>
@@ -50,7 +53,7 @@ nav: false
 <section id="hom-lie-algebras" class="current-research-section">
   <span class="current-research-section__number" aria-hidden="true">05</span>
   <div>
-    <h2>Hom–Lie Algebras and Their Mathematical Analogues</h2>
+    <h2>Hom–Lie Algebras and Their Arithmetic Analogues</h2>
     <!-- Add the description, current questions, and related projects for this topic here. -->
   </div>
 </section>
