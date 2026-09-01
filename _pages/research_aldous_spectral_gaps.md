@@ -29,6 +29,8 @@ This direction also includes non-normal examples. In joint work with Gary Greave
 
 The interaction itself may also change. On a hypergraph, a local update can reshuffle several labels at once rather than exchange a pair. Caputo's hypergraph extension asks whether an appropriate low-particle process continues to determine the gap. Alon, Kozma and Puder generalised the Octopus Inequality and proved the conjecture for several non-trivial families of hypergraphs. In each of these settings, the common spectral issue is whether a comparatively small part of the representation theory captures the first obstruction to relaxation.
 
+<hr class="research-note__divider" aria-hidden="true">
+
 **Fill spectral gap conjecture.** A different spectral problem appears when an adjacent-transposition chain is no longer symmetric. In unpublished notes written in 2003—later posted essentially unchanged on arXiv—James Allen Fill considered a Markov chain on $\mathfrak{S}_n$ with label-dependent probabilities $p_{i,j}$, where $p_{i,j}+p_{j,i}=1$. From a permutation, the chain chooses a pair of adjacent positions uniformly and either orders their two labels according to these probabilities or stays in place.
 
 Fill's motivation came from the **move-ahead-one** rule for self-organising linear-search lists. Frequently requested records should gradually move towards the front of a list, but the resulting bias makes the convergence analysis substantially harder. The chain nevertheless remains reversible with a natural stationary distribution, making it a useful model for both relaxation and sampling.

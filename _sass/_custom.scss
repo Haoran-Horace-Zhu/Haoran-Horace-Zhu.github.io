@@ -273,6 +273,12 @@ body {
   padding-left: 1rem;
 }
 
+.research-note__divider {
+  border: 0;
+  border-top: 1px dashed color-mix(in srgb, var(--global-text-color-light) 18%, transparent);
+  margin: 2.3rem 0 2.1rem;
+}
+
 .research-references {
   border-top: 1px solid var(--global-divider-color);
   font-size: 0.86rem;
