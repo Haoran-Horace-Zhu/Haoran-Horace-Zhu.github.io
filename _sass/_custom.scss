@@ -268,8 +268,8 @@ body {
 
 .research-note__intro {
   color: var(--global-text-color-light);
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 0.96rem;
+  line-height: 1.62;
   margin: 0.1rem 0 2.4rem;
   max-width: 46rem;
 }
@@ -283,7 +283,7 @@ body {
 
 .research-note__divider {
   border: 0;
-  border-top: 1px dashed color-mix(in srgb, var(--global-text-color-light) 30%, transparent);
+  border-top: 1px dashed color-mix(in srgb, var(--global-text-color-light) 42%, transparent);
   margin: 2.7rem 0 0;
 }
 
