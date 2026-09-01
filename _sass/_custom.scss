@@ -274,6 +274,37 @@ body {
   max-width: 46rem;
 }
 
+.research-note__contents {
+  font-size: 0.94rem;
+  margin: 0 0 2.5rem;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  > ul > li {
+    margin: 0.45rem 0;
+  }
+
+  ul ul {
+    border-left: 1px solid var(--global-divider-color);
+    font-size: 0.91em;
+    margin: 0.45rem 0 0.7rem 0.35rem;
+    padding-left: 1rem;
+  }
+
+  ul ul li {
+    margin: 0.32rem 0;
+  }
+}
+
+.research-note__anchor {
+  display: block;
+  scroll-margin-top: 6.5rem;
+}
+
 .research-citation {
   color: var(--global-theme-color);
   font-size: 0.82em;
