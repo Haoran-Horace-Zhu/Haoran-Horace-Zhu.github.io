@@ -10,7 +10,7 @@ nav_order: 2
 My research connects combinatorics with probability theory and mathematical physics.
 
 <a class="research-current-link" href="{{ '/research/current/' | relative_url }}">
-  <span>Read more about my current research</span>
+  <span>Explore my research programmes</span>
   <span aria-hidden="true">→</span>
 </a>
 

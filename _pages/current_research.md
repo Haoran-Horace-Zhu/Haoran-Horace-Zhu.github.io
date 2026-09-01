@@ -1,8 +1,8 @@
 ---
 layout: page
 permalink: /research/current/
-title: Current Research
-description: A developing account of the questions and structures that currently shape my work.
+title: Research Programmes
+description: A developing account of the questions and structures that shape my research programmes.
 nav: false
 ---
 
@@ -10,7 +10,7 @@ nav: false
   If you are interested in any of the following topics, please <a href="mailto:haoran.horace.zhu@gmail.com">get in touch</a>.
 </p>
 
-<nav class="research-topic-list" aria-label="Current research topics">
+<nav class="research-topic-list" aria-label="Research programmes">
   <a class="research-topic-link" href="{{ '/research/current/spectral-gap-problems/' | relative_url }}">
     <span class="research-topic-link__number" aria-hidden="true">01</span>
     <span class="research-topic-link__title">Spectral Gap Problems</span>
