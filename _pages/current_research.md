@@ -31,8 +31,13 @@ nav: false
     <span class="research-topic-link__title">Hurwitz Sum-of-Squares Problems</span>
   </a>
 
-  <a class="research-topic-link" href="{{ '/research/current/hom-lie-algebras-and-arithmetic-analogues/' | relative_url }}">
+  <a class="research-topic-link" href="{{ '/research/current/quantum-symmetric-pairs-and-iquantum-groups/' | relative_url }}">
     <span class="research-topic-link__number" aria-hidden="true">05</span>
+    <span class="research-topic-link__title">Quantum Symmetric Pairs and iQuantum Groups</span>
+  </a>
+
+  <a class="research-topic-link" href="{{ '/research/current/hom-lie-algebras-and-arithmetic-analogues/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">06</span>
     <span class="research-topic-link__title">Hom&ndash;Lie Algebras and Their Arithmetic Analogues</span>
   </a>
 </nav>
