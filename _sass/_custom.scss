@@ -212,12 +212,13 @@ body {
 
   h2 {
     font-size: 1.55rem;
-    margin: 0.15rem 0 0.75rem;
+    margin: 0.15rem 0 0;
   }
 
   > div > p {
     color: var(--global-text-color-light);
     line-height: 1.65;
+    margin-top: 0.75rem;
     max-width: 44rem;
   }
 }
@@ -228,31 +229,6 @@ body {
   font-weight: 700;
   letter-spacing: 0.12em;
   padding-top: 0.25rem;
-}
-
-.current-research-theme-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-
-  article {
-    border-left: 2px solid color-mix(in srgb, var(--global-theme-color) 48%, transparent);
-    padding-left: 0.85rem;
-  }
-
-  h3 {
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 650;
-    margin: 0 0 0.35rem;
-  }
-
-  p {
-    color: var(--global-text-color-light);
-    font-size: 0.88rem;
-    line-height: 1.6;
-    margin: 0;
-  }
 }
 
 .interest-grid {
