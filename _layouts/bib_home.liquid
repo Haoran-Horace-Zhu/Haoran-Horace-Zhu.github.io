@@ -1,0 +1,63 @@
+---
+---
+{% assign publication_url = null %}
+{% if entry.pdf %}
+  {% if entry.pdf contains '://' %}
+    {% assign publication_url = entry.pdf %}
+  {% else %}
+    {% assign publication_url = entry.pdf | prepend: '/assets/pdf/' | relative_url %}
+  {% endif %}
+{% elsif entry.doi %}
+  {% if entry.doi contains '://' %}
+    {% assign publication_url = entry.doi %}
+  {% else %}
+    {% assign publication_url = entry.doi | prepend: 'https://doi.org/' %}
+  {% endif %}
+{% elsif entry.arxiv %}
+  {% assign publication_url = entry.arxiv | prepend: 'https://arxiv.org/abs/' %}
+{% endif %}
+
+<article class="selected-publication-card">
+  <div class="selected-publication-card__meta">
+    <span>{{ entry.year }}</span>
+    {% if entry.coauthors %}
+      <span>With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</span>
+    {% else %}
+      <span>Haoran Zhu</span>
+    {% endif %}
+  </div>
+
+  <h3>
+    {% if publication_url %}
+      <a href="{{ publication_url }}">{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</a>
+    {% else %}
+      {{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}
+    {% endif %}
+  </h3>
+
+  <p class="selected-publication-card__venue">
+    {% if entry.journal -%}
+      <em>{{ entry.journal }}</em>
+    {%- endif %}
+  </p>
+
+  <div class="selected-publication-card__links">
+    {% if entry.pdf %}
+      {% if entry.pdf contains '://' %}
+        <a href="{{ entry.pdf }}" aria-label="PDF: {{ entry.title | strip_html | escape }}">PDF</a>
+      {% else %}
+        <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" aria-label="PDF: {{ entry.title | strip_html | escape }}">PDF</a>
+      {% endif %}
+    {% endif %}
+    {% if entry.doi %}
+      {% if entry.doi contains '://' %}
+        <a href="{{ entry.doi }}" aria-label="DOI: {{ entry.title | strip_html | escape }}">DOI</a>
+      {% else %}
+        <a href="https://doi.org/{{ entry.doi }}" aria-label="DOI: {{ entry.title | strip_html | escape }}">DOI</a>
+      {% endif %}
+    {% endif %}
+    {% if entry.arxiv -%}
+      <a href="https://arxiv.org/abs/{{ entry.arxiv }}" aria-label="arXiv: {{ entry.title | strip_html | escape }}">arXiv</a>
+    {%- endif %}
+  </div>
+</article>

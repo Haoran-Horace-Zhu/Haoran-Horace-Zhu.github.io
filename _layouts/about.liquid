@@ -47,6 +47,24 @@ layout: default
 
     <div class="clearfix">{{ content }}</div>
 
+    {% if page.current_questions %}
+      <section class="home-current-questions" aria-labelledby="current-questions-heading">
+        <span class="academic-overview__eyebrow">Open directions</span>
+        <h2 id="current-questions-heading">Current questions</h2>
+        <ol class="current-questions-list">
+          {% for question in page.current_questions %}
+            <li>
+              <span class="current-question__number" aria-hidden="true">0{{ forloop.index }}</span>
+              <div>
+                <h3>{{ question.title | markdownify | remove: '<p>' | remove: '</p>' }}</h3>
+                <p>{{ question.description | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      </section>
+    {% endif %}
+
     <div class="row academic-overview">
       {% if page.education %}
         <div class="col-md-6">
@@ -85,6 +103,24 @@ layout: default
       {% endif %}
     </div>
 
+    <!-- Selected publications -->
+    {% if page.selected_papers %}
+      <section class="home-selected-publications" aria-labelledby="selected-publications-heading">
+        <div class="home-selected-publications__heading">
+          <div>
+            <span class="academic-overview__eyebrow">Research output</span>
+            <h2 id="selected-publications-heading">Selected publications</h2>
+          </div>
+          <div class="selected-publications-controls" role="group" aria-label="Selected publication navigation">
+            <button type="button" data-selected-publications-direction="-1" aria-label="Previous selected publications">←</button>
+            <button type="button" data-selected-publications-direction="1" aria-label="Next selected publications">→</button>
+          </div>
+        </div>
+        <a class="selected-publications-view-all" href="{{ '/research/' | relative_url }}">View all publications →</a>
+        {% include selected_papers.liquid %}
+      </section>
+    {% endif %}
+
     <!-- News -->
     {% if page.news and site.announcements.enabled %}
       <section class="home-news">
@@ -104,16 +140,43 @@ layout: default
       {% include latest_posts.liquid %}
     {% endif %}
 
-    <!-- Selected papers -->
-    {% if page.selected_papers %}
-      <h2>
-        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
-      </h2>
-      {% include selected_papers.liquid %}
-    {% endif %}
-
     {% if site.newsletter.enabled and site.footer_fixed %}
       {% include scripts/newsletter.liquid center=true %}
     {% endif %}
   </article>
 </div>
+
+{% if page.selected_papers %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var section = document.querySelector('.home-selected-publications');
+      var scroller = section ? section.querySelector('.selected-publications-scroll') : null;
+      var controls = section ? section.querySelectorAll('[data-selected-publications-direction]') : null;
+
+      if (!scroller || !controls || !controls.length) return;
+
+      var updateControls = function () {
+        var edgeTolerance = 16;
+        var atStart = scroller.scrollLeft <= edgeTolerance;
+        var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - edgeTolerance;
+
+        controls.forEach(function (control) {
+          var direction = Number(control.dataset.selectedPublicationsDirection);
+          control.disabled = direction < 0 ? atStart : atEnd;
+        });
+      };
+
+      controls.forEach(function (control) {
+        control.addEventListener('click', function () {
+          var direction = Number(control.dataset.selectedPublicationsDirection);
+          var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          scroller.scrollBy({ left: direction * scroller.clientWidth * 0.82, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
+      });
+
+      scroller.addEventListener('scroll', updateControls, { passive: true });
+      window.addEventListener('resize', updateControls);
+      updateControls();
+    });
+  </script>
+{% endif %}

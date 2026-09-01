@@ -7,7 +7,12 @@ nav: true
 nav_order: 2
 ---
 
-My research connects combinatorics with probability theory and mathematical physics. Hover over a research area to see its current themes, or select a card on a touch device.
+My research connects combinatorics with probability theory and mathematical physics.
+
+<a class="research-current-link" href="{{ '/research/current/' | relative_url }}">
+  <span>Read more about my current research</span>
+  <span aria-hidden="true">→</span>
+</a>
 
 <section class="interest-grid" aria-label="Research interests">
   <details class="interest-card">
