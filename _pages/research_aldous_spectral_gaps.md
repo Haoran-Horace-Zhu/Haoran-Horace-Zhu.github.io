@@ -10,14 +10,21 @@ nav: false
 <div class="research-note" markdown="1">
 
 <p class="research-note__intro">
-  Spectral-gap problems are central to my research, linking graph theory, probability theory, and quantum information theory. This page introduces several such problems and some of my related work.
+  Spectral gaps are central to many questions in graph theory, probability theory, and quantum information theory. This page gives a short account of several problems I have been thinking about and some work related to them.
 </p>
+
+### Contents
+
+[Aldous spectral gap conjecture](#aldous-spectral-gap-conjecture)<br>
+[$\alpha$-shuffle spectral gap conjecture](#alpha-shuffle-spectral-gap-conjecture)<br>
+[Fill spectral gap conjecture](#fill-spectral-gap-conjecture)<br>
+[Other spectral questions](#other-spectral-questions)
 
 ## Aldous spectral gap conjecture
 
-Let $\Gamma$ be a finite connected weighted graph on $n$ vertices. A continuous-time random walk follows one particle as it moves across the edges of $\Gamma$. In the **interchange process**, the vertices carry $n$ distinct labels, and the two labels at the ends of an edge are exchanged at that edge's rate. The random walk has $n$ states, whereas the interchange process has $n!$ states.
+Let $\Gamma$ be a finite connected weighted graph on $n$ vertices. In a continuous-time random walk, a particle moves along the edges of $\Gamma$. In the _interchange process_, each vertex instead carries a distinct label. Each edge rings at its assigned rate, and when it does, the labels at its two ends are exchanged. The random walk has $n$ states, while the interchange process has $n!$ states.
 
-Following any single label projects the interchange process onto the original random walk. Consequently,
+If we follow any one label in the interchange process, we recover the original random walk. It follows that
 
 $$
 \operatorname{gap}(\operatorname{IP}(\Gamma))
@@ -25,23 +32,35 @@ $$
 \operatorname{gap}(\operatorname{RW}(\Gamma)).
 $$
 
-The conjecture arose around 1992 and was later recorded by Aldous and Fill&nbsp;<span class="research-citation">[1]</span>. It asserts that equality holds for every finite weighted graph. Handjani and Jungreis&nbsp;<span class="research-citation">[13]</span> proved the weighted-tree case, and Caputo, Liggett and Richthammer&nbsp;<span class="research-citation">[5]</span> proved the full conjecture by combining electrical-network reduction with the **Octopus Inequality**.
+Aldous conjectured around 1992 that this inequality is always an equality. The conjecture was later recorded by Aldous and Fill. Handjani and Jungreis proved it for weighted trees. Caputo, Liggett and Richthammer subsequently proved it for every finite weighted graph, using electrical-network reductions together with the _Octopus Inequality_.
 
-There is an equivalent representation-theoretic formulation. A weighted graph on $[n]$ determines a weighted set of transpositions in $\mathfrak{S}&#95;{n}$. The conjecture says that the spectral gap of the resulting Cayley walk on $\mathfrak{S}&#95;{n}$ is already visible in its natural action on $[n]$—or, after removing the trivial summand, in the standard representation indexed by $(n-1,1)$. Thus the first non-trivial eigenvalue of an operator on $n!$ states is detected in dimension $n-1$.
+The result also has a representation-theoretic interpretation. A weighted graph on $[n]$ gives a weighted collection of transpositions in $\mathfrak{S}&#95;{n}$, and the spectral gap of the resulting walk can be read from the natural action of $\mathfrak{S}&#95;{n}$ on $[n]$. Removing the constant functions from this action leaves the standard representation indexed by $(n-1,1)$. Thus a walk on $n!$ permutations has its first non-trivial eigenvalue in a representation of dimension $n-1$.
 
-**Aldous-type spectral gaps on arbitrary groups.** The classical theorem opens a broader programme: given a group and a distinguished low-dimensional representation, determine when that representation already captures the spectral gap of a much larger Cayley walk. Cesi&nbsp;<span class="research-citation">[6]</span> established such a result for a structured class of weighted generators in the type-$B$ Weyl group $W(B_n)$, with the gap detected by a $2n$-dimensional permutation representation. Levhari and Puder&nbsp;<span class="research-citation">[14]</span> proved an analogue for the generalised symmetric groups $G\wr\mathfrak{S}&#95;{n}$, where $G$ is an arbitrary finite group. A continuous version developed by Alon and Puder&nbsp;<span class="research-citation">[3]</span> connects random walks on $\mathrm{U}(n)$ with discrete KMP, or uniform-reshuffling, processes.
+_Aldous-type spectral gaps on other groups._ One can ask the same question after replacing $\mathfrak{S}&#95;{n}$ with another group: in which natural representation does the first non-trivial eigenvalue occur? Cesi proved such a result for a class of weighted walks on the type-$B$ Weyl group $W(B_n)$, where the relevant representation has dimension $2n$. Levhari and Puder proved a corresponding result for the generalised symmetric groups $G\wr\mathfrak{S}&#95;{n}$, with $G$ an arbitrary finite group. There is also a continuous analogue: Alon and Puder related the corresponding question for random walks on $\mathrm{U}(n)$ to discrete KMP processes, also known as uniform-reshuffling processes.
 
-**Aldous-type spectral gaps for other connection sets.** Keeping $\mathfrak{S}&#95;{n}$ fixed while changing the connection set leads to a second central problem: determine when the strictly second-largest eigenvalue is still attained by the standard representation—the property now called the **Aldous property**. Parzanchevski and Puder&nbsp;<span class="research-citation">[16]</span> established strong comparison results for full conjugacy classes and showed why the most direct extension fails for arbitrary normal sets. Li&nbsp;<span class="research-citation">[15]</span> systematically analysed cycle-generated families, for which the Aldous property may hold or fail depending on the connection set.
+_Aldous-type spectral gaps for other sets._ Another variation is to keep $\mathfrak{S}&#95;{n}$ fixed and replace the transpositions by a different connection set. The question is whether the spectral gap is still attained in the standard representation. A connection set with this property is said to have the _Aldous property_. Parzanchevski and Puder proved comparison results for full conjugacy classes, while also showing that the same statement does not hold for every normal connection set. Li studied many families generated by cycles and found examples both with and without the Aldous property. Gary Greaves and I considered a non-normal example, the full-flag Johnson graph $\operatorname{FJ}(n,2)$. For $n\geq4$, its spectral gap agrees with that of the Schreier quotient associated with its point-stabiliser equitable partition.
 
-Non-normal examples are substantially harder. In joint work with Gary Greaves, we proved that, for $n\geq4$, the full-flag Johnson graph $\operatorname{FJ}(n,2)$ has spectral gap equal to that of the Schreier quotient arising from its point-stabiliser equitable partition&nbsp;<span class="research-citation">[9]</span>.
+### References
+
+1. D. Aldous and J. A. Fill, _Reversible Markov Chains and Random Walks on Graphs_, unfinished monograph (2002; recompiled 2014), Open Problem 14.29.
+2. G. Alon and D. Puder, _Aldous-type spectral gaps in unitary groups_, arXiv:2603.00353 (2026).
+3. P. Caputo, T. M. Liggett and T. Richthammer, _Proof of Aldous' spectral gap conjecture_, Journal of the American Mathematical Society 23 (2010), 831–851.
+4. F. Cesi, _On the spectral gap of some Cayley graphs on the Weyl group $W(B_n)$_, Linear Algebra and its Applications 586 (2020), 274–295.
+5. G. Greaves and H. Zhu, _Aldous property for full-flag Johnson graphs_, arXiv:2603.10406 (2026).
+6. S. Handjani and D. Jungreis, _Rate of convergence for shuffling cards by transpositions_, Journal of Theoretical Probability 9 (1996), 983–993.
+7. N. Levhari and D. Puder, _Aldous-type spectral gaps in generalized symmetric groups_, arXiv:2605.22101 (2026).
+8. Y. Li, _The Second Largest Eigenvalue of Cayley Graphs on Symmetric Groups_, PhD thesis, The University of Melbourne, 2024.
+9. O. Parzanchevski and D. Puder, _Aldous's spectral gap conjecture for normal sets_, Transactions of the American Mathematical Society 373 (2020), 7067–7086.
+
+{: .research-references}
 
 <hr class="research-note__divider" aria-hidden="true">
 
 ## $\alpha$-shuffle spectral gap conjecture
 
-The interaction itself may also change. Whereas the interchange process swaps the two labels at an edge, a hypergraph update may reshuffle all labels in a larger set. Let $V=[n]$ and assign a rate $\alpha_A\geq0$ to each subset $A\subseteq V$. In the **$\alpha$-shuffle process**, at rate $\alpha_A$ a uniformly random permutation is applied to the labels occupying $A$.
+Transpositions are not the only possible local moves. On a hypergraph, one may instead reshuffle all the labels in a chosen subset. Let $V=[n]$ and assign a non-negative rate $\alpha_A$ to each subset $A\subseteq V$. In the _$\alpha$-shuffle process_, at rate $\alpha_A$, the labels occupying $A$ are permuted uniformly at random.
 
-Following a single label gives a continuous-time random walk on $V$ with jump rates
+If we follow a single label, we obtain a continuous-time random walk on $V$ with jump rates
 
 $$
 c_\alpha(i,j)
@@ -51,7 +70,7 @@ c_\alpha(i,j)
 \qquad (i\neq j).
 $$
 
-Projection therefore gives
+As before, this gives
 
 $$
 \operatorname{gap}(\alpha\text{-shuffle})
@@ -59,15 +78,22 @@ $$
 \operatorname{gap}(\operatorname{RW}(V,c_\alpha)).
 $$
 
-Caputo conjectured that equality holds for arbitrary nonnegative weights $\alpha$. This is the **$\alpha$-shuffle spectral gap conjecture**, also known as the **Aldous–Caputo spectral gap conjecture**. The ordinary interchange process is the special case in which $\alpha_A=0$ unless $\lvert A\rvert=2$. Bristiel and Caputo&nbsp;<span class="research-citation">[4]</span> proved the conjecture in the mean-field setting, while Alon, Kozma and Puder&nbsp;<span class="research-citation">[2]</span> generalised the Octopus Inequality and established further substantial families of hypergraphs.
+Caputo conjectured that equality holds for every choice of non-negative weights $\alpha_A$. This is the _$\alpha$-shuffle spectral gap conjecture_, also known as the _Aldous–Caputo spectral gap conjecture_. The ordinary _interchange process_ is recovered by taking $\alpha_A=0$ unless $\lvert A\rvert=2$. Bristiel and Caputo proved the mean-field case. Alon, Kozma and Puder later extended the _Octopus Inequality_ and proved the conjecture for several other families of hypergraphs.
+
+### References
+
+1. G. Alon, G. Kozma and D. Puder, _On the Aldous–Caputo spectral gap conjecture for hypergraphs_, Mathematical Proceedings of the Cambridge Philosophical Society 179 (2025), 259–298.
+2. A. Bristiel and P. Caputo, _Entropy inequalities for random walks and permutations_, Annales de l’Institut Henri Poincaré, Probabilités et Statistiques 60 (2024), 54–81.
+
+{: .research-references}
 
 <hr class="research-note__divider" aria-hidden="true">
 
 ## Fill spectral gap conjecture
 
-The general biased adjacent-transposition shuffle is a well-studied Markov chain on $\mathfrak{S}&#95;{n}$. It arises from self-organising lists, where it is important in the probabilistic analysis of stationary behaviour, and is closely connected to exclusion processes in probability and statistical mechanics. Gheissari, Lee and Vigoda&nbsp;<span class="research-citation">[8]</span> call Fill's polynomial-mixing conjecture for this chain ‘well-known and long-standing’. The same 2003 manuscript, posted essentially unchanged in 2025, contains the sharper spectral-gap problem considered here&nbsp;<span class="research-citation">[7]</span>: among regular biases, is the gap minimised by the unbiased chain?
+Fill's Gap Problem concerns a biased version of the adjacent-transposition shuffle. In notes written in 2003, motivated by the _move-ahead-one_ rule for self-organising lists, he asked whether the uniform chain minimises the spectral gap among all regular choices of the bias parameters. The notes circulated for more than twenty years before they were posted on arXiv in 2025. Gheissari, Lee and Vigoda describe this as ‘well-known and long-standing’.
 
-The chain is defined as follows. For distinct labels $i$ and $j$, choose parameters satisfying
+For distinct labels $i$ and $j$, choose parameters satisfying
 
 $$
 0<p_{i,j}<1,
@@ -75,16 +101,18 @@ $$
 p_{i,j}+p_{j,i}=1.
 $$
 
-From a permutation $x=(x_1,\ldots,x_n)$, choose $r\in\{1,\ldots,n-1\}$ uniformly. The chain keeps $x_r$ immediately to the left of $x_{r+1}$ with probability $p_{x_r,x_{r+1}}$, and reverses their order with probability $p_{x_{r+1},x_r}$. It is reversible with stationary distribution
+From a permutation $x=(x_1,\ldots,x_n)$, choose $r\in\{1,\ldots,n-1\}$ uniformly. The chain keeps $x_r$ immediately to the left of $x_{r+1}$ with probability $p_{x_r,x_{r+1}}$, and reverses their order with probability $p_{x_{r+1},x_r}$. It is reversible, with stationary distribution
 
 $$
 \pi(x)
 =
 Z^{-1}
-\prod_{1\leq r<s\leq n}p_{x_r,x_s}.
+\prod_{1\leq r<s\leq n}p_{x_r,x_s},
 $$
 
-Fill's motivation came from the **move-ahead-one** rule for self-organising linear-search lists and from the problem of sampling efficiently from this stationary distribution. He called the parameter vector $\mathbf{p}$ **regular** when
+where $Z$ is the normalising constant.
+
+Fill called the parameter vector $\mathbf{p}$ _regular_ if
 
 $$
 \begin{aligned}
@@ -109,9 +137,9 @@ $$
 p^{\mathrm{unif}}_{i,j}=\frac12.
 $$
 
-Thus the unbiased adjacent-transposition chain should minimise the gap among all regular biases. Where Aldous compares a symmetric interchange process with its one-particle projection, Fill asks for the extremal gap across a family of biased chains. The label-dependent bias breaks the symmetry of the uniform model, so the two problems are close in spirit but require different mechanisms.
+In other words, a regular bias should not reduce the spectral gap below that of the unbiased adjacent-transposition chain. Unlike Aldous's conjecture, which compares an _interchange process_ with its associated one-particle random walk, Fill's problem compares different biases within the same family of chains.
 
-In joint work with Gary Greaves, we proved the following sharp lower bound for every probability vector of order $n\geq3$&nbsp;<span class="research-citation">[12]</span>:
+Gary Greaves and I proved the following lower bound for every probability vector on $n\geq3$ labels:
 
 $$
 \lambda_K(\mathbf{p})
@@ -120,7 +148,7 @@ $$
 \qquad
 m_{\mathbf{p}}
 =
-\max_{i<j<k}
+\max_{1\leq i<j<k\leq n}
 \sqrt{
   p_{i,j}p_{j,k}p_{k,i}
   +
@@ -128,67 +156,37 @@ m_{\mathbf{p}}
 }.
 $$
 
-For regular vectors, $m_{\mathbf{p}}\leq 1/2$, which resolves Fill's conjecture. Moreover, for $n\geq3$, equality with the uniform gap holds precisely when there is a **neutral label** $c$, meaning that $p_{c,i}=1/2$ for every $i\neq c$. Hence the uniform chain is a minimiser, but not the unique one. We also determined the exact multiplicity of the corresponding second-largest eigenvalue.
-
-<hr class="research-note__divider" aria-hidden="true">
-
-## Miscellaneous spectral problems
-
-**Generalised pancake graphs.** In joint work with Gary Greaves, we settled two conjectures of Blanco and Buehrle by proving that the spectral gap is strictly less than 2 for generalised pancake graphs and strictly less than 1 for burnt pancake graphs. We also obtained lower bounds for the multiplicities of certain integer eigenvalues&nbsp;<span class="research-citation">[10]</span>.
-
-**Haemers' toughness conjecture.** In separate joint work with Gary Greaves, we proved Haemers' conjectured lower bound for the toughness of a connected graph in terms of its minimum degree and extremal Laplacian eigenvalues&nbsp;<span class="research-citation">[11]</span>.
+For a regular vector, $m_{\mathbf{p}}\leq 1/2$, so Fill's inequality follows. Equality with the uniform gap holds if and only if there is some $c\in[n]$ such that $p_{c,i}=1/2$ for every $i\neq c$. Thus the uniform chain is a minimiser, but not the only one. For the regular chains attaining this minimum, we also determined the multiplicity of the corresponding second-largest eigenvalue.
 
 ### References
 
-<ol class="research-references">
-  <li>
-    D. Aldous and J. A. Fill, <em>Reversible Markov Chains and Random Walks on Graphs</em>, unfinished monograph (2002; recompiled 2014), Open Problem 14.29.
-  </li>
-  <li>
-    G. Alon, G. Kozma and D. Puder, <em>On the Aldous–Caputo spectral gap conjecture for hypergraphs</em>, Mathematical Proceedings of the Cambridge Philosophical Society 179 (2025), 259–298.
-  </li>
-  <li>
-    G. Alon and D. Puder, <em>Aldous-type spectral gaps in unitary groups</em>, arXiv:2603.00353 (2026).
-  </li>
-  <li>
-    A. Bristiel and P. Caputo, <em>Entropy inequalities for random walks and permutations</em>, Annales de l’Institut Henri Poincaré, Probabilités et Statistiques 60 (2024), 54–81.
-  </li>
-  <li>
-    P. Caputo, T. M. Liggett and T. Richthammer, <em>Proof of Aldous' spectral gap conjecture</em>, Journal of the American Mathematical Society 23 (2010), 831–851.
-  </li>
-  <li>
-    F. Cesi, <em>On the spectral gap of some Cayley graphs on the Weyl group $W(B_n)$</em>, Linear Algebra and its Applications 586 (2020), 274–295.
-  </li>
-  <li>
-    J. A. Fill, <em>An interesting spectral gap problem, from Jim Fill</em>, unpublished notes (2003), posted as arXiv:2508.12557 (2025).
-  </li>
-  <li>
-    R. Gheissari, H. Lee and E. Vigoda, <em>Mixing of general biased adjacent transposition chains</em>, Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC 2026), 1236–1241.
-  </li>
-  <li>
-    G. Greaves and H. Zhu, <em>Aldous property for full-flag Johnson graphs</em>, arXiv:2603.10406 (2026).
-  </li>
-  <li>
-    G. Greaves and H. Zhu, <em>A note on some spectral properties of generalised pancake graphs</em>, Discrete Mathematics 349 (2026), 115102.
-  </li>
-  <li>
-    G. Greaves and H. Zhu, <em>A proof of Haemers' toughness conjecture</em>, arXiv:2605.15738 (2026).
-  </li>
-  <li>
-    G. Greaves and H. Zhu, <em>Spectral gap of biased adjacent-transposition chains</em>, arXiv:2603.26303 (2026).
-  </li>
-  <li>
-    S. Handjani and D. Jungreis, <em>Rate of convergence for shuffling cards by transpositions</em>, Journal of Theoretical Probability 9 (1996), 983–993.
-  </li>
-  <li>
-    N. Levhari and D. Puder, <em>Aldous-type spectral gaps in generalized symmetric groups</em>, arXiv:2605.22101 (2026).
-  </li>
-  <li>
-    Y. Li, <em>The Second Largest Eigenvalue of Cayley Graphs on Symmetric Groups</em>, PhD thesis, The University of Melbourne, 2024.
-  </li>
-  <li>
-    O. Parzanchevski and D. Puder, <em>Aldous's spectral gap conjecture for normal sets</em>, Transactions of the American Mathematical Society 373 (2020), 7067–7086.
-  </li>
-</ol>
+1. J. A. Fill, _An interesting spectral gap problem, from Jim Fill_, unpublished notes (2003), posted as arXiv:2508.12557 (2025).
+2. R. Gheissari, H. Lee and E. Vigoda, _Mixing of general biased adjacent transposition chains_, Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC 2026), 1236–1241.
+3. G. Greaves and H. Zhu, _Spectral gap of biased adjacent-transposition chains_, arXiv:2603.26303 (2026).
+
+{: .research-references}
+
+<hr class="research-note__divider" aria-hidden="true">
+
+## Other spectral questions
+
+_Generalised pancake graphs._ Pancake graphs encode the problem of sorting a stack by prefix reversals. Motivated by questions of Blanco and Buehrle, Gary Greaves and I proved that the spectral gap is below $2$ for generalised pancake graphs and below $1$ in the burnt case, and gave lower bounds for certain integer-eigenvalue multiplicities. The main idea of our proof is simply to find the right ordering of the parts in an equitable partition. Behind it is a spectral observation that we did not state separately in the paper: the Schreier spectrum from the natural action of $\mathfrak{S}&#95;{n}$ sits inside the hyperoctahedral Schreier spectrum, and, when $m$ is even, twice the latter sits inside the corresponding spectrum for $\mathbb{Z}&#95;{m}\wr\mathfrak{S}&#95;{n}$. Since these Schreier graphs are quotients of the pancake graphs, the same eigenvalues occur in the corresponding pancake graphs.
+
+_Haemers' toughness conjecture._ Toughness compares the number of removed vertices with the number of components left behind. Haemers conjectured that a connected graph $\Gamma$ with minimum degree $\delta$ and Laplacian eigenvalues $0=\mu_1<\mu_2\leq\cdots\leq\mu_n$ satisfies
+
+$$
+t(\Gamma)
+\geq
+\frac{\mu_2}{\mu_n-\delta}.
+$$
+
+Gary and I proved this inequality. Complete multipartite graphs show that the bound cannot be improved in general.
+
+### References
+
+1. G. Greaves and H. Zhu, _A note on some spectral properties of generalised pancake graphs_, Discrete Mathematics 349 (2026), 115102.
+2. G. Greaves and H. Zhu, _A proof of Haemers' toughness conjecture_, arXiv:2605.15738 (2026).
+
+{: .research-references}
 
 </div>
