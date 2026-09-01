@@ -266,17 +266,29 @@ body {
   }
 }
 
-.research-note__lede {
-  border-left: 2px solid var(--global-theme-color);
+.research-note__intro {
   color: var(--global-text-color-light);
-  font-size: 1.05rem;
-  padding-left: 1rem;
+  font-size: 0.96rem;
+  line-height: 1.62;
+  margin: 0.1rem 0 2.4rem;
+  max-width: 46rem;
+}
+
+.research-citation {
+  color: var(--global-theme-color);
+  font-size: 0.82em;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .research-note__divider {
   border: 0;
-  border-top: 1px dashed color-mix(in srgb, var(--global-text-color-light) 18%, transparent);
-  margin: 2.3rem 0 2.1rem;
+  border-top: 1px dashed color-mix(in srgb, var(--global-text-color-light) 42%, transparent);
+  margin: 2.7rem 0 0;
+}
+
+.research-note__divider + h2 {
+  margin-top: 1.6rem;
 }
 
 .research-references {
