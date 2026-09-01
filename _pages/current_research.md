@@ -6,54 +6,34 @@ description: A developing account of the questions and structures that currently
 nav: false
 ---
 
-{% comment %}
+<nav class="research-topic-list" aria-label="Current research topics">
+  <a class="research-topic-link" href="{{ '/research/current/aldous-type-spectral-gaps/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">01</span>
+    <span class="research-topic-link__title">Aldous-type Spectral Gaps</span>
+    <span class="research-topic-link__arrow" aria-hidden="true">&rarr;</span>
+  </a>
 
-  <nav class="current-research-index" aria-label="On this page">
-    <span class="current-research-index__label">On this page</span>
-    <a href="#aldous-type-spectral-gaps">Aldous-type spectral gaps</a>
-    <a href="#vertex-operators-and-symmetric-functions">Vertex operators and symmetric functions</a>
-    <a href="#association-schemes-and-distance-regular-graphs">Association schemes and distance-regular graphs</a>
-    <a href="#hurwitz-sum-of-squares-problems">Hurwitz sum-of-squares problems</a>
-    <a href="#hom-lie-algebras">Hom–Lie algebras and their arithmetic analogues</a>
-  </nav>
-{% endcomment %}
+  <a class="research-topic-link" href="{{ '/research/current/vertex-operators-and-symmetric-functions/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">02</span>
+    <span class="research-topic-link__title">Vertex Operators and Symmetric Functions</span>
+    <span class="research-topic-link__arrow" aria-hidden="true">&rarr;</span>
+  </a>
 
-<section id="aldous-type-spectral-gaps" class="current-research-section">
-  <span class="current-research-section__number" aria-hidden="true">01</span>
-  <div>
-    <h2>Aldous-type Spectral Gaps</h2>
-    <!-- Add the description, current questions, and related projects for this topic here. -->
-  </div>
-</section>
+  <a class="research-topic-link" href="{{ '/research/current/association-schemes-and-distance-regular-graphs/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">03</span>
+    <span class="research-topic-link__title">Association Schemes and Distance-Regular Graphs</span>
+    <span class="research-topic-link__arrow" aria-hidden="true">&rarr;</span>
+  </a>
 
-<section id="vertex-operators-and-symmetric-functions" class="current-research-section">
-  <span class="current-research-section__number" aria-hidden="true">02</span>
-  <div>
-    <h2>Vertex Operators and Symmetric Functions</h2>
-    <!-- Add the description, current questions, and related projects for this topic here. -->
-  </div>
-</section>
+  <a class="research-topic-link" href="{{ '/research/current/hurwitz-sum-of-squares-problems/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">04</span>
+    <span class="research-topic-link__title">Hurwitz Sum-of-Squares Problems</span>
+    <span class="research-topic-link__arrow" aria-hidden="true">&rarr;</span>
+  </a>
 
-<section id="association-schemes-and-distance-regular-graphs" class="current-research-section">
-  <span class="current-research-section__number" aria-hidden="true">03</span>
-  <div>
-    <h2>Association Schemes and Distance-Regular Graphs</h2>
-    <!-- Add the description, current questions, and related projects for this topic here. -->
-  </div>
-</section>
-
-<section id="hurwitz-sum-of-squares-problems" class="current-research-section">
-  <span class="current-research-section__number" aria-hidden="true">04</span>
-  <div>
-    <h2>Hurwitz Sum-of-Squares Problems</h2>
-    <!-- Add the description, current questions, and related projects for this topic here. -->
-  </div>
-</section>
-
-<section id="hom-lie-algebras" class="current-research-section">
-  <span class="current-research-section__number" aria-hidden="true">05</span>
-  <div>
-    <h2>Hom–Lie Algebras and Their Arithmetic Analogues</h2>
-    <!-- Add the description, current questions, and related projects for this topic here. -->
-  </div>
-</section>
+  <a class="research-topic-link" href="{{ '/research/current/hom-lie-algebras-and-arithmetic-analogues/' | relative_url }}">
+    <span class="research-topic-link__number" aria-hidden="true">05</span>
+    <span class="research-topic-link__title">Hom&ndash;Lie Algebras and Their Arithmetic Analogues</span>
+    <span class="research-topic-link__arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</nav>
