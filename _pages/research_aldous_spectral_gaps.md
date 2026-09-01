@@ -35,8 +35,6 @@ There is an equivalent representation-theoretic formulation. A weighted graph on
 
 Non-normal examples are substantially harder. In joint work with Gary Greaves, we proved that, for $n\geq4$, the full-flag Johnson graph $\operatorname{FJ}(n,2)$ has spectral gap equal to that of the Schreier quotient arising from its point-stabiliser equitable partition&nbsp;<span class="research-citation">[9]</span>.
 
-**Miscellaneous spectral problems.** In joint work with Gary Greaves, we settled two conjectures of Blanco and Buehrle by proving that the spectral gap is strictly less than $2$ for generalised pancake graphs and strictly less than $1$ for burnt pancake graphs; we also obtained lower bounds for the multiplicities of certain integer eigenvalues&nbsp;<span class="research-citation">[10]</span>. In other joint work, we proved Haemers' toughness conjecture, which gives a lower bound for the toughness of a connected graph in terms of its minimum degree and extremal Laplacian eigenvalues&nbsp;<span class="research-citation">[11]</span>.
-
 <hr class="research-note__divider" aria-hidden="true">
 
 ## $\alpha$-shuffle spectral gap conjecture
@@ -131,6 +129,14 @@ m_{\mathbf{p}}
 $$
 
 For regular vectors, $m_{\mathbf{p}}\leq 1/2$, which resolves Fill's conjecture. Moreover, for $n\geq3$, equality with the uniform gap holds precisely when there is a **neutral label** $c$, meaning that $p_{c,i}=1/2$ for every $i\neq c$. Hence the uniform chain is a minimiser, but not the unique one. We also determined the exact multiplicity of the corresponding second-largest eigenvalue.
+
+<hr class="research-note__divider" aria-hidden="true">
+
+## Miscellaneous spectral problems
+
+**Generalised pancake graphs.** In joint work with Gary Greaves, we settled two conjectures of Blanco and Buehrle by proving that the spectral gap is strictly less than 2 for generalised pancake graphs and strictly less than 1 for burnt pancake graphs. We also obtained lower bounds for the multiplicities of certain integer eigenvalues&nbsp;<span class="research-citation">[10]</span>.
+
+**Haemers' toughness conjecture.** In separate joint work with Gary Greaves, we proved Haemers' conjectured lower bound for the toughness of a connected graph in terms of its minimum degree and extremal Laplacian eigenvalues&nbsp;<span class="research-citation">[11]</span>.
 
 ### References
 
