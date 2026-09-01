@@ -37,10 +37,15 @@ nav: false
     <li><a href="#alpha-shuffle-spectral-gap-conjecture">$\alpha$-shuffle spectral gap conjecture</a></li>
     <li><a href="#fill-spectral-gap-conjecture">Fill spectral gap conjecture</a></li>
     <li>
-      <a href="#iswap-and-optimal-quantum-mixing">iSWAP and optimal quantum mixing</a>
+      <a href="#spectral-gaps-in-random-quantum-circuits">Spectral gaps in random quantum circuits</a>
       <ul>
-        <li><a href="#complete-graph-equality">A complete-graph equality</a></li>
-        <li><a href="#optimality-on-arbitrary-graphs">Optimality on arbitrary graphs</a></li>
+        <li>
+          <a href="#iswap-and-optimal-quantum-mixing">iSWAP and optimal quantum mixing</a>
+          <ul>
+            <li><a href="#complete-graph-equality">A complete-graph equality</a></li>
+            <li><a href="#optimality-on-arbitrary-graphs">Optimality on arbitrary graphs</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li>
@@ -210,9 +215,13 @@ For a regular vector, $m_{\mathbf{p}}\leq 1/2$, so Fill's inequality follows. Eq
 
 <hr class="research-note__divider" aria-hidden="true">
 
-## iSWAP and optimal quantum mixing
+## Spectral gaps in random quantum circuits
 
-Local random quantum circuits build global randomness from repeated two-qubit gates. At second-moment order, the rate of convergence towards Haar randomness is governed by the spectral gap of a moment operator: a larger gap means faster convergence towards a unitary $2$-design. This turns the choice of gate into a spectral optimisation problem. For a fixed interaction graph, which two-qubit gate gives the largest gap? Work of Kong, Li and Liu pointed to the ironed iSWAP gadget and led to two closely related conjectures.
+Local random quantum circuits build global randomness from repeated two-qubit gates. At second-moment order, the rate of convergence towards Haar randomness is governed by the spectral gap of a moment operator: a larger gap means faster convergence towards a unitary $2$-design.
+
+### iSWAP and optimal quantum mixing
+
+This turns the choice of gate into a spectral optimisation problem. For a fixed interaction graph, which two-qubit gate gives the largest gap? Work of Kong, Li and Liu pointed to the ironed iSWAP gadget and led to two closely related conjectures.
 
 <span id="complete-graph-equality" class="research-note__anchor" aria-hidden="true"></span>
 **A complete-graph equality.** In joint work with Yanying Liang, we first considered ironed two-qubit gadgets on the complete graph $K&#95;{n}$. We proved that, for $n\geq5$, every gadget with KAK-derived parameter $a=5/9$ has the same second-moment spectral gap as iSWAP:
