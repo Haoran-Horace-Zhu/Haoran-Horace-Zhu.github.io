@@ -20,6 +20,7 @@ nav: false
     <li>
       <a href="#aldous-spectral-gap-conjecture">Aldous spectral gap conjecture</a>
       <ul>
+        <li><a href="#the-octopus-inequality">The Octopus inequality</a></li>
         <li>
           <a href="#aldous-type-spectral-gaps-on-other-groups">Aldous-type spectral gaps on other groups</a>
           <ul>
@@ -74,6 +75,20 @@ Aldous conjectured around 1992 that this inequality is always an equality. The c
 
 The result also has a representation-theoretic interpretation. A weighted graph on $[n]$ gives a weighted collection of transpositions in $\mathfrak{S}&#95;{n}$, and the spectral gap of the resulting walk can be read from the natural action of $\mathfrak{S}&#95;{n}$ on $[n]$. Removing the constant functions from this action leaves the standard representation indexed by $(n-1,1)$. Thus a walk on $n!$ permutations has its first non-trivial eigenvalue in a representation of dimension $n-1$.
 
+### The Octopus inequality
+
+The key step in Caputo, Liggett and Richthammer's proof appears when they remove a vertex $x$ from the graph. As in electrical-network reduction, the edges incident with $x$ are replaced by effective edges between its neighbours, with conductances
+
+$$
+\frac{c_{xy}c_{xz}}{\sum_{w\neq x}c_{xw}}.
+$$
+
+For the _interchange process_, the _Octopus inequality_ says that the energy of these new interactions is dominated by the energy carried by the original star at $x$. This is what allows the induction to pass from $n$ vertices to $n-1$. The name came from the pictures drawn during the proof: the edges around $x$ looked like tentacles.
+
+The inequality gave exactly the estimate that the proof needed, but did not explain why the corresponding self-adjoint element of $\mathbb{C}[\mathfrak{S}&#95;{n}]$, with both positive and negative coefficients, should be positive semidefinite. Caputo and Aldous later asked whether a more illuminating explanation might come from another area of mathematics.
+
+In recent work, I found such a connection through the universal Plücker coordinates introduced by Karp and Purbhoo in their solution of the inverse Wronski problem. I determined exactly how far their positivity survives when one parameter is negative: the threshold is governed by the largest Plancherel up-transition probability. At the critical boundary $\sum&#95;{a}u&#95;{a}^{-1}=0$, the first Plücker relation writes the normalised coordinate indexed by $(2,2)$ as $\omega^2\mathbf{1}-\mathcal{T}^2$, and its positivity is equivalent to the _Octopus inequality_. Thus the central comparison in Aldous' conjecture becomes a critical case of positivity in real Schubert calculus. The same point of view also gives Plücker-theoretic proofs of two hypergraph extensions.
+
 ### Aldous-type spectral gaps on other groups
 
 One can ask the same question after replacing $\mathfrak{S}&#95;{n}$ with another group: in which natural representation does the first non-trivial eigenvalue occur? Cesi proved such a result for a class of weighted walks on the type-$B$ Weyl group $W(B_n)$, where the relevant representation has dimension $2n$. Levhari and Puder proved a corresponding result for the generalised symmetric groups $G\wr\mathfrak{S}&#95;{n}$, with $G$ an arbitrary finite group. There is also a continuous analogue: Alon and Puder related the corresponding question for random walks on $\mathrm{U}(n)$ to discrete KMP processes, also known as uniform-reshuffling processes.
@@ -91,16 +106,20 @@ Another variation is to keep $\mathfrak{S}&#95;{n}$ fixed and replace the transp
 ### References
 
 <ol class="research-references">
+  <li>D. Aldous, P. Caputo, R. Durrett, A. E. Holroyd, P. Jung and A. L. Puha, <em>The life and mathematical legacy of Thomas M. Liggett</em>, Notices of the American Mathematical Society 68 (2021), 67–79.</li>
   <li>D. Aldous and J. A. Fill, <em>Reversible Markov Chains and Random Walks on Graphs</em>, unfinished monograph (2002; recompiled 2014), Open Problem 14.29.</li>
+  <li>G. Alon, G. Kozma and D. Puder, <em>On the Aldous–Caputo spectral gap conjecture for hypergraphs</em>, Mathematical Proceedings of the Cambridge Philosophical Society 179 (2025), 259–298.</li>
   <li>G. Alon and D. Puder, <em>Aldous-type spectral gaps in unitary groups</em>, arXiv:2603.00353 (2026).</li>
   <li>P. Caputo, T. M. Liggett and T. Richthammer, <em>Proof of Aldous' spectral gap conjecture</em>, Journal of the American Mathematical Society 23 (2010), 831–851.</li>
   <li>F. Cesi, <em>On the spectral gap of some Cayley graphs on the Weyl group $W(B_n)$</em>, Linear Algebra and its Applications 586 (2020), 274–295.</li>
   <li>G. Greaves and H. Zhu, <em>Aldous property for full-flag Johnson graphs</em>, arXiv:2603.10406 (2026).</li>
   <li>S. Handjani and D. Jungreis, <em>Rate of convergence for shuffling cards by transpositions</em>, Journal of Theoretical Probability 9 (1996), 983–993.</li>
+  <li>S. N. Karp and K. Purbhoo, <em>Universal Plücker coordinates for the Wronski map and positivity in real Schubert calculus</em>, Journal of the American Mathematical Society, to appear; arXiv:2309.04645.</li>
   <li>N. Levhari and D. Puder, <em>Aldous-type spectral gaps in generalized symmetric groups</em>, arXiv:2605.22101 (2026).</li>
   <li>Y. Li, <em>The Second Largest Eigenvalue of Cayley Graphs on Symmetric Groups</em>, PhD thesis, The University of Melbourne, 2024.</li>
   <li>O. Parzanchevski and D. Puder, <em>Aldous's spectral gap conjecture for normal sets</em>, Transactions of the American Mathematical Society 373 (2020), 7067–7086.</li>
   <li>H. Zhu, <em>Random walks on wreath products and spectral gaps for coloured interchange processes</em>, arXiv:2608.20613 (2026).</li>
+  <li>H. Zhu, <em>Universal Plücker positivity and the Octopus inequality</em>, arXiv:2609.03746 (2026).</li>
 </ol>
 
 <hr class="research-note__divider" aria-hidden="true">
