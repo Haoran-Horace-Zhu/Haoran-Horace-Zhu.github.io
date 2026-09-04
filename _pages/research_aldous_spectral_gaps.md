@@ -89,7 +89,7 @@ $$
 
 This is the _Octopus inequality_, where $\succeq$ denotes positive-semidefinite order. The left-hand side records the energy carried by the original star at $x$, and the right-hand side the energy of the new interactions. This is what allows the induction to pass from $n$ vertices to $n-1$. The name came from the pictures drawn during the proof: the edges around $x$ looked like tentacles.
 
-The inequality has since found uses beyond Aldous' conjecture. Joe P. Chen applied it to a moving-particle lemma for exclusion processes on weighted graphs, while Gil Alon and Gady Kozma used it to extract new geometric operator inequalities in random walks and quantum mechanics; Alon, Kozma and Puder later extended it to hypergraphs.
+Since then, the inequality has proved useful beyond Aldous' conjecture. Chen used it to establish a moving-particle lemma for exclusion processes on weighted graphs. Alon and Kozma used it to obtain further geometric operator inequalities in random walks and quantum mechanics, and later, with Puder, extended it to hypergraphs.
 
 The inequality gave exactly the estimate that the proof needed, but did not explain why the corresponding self-adjoint element of $\mathbb{C}[\mathfrak{S}&#95;{n}]$, with both positive and negative coefficients, should be positive semidefinite. Caputo and Aldous later asked whether a more illuminating explanation might come from another area of mathematics.
 
@@ -215,6 +215,8 @@ $$
 
 In other words, a regular bias should not reduce the spectral gap below that of the unbiased adjacent-transposition chain. Unlike Aldous's conjecture, which compares an _interchange process_ with its associated one-particle random walk, Fill's problem compares different biases within the same family of chains.
 
+Fill proved the conjecture for $n=2$ and $n=3$, and recorded numerical evidence for $n=4$ and $n=5$. The gap of the uniform chain was already known from Bacher and Wilson. Over the following two decades, many authors made partial progress, through both spectral-gap estimates and mixing-time bounds. The exact extremal question nevertheless remained open for the full class of regular vectors.
+
 Gary Greaves and I proved the following lower bound for every probability vector on $n\geq3$ labels:
 
 $$
@@ -237,9 +239,16 @@ For a regular vector, $m_{\mathbf{p}}\leq 1/2$, so Fill's inequality follows. Eq
 ### References
 
 <ol class="research-references">
+  <li>R. Bacher, <em>Minimal eigenvalue of the Coxeter Laplacian for the symmetrical group</em>, Journal of Algebra 167 (1994), 460–472.</li>
+  <li>I. Benjamini, N. Berger, C. Hoffman and E. Mossel, <em>Mixing times of the biased card shuffling and the asymmetric exclusion process</em>, Transactions of the American Mathematical Society 357 (2005), 3013–3029.</li>
+  <li>P. Bhakta, S. Miracle, D. Randall and A. P. Streib, <em>Mixing times of Markov chains for self-organizing lists and biased permutations</em>, Random Structures &amp; Algorithms 61 (2022), 638–665.</li>
   <li>J. A. Fill, <em>An interesting spectral gap problem, from Jim Fill</em>, unpublished notes (2003), posted as arXiv:2508.12557 (2025).</li>
   <li>R. Gheissari, H. Lee and E. Vigoda, <em>Mixing of general biased adjacent transposition chains</em>, Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC 2026), 1236–1241.</li>
   <li>G. Greaves and H. Zhu, <em>Spectral gap of biased adjacent-transposition chains</em>, arXiv:2603.26303 (2026).</li>
+  <li>S. Haddadan and P. Winkler, <em>Mixing of permutations by biased transpositions</em>, Theory of Computing Systems 63 (2019), 1068–1088.</li>
+  <li>S. Miracle and A. P. Streib, <em>Rapid mixing of $k$-class biased permutations</em>, SIAM Journal on Discrete Mathematics 38 (2024), 702–725.</li>
+  <li>S. Miracle, A. P. Streib and N. Streib, <em>Iterated decomposition of biased permutations via new bounds on the spectral gap of Markov chains</em>, Theory of Computing 21 (2025), Article 3, 1–41.</li>
+  <li>D. B. Wilson, <em>Mixing times of lozenge tiling and card shuffling Markov chains</em>, Annals of Applied Probability 14 (2004), 274–325.</li>
 </ol>
 
 <hr class="research-note__divider" aria-hidden="true">
@@ -303,8 +312,12 @@ Gary and I proved this inequality. Complete multipartite graphs show that the bo
 ### References
 
 <ol class="research-references">
+  <li>S. A. Blanco and C. Buehrle, <em>Some integer values in the spectra of burnt pancake graphs</em>, Linear Algebra and its Applications 703 (2024), 163–172.</li>
+  <li>S. A. Blanco and C. Buehrle, <em>On the spectra of prefix-reversal graphs</em>, Linear Algebra and its Applications 726 (2025), 71–90.</li>
   <li>G. Greaves and H. Zhu, <em>A note on some spectral properties of generalised pancake graphs</em>, Discrete Mathematics 349 (2026), 115102.</li>
   <li>G. Greaves and H. Zhu, <em>A proof of Haemers' toughness conjecture</em>, arXiv:2605.15738 (2026).</li>
+  <li>X. Gu and W. H. Haemers, <em>Graph toughness from Laplacian eigenvalues</em>, Algebraic Combinatorics 5 (2022), 53–61.</li>
+  <li>W. H. Haemers, <em>Toughness conjecture</em>, unpublished note (2020).</li>
 </ol>
 
 </div>
