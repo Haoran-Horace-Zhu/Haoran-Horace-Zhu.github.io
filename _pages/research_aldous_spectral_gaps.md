@@ -215,7 +215,7 @@ $$
 
 In other words, a regular bias should not reduce the spectral gap below that of the unbiased adjacent-transposition chain. Unlike Aldous's conjecture, which compares an _interchange process_ with its associated one-particle random walk, Fill's problem compares different biases within the same family of chains.
 
-Fill proved the conjecture for $n=2$ and $n=3$, and recorded numerical evidence for $n=4$ and $n=5$. The gap of the uniform chain was already known from Bacher and Wilson. Most later progress concerned mixing rather than the exact extremal gap: polynomial bounds were obtained for constant-bias, hierarchical and $k$-class models. More recently, Gheissari, Lee and Vigoda proved $\Theta(n^2)$ mixing when every comparison is uniformly biased away from $1/2$, without assuming monotonicity. These results did not cover every regular vector, where biases can be arbitrarily close to $1/2$.
+Fill proved the conjecture for $n=2$ and $n=3$, and recorded numerical evidence for $n=4$ and $n=5$. The gap of the uniform chain was already known from Bacher and Wilson. Over the following two decades, many authors made partial progress, through both spectral-gap estimates and mixing-time bounds. The exact extremal question nevertheless remained open for the full class of regular vectors.
 
 Gary Greaves and I proved the following lower bound for every probability vector on $n\geq3$ labels:
 
@@ -245,6 +245,7 @@ For a regular vector, $m_{\mathbf{p}}\leq 1/2$, so Fill's inequality follows. Eq
   <li>J. A. Fill, <em>An interesting spectral gap problem, from Jim Fill</em>, unpublished notes (2003), posted as arXiv:2508.12557 (2025).</li>
   <li>R. Gheissari, H. Lee and E. Vigoda, <em>Mixing of general biased adjacent transposition chains</em>, Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC 2026), 1236–1241.</li>
   <li>G. Greaves and H. Zhu, <em>Spectral gap of biased adjacent-transposition chains</em>, arXiv:2603.26303 (2026).</li>
+  <li>S. Haddadan and P. Winkler, <em>Mixing of permutations by biased transpositions</em>, Theory of Computing Systems 63 (2019), 1068–1088.</li>
   <li>S. Miracle and A. P. Streib, <em>Rapid mixing of $k$-class biased permutations</em>, SIAM Journal on Discrete Mathematics 38 (2024), 702–725.</li>
   <li>S. Miracle, A. P. Streib and N. Streib, <em>Iterated decomposition of biased permutations via new bounds on the spectral gap of Markov chains</em>, Theory of Computing 21 (2025), Article 3, 1–41.</li>
   <li>D. B. Wilson, <em>Mixing times of lozenge tiling and card shuffling Markov chains</em>, Annals of Applied Probability 14 (2004), 274–325.</li>
