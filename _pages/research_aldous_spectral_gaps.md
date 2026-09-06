@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /research/current/spectral-gap-problems/
-title: Spectral Gap Problems
+title: Cayley Graphs and Markov Chains
 nav: false
 ---
 

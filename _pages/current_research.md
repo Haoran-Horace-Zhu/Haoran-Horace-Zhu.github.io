@@ -13,7 +13,7 @@ nav: false
 <nav class="research-topic-list" aria-label="Research programmes">
   <a class="research-topic-link" href="{{ '/research/current/spectral-gap-problems/' | relative_url }}">
     <span class="research-topic-link__number" aria-hidden="true">01</span>
-    <span class="research-topic-link__title">Spectral Gap Problems</span>
+    <span class="research-topic-link__title">Cayley Graphs and Markov Chains</span>
   </a>
 
   <a class="research-topic-link" href="{{ '/research/current/vertex-operators-and-symmetric-functions/' | relative_url }}">
