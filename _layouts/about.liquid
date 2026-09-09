@@ -153,6 +153,19 @@ layout: default
       var scroller = section ? section.querySelector('.selected-publications-scroll') : null;
       var controls = section ? section.querySelectorAll('[data-selected-publications-direction]') : null;
 
+      var publicationList = scroller ? scroller.querySelector('.bibliography') : null;
+      if (publicationList) {
+        Array.from(publicationList.children)
+          .sort(function (left, right) {
+            var leftCard = left.querySelector('[data-selected-order]');
+            var rightCard = right.querySelector('[data-selected-order]');
+            return Number(leftCard ? leftCard.dataset.selectedOrder : 999) - Number(rightCard ? rightCard.dataset.selectedOrder : 999);
+          })
+          .forEach(function (item) {
+            publicationList.appendChild(item);
+          });
+      }
+
       if (!scroller || !controls || !controls.length) return;
 
       var updateControls = function () {
