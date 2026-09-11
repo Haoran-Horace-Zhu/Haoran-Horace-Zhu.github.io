@@ -18,7 +18,7 @@ nav: false
 <nav class="research-note__contents" aria-label="Contents">
   <ul>
     <li>
-      <a href="#aldous-spectral-gap-conjecture">Aldous spectral gap conjecture</a>
+      <a href="#aldous-spectral-gap-conjecture">Aldous' spectral gap conjecture</a>
       <ul>
         <li><a href="#the-octopus-inequality">The Octopus inequality</a></li>
         <li>
@@ -36,7 +36,8 @@ nav: false
       </ul>
     </li>
     <li><a href="#alpha-shuffle-spectral-gap-conjecture">$\alpha$-shuffle spectral gap conjecture</a></li>
-    <li><a href="#fill-spectral-gap-conjecture">Fill spectral gap conjecture</a></li>
+    <li><a href="#the-aldous-fill-problem">The Aldous–Fill problem</a></li>
+    <li><a href="#fills-gap-problem">Fill's gap problem</a></li>
     <li>
       <a href="#spectral-gaps-in-random-quantum-circuits">Spectral gaps in random quantum circuits</a>
       <ul>
@@ -59,7 +60,7 @@ nav: false
   </ul>
 </nav>
 
-## Aldous spectral gap conjecture
+## Aldous' spectral gap conjecture
 
 Let $\Gamma$ be a finite connected weighted graph on $n$ vertices. In a continuous-time random walk, a particle moves along the edges of $\Gamma$. In the _interchange process_, each vertex instead carries a distinct label. Each edge rings at its assigned rate, and when it does, the labels at its two ends are exchanged. The random walk has $n$ states, while the interchange process has $n!$ states.
 
@@ -165,7 +166,56 @@ Caputo conjectured that equality holds for every choice of non-negative weights 
 
 <hr class="research-note__divider" aria-hidden="true">
 
-## Fill spectral gap conjecture
+## The Aldous–Fill problem {#the-aldous-fill-problem}
+
+For a connected simple $d$-regular graph $G$ of order $n$, simple random walk has spectral gap $\lambda(G)=\mu(G)/d$, where $\mu(G)$ is the algebraic connectivity. Its relaxation time is therefore
+
+$$
+\tau(G)
+=
+\frac{1}{\lambda(G)}
+=
+\frac{d}{\mu(G)}.
+$$
+
+Aldous and Fill asked how slowly such a walk can approach equilibrium when the number of vertices is fixed but the degree is allowed to vary. They conjectured the uniform bound
+
+$$
+\tau(G)
+\leqslant
+(1+o(1))\frac{3n^2}{2\pi^2},
+$$
+
+with cubic graphs showing that the constant is sharp along the even orders. Earlier work had identified the cubic and quartic candidates and settled several degree regimes, but the estimate uniform in the degree remained open.
+
+In recent work, I proved the conjectured bound and found a parity phenomenon in the extremal problem. If $M&#95;{n}$ denotes the largest relaxation time among connected simple regular graphs of order $n$, then
+
+$$
+M&#95;{2m}
+=
+(1+o(1))\frac{3(2m)^2}{2\pi^2},
+\qquad
+M&#95;{2m+1}
+=
+(1+o(1))\frac{(2m+1)^2}{\pi^2}.
+$$
+
+Thus cubic graphs are asymptotically extremal at even orders, whereas quartic graphs take over at odd orders. A strict improvement for every noncubic degree also shows that, for all sufficiently large even orders, the unique maximiser is the cubic graph of least algebraic connectivity. The argument begins with the sequence of cuts obtained by ordering the vertices along a Fiedler vector; it also gives stability for cubic near-extremisers and sharp edge-connectivity bounds when the degree grows.
+
+### References
+
+<ol class="research-references">
+  <li>M. Abdi and E. Ghorbani, <em>Quartic graphs with minimum spectral gap</em>, Journal of Graph Theory 102 (2023), 205–233.</li>
+  <li>M. Abdi, E. Ghorbani and W. Imrich, <em>Regular graphs with minimum spectral gap</em>, European Journal of Combinatorics 95 (2021), 103328.</li>
+  <li>S. G. Aksoy, F. R. K. Chung, M. Tait and J. Tobin, <em>The maximum relaxation time of a random walk</em>, Advances in Applied Mathematics 101 (2018), 1–14.</li>
+  <li>D. Aldous and J. A. Fill, <em>Reversible Markov Chains and Random Walks on Graphs</em>, unfinished monograph (2002; recompiled 2014), Open Problem 6.14.</li>
+  <li>C. Brand, B. Guiduli and W. Imrich, <em>Characterization of trivalent graphs with minimal eigenvalue gap</em>, Croatica Chemica Acta 80 (2007), 193–201.</li>
+  <li>H. Zhu, <em>The maximum relaxation time of a random walk on regular graphs</em>, arXiv:2609.06818 (2026).</li>
+</ol>
+
+<hr class="research-note__divider" aria-hidden="true">
+
+## Fill's gap problem {#fills-gap-problem}
 
 Fill's Gap Problem concerns a biased version of the adjacent-transposition shuffle. In notes written in 2003, motivated by the _move-ahead-one_ rule for self-organising lists, he asked whether the uniform chain minimises the spectral gap among all regular choices of the bias parameters. The notes circulated for more than twenty years before they were posted on arXiv in 2025. Gheissari, Lee and Vigoda describe this as ‘well-known and long-standing’.
 
