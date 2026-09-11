@@ -191,11 +191,11 @@ with cubic graphs showing that the constant is sharp along the even orders. Earl
 In recent work, I proved the conjectured bound and found a parity phenomenon in the extremal problem. If $M&#95;{n}$ denotes the largest relaxation time among connected simple regular graphs of order $n$, then
 
 $$
-M&#95;{2m}
+M_{2m}
 =
 (1+o(1))\frac{3(2m)^2}{2\pi^2},
 \qquad
-M&#95;{2m+1}
+M_{2m+1}
 =
 (1+o(1))\frac{(2m+1)^2}{\pi^2}.
 $$
