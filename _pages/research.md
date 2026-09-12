@@ -39,14 +39,14 @@ My research connects combinatorics with probability theory and mathematical phys
       <span class="interest-card__title">Mathematical Physics</span>
       <span class="interest-card__hint">View themes</span>
     </summary>
-    <p class="interest-card__detail">Vertex-operator calculus, integrable systems, the boson–fermion correspondence, and quantum information.</p>
+    <p class="interest-card__detail">Vertex-operator calculus, integrable systems, and the boson–fermion correspondence.</p>
   </details>
 
 </section>
 
 <details class="additional-interests">
   <summary>Other interests</summary>
-  <p>Lie algebras, arithmetic schemes, hypermatrices, and the Hurwitz composition problem.</p>
+  <p>Lie algebras, arithmetic schemes, hypermatrices, the Hurwitz composition problem, and quantum information.</p>
 </details>
 
 <section class="research-output">
