@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /research/current/hom-lie-algebras-and-arithmetic-analogues/
-title: Hom–Lie Algebras and Their Arithmetic Analogues
+title: Arithmetic Hom–Lie Algebras
 nav: false
 ---
 

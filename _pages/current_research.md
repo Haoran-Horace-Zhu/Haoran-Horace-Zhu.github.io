@@ -38,6 +38,6 @@ nav: false
 
   <a class="research-topic-link" href="{{ '/research/current/hom-lie-algebras-and-arithmetic-analogues/' | relative_url }}">
     <span class="research-topic-link__number" aria-hidden="true">06</span>
-    <span class="research-topic-link__title">Hom&ndash;Lie Algebras and Their Arithmetic Analogues</span>
+    <span class="research-topic-link__title">Arithmetic Hom&ndash;Lie Algebras</span>
   </a>
 </nav>
