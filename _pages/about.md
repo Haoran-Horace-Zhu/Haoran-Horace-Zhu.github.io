@@ -33,4 +33,4 @@ I am a PhD student in Mathematics at Nanyang Technological University, working u
 
 Please feel free to [get in touch](mailto:haoran.horace.zhu@gmail.com) if you are interested in the following topics or potential collaborations.
 
-*I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.*
+<p class="homepage-reflection"><em>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</em></p>

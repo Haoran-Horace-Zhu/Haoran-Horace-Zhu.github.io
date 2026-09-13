@@ -10,6 +10,7 @@
   --global-theme-color: #0f6b67;
   --global-hover-color: #0a514e;
   --global-divider-color: rgba(23, 33, 43, 0.12);
+  --global-reflection-color: #3f6575;
 }
 
 html[data-theme="dark"] {
@@ -20,6 +21,7 @@ html[data-theme="dark"] {
   --global-theme-color: #72d2ca;
   --global-hover-color: #a2e6df;
   --global-divider-color: rgba(237, 243, 242, 0.14);
+  --global-reflection-color: #94b8c7;
 }
 
 body {
@@ -32,6 +34,10 @@ body {
     sans-serif;
   font-size: 1rem;
   line-height: 1.7;
+}
+
+.homepage-reflection {
+  color: var(--global-reflection-color);
 }
 
 .navbar {
