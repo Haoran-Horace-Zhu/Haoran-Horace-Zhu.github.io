@@ -1,0 +1,32 @@
+---
+---
+<article class="bib-entry" id="{{ entry.key }}" data-paper-key="{{ entry.key }}" aria-labelledby="title-{{ entry.key }}">
+  <h3 class="bib-entry__title" id="title-{{ entry.key }}">{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</h3>
+  {% if entry.coauthors %}
+    <p class="bib-entry__coauthors">With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+  {% endif %}
+  {% if entry.entry_kind == 'publication' %}
+    <p class="bib-entry__venue"><em>{{ entry.journal | remove: ' (to appear)' }}</em>{% if entry.journal contains '(to appear)' %} <span>(to appear)</span>{% endif %}{% if entry.volume %} <span>{{ entry.volume }}</span>{% endif %}{% if entry.pages %}, {{ entry.pages | replace: '--', '–' }}{% endif %}{% if entry.note %}. {{ entry.note }}{% endif %}</p>
+  {% elsif entry.entry_kind == 'thesis' %}
+    <p class="bib-entry__venue"><em>{{ entry.school }}</em>, {{ entry.year }}</p>
+  {% endif %}
+  <div class="bib-entry__actions">
+    {% if entry.abstract %}<button type="button" hidden data-bib-panel="abstract-{{ entry.key }}" aria-controls="abstract-{{ entry.key }}" aria-expanded="false">Abstract</button>{% endif %}
+    {% if entry.doi %}<a href="{% unless entry.doi contains '://' %}https://doi.org/{% endunless %}{{ entry.doi }}">DOI</a>{% endif %}
+    {% if entry.arxiv %}<a href="https://arxiv.org/abs/{{ entry.arxiv }}">arXiv</a>{% endif %}
+    {% if entry.pdf %}<a href="{% if entry.pdf contains '://' %}{{ entry.pdf }}{% else %}{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}{% endif %}">PDF</a>{% endif %}
+    {% if entry.html %}<a href="{% if entry.html contains '://' %}{{ entry.html }}{% else %}{{ entry.html | prepend: '/assets/html/' | relative_url }}{% endif %}">HTML</a>{% endif %}
+    {% if entry.website %}<a href="{{ entry.website }}">Website</a>{% endif %}
+    {% if entry.bibtex_show %}<button type="button" hidden data-bib-panel="bibtex-{{ entry.key }}" aria-controls="bibtex-{{ entry.key }}" aria-expanded="false">Bib</button>{% endif %}
+  </div>
+  {% if entry.abstract %}
+    <div class="bib-entry__panel bib-entry__abstract" id="abstract-{{ entry.key }}" role="region" aria-label="Abstract">
+      <p>{{ entry.abstract }}</p>
+    </div>
+  {% endif %}
+  {% if entry.bibtex_show %}
+    <div class="bib-entry__panel" id="bibtex-{{ entry.key }}" role="region" aria-label="BibTeX citation">
+      <pre><code>{{ entry.bibtex | hideCustomBibtex | escape }}</code></pre>
+    </div>
+  {% endif %}
+</article>

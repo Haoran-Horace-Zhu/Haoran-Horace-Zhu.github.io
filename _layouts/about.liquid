@@ -69,7 +69,6 @@ layout: default
       {% if page.education %}
         <div class="col-md-6">
           <section class="academic-overview__section">
-            <span class="academic-overview__eyebrow">Background</span>
             <h2>Education</h2>
             <ul class="ul-edu fa-ul">
               {% for eItem in page.education.courses %}
@@ -91,7 +90,6 @@ layout: default
       {% if page.interests %}
         <div class="col-md-6">
           <section class="academic-overview__section">
-            <span class="academic-overview__eyebrow">Current focus</span>
             <h2>Research Interests</h2>
             <ul class="ul-interests">
               {% for interest in page.interests %}
@@ -108,7 +106,6 @@ layout: default
       <section class="home-selected-publications" aria-labelledby="selected-publications-heading">
         <div class="home-selected-publications__heading">
           <div>
-            <span class="academic-overview__eyebrow">Research output</span>
             <h2 id="selected-publications-heading">Selected publications</h2>
           </div>
           <div class="selected-publications-controls" role="group" aria-label="Selected publication navigation">
@@ -124,7 +121,6 @@ layout: default
     <!-- News -->
     {% if page.news and site.announcements.enabled %}
       <section class="home-news">
-        <span class="academic-overview__eyebrow">Updates</span>
         <h2>
           <a href="{{ '/news/' | relative_url }}" style="color: inherit">News</a>
         </h2>
