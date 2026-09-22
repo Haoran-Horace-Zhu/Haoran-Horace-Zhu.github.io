@@ -361,6 +361,7 @@ filtered_bibtex_keywords:
     blog,
     code,
     coauthors,
+    entry_kind,
     google_scholar_id,
     html,
     inspirehep_id,
