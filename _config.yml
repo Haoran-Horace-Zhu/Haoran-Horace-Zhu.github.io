@@ -226,6 +226,7 @@ kramdown:
       start_line: 1
 
 # Includes & excludes
+research_programmes_visible: false # Restore after the October 2026 conference, together with the exclusions below.
 include: ["_pages"]
 exclude:
   - bin/
@@ -243,6 +244,14 @@ exclude:
   - package.json
   - package-lock.json
   - _pages/about_einstein.md
+  # Temporarily hidden research programmes. Source manuscripts are retained.
+  - _pages/current_research.md
+  - _pages/research_aldous_spectral_gaps.md
+  - _pages/research_association_schemes.md
+  - _pages/research_hom_lie_arithmetic.md
+  - _pages/research_hurwitz_sum_of_squares.md
+  - _pages/research_quantum_symmetric_pairs.md
+  - _pages/research_vertex_operators_symmetric_functions.md
   - purgecss.config.js
   - README.md
   - UPDATE_GUIDE.md

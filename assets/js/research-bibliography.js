@@ -31,7 +31,7 @@
 
   const revealLinkedPaper = () => {
     let id;
-    try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch (error) { return; }
     if (!id) return;
     const target = document.getElementById(id);
     if (!target || !bibliography.contains(target)) return;

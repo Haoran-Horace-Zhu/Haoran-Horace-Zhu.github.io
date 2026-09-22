@@ -10,7 +10,10 @@ nav_order: 2
 
 <section class="research-overview" aria-label="Research interests">
   <p class="research-overview__intro">My research connects combinatorics with probability theory and mathematical physics.</p>
-  <p class="research-overview__programme"><a href="{{ '/research/current/' | relative_url }}">Explore my research programmes</a></p>
+  {% comment %}Temporarily hidden for the October conference; restore alongside the programme pages in _config.yml.{% endcomment %}
+  {% if site.research_programmes_visible %}
+    <p class="research-overview__programme"><a href="{{ '/research/current/' | relative_url }}">Explore my research programmes</a></p>
+  {% endif %}
 
 <div class="research-themes">
   <details class="research-theme">
