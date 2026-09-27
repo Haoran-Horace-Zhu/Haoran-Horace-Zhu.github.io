@@ -37,3 +37,7 @@ Please feel free to [get in touch](mailto:haoran.horace.zhu@gmail.com) if you ar
   <p><em>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</em></p>
   <p><em>AI is moving so fast that doing mathematics can feel meaningful and pointless at the same time. I’m drawn to what these new tools can do. Still, I believe a solid research programme and research interests of my own are everything. I just want to stay honest along the way.</em></p>
 </div>
+
+<div class="homepage-reflection homepage-ai-statement">
+  <p><em>For any of my papers that carry an AI-use statement, I take full responsibility for the work and give up all credit for it.</em></p>
+</div>
