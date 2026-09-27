@@ -33,4 +33,7 @@ I am a PhD student in Mathematics at Nanyang Technological University, working u
 
 Please feel free to [get in touch](mailto:haoran.horace.zhu@gmail.com) if you are interested in the following topics or potential collaborations.
 
-<p class="homepage-reflection"><em>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</em></p>
+<div class="homepage-reflection">
+  <p><em>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</em></p>
+  <p><em>AI is moving so fast that doing mathematics can feel meaningful and pointless at the same time. I’m drawn to what these new tools can do. Still, I believe a solid research programme and a direction of my own are everything. I just want to stay honest along the way.</em></p>
+</div>
