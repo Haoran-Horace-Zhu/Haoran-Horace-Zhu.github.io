@@ -14,7 +14,7 @@ education:
   courses:
     - course: PhD student in Mathematics
       institution: Nanyang Technological University
-      year: "2026–present"
+      year: "2025–present"
     - course: B.Sc. in Mathematics and Applied Mathematics
       institution: Northeastern University
       year: "2020–2024"
