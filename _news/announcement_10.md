@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-My paper [_Twisted derivations on arithmetic schemes, Kummer covers, and the Larsson conjecture_](https://doi.org/10.1016/j.jnt.2026.08.012) has been accepted for publication in _Journal of Number Theory_.
+My paper [Twisted derivations on arithmetic schemes, Kummer covers, and the Larsson conjecture](https://doi.org/10.1016/j.jnt.2026.08.012) appeared in _Journal of Number Theory_.
