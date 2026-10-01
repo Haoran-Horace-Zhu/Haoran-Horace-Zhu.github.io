@@ -10,6 +10,10 @@ nav_order: 2
 
 <section class="research-overview" aria-label="Research interests">
   <p class="research-overview__intro">My research connects combinatorics with probability theory and mathematical physics.</p>
+  <div class="homepage-reflection research-statement">
+    <p><em>Some areas of mathematics no longer excite me as much as they once did. AI is changing the way we work so quickly, and I find it sad to see us becoming more guarded and less trusting of one another.</em></p>
+    <p><em>But I’m still happy to talk about the topics below, so please <a href="mailto:haoran.horace.zhu@gmail.com">get in touch</a> if anything catches your interest. I’d also love to explore new directions together, perhaps in a field where theory and experiment go hand in hand.</em></p>
+  </div>
   {% comment %}Temporarily hidden for the October conference; restore alongside the programme pages in _config.yml.{% endcomment %}
   {% if site.research_programmes_visible %}
     <p class="research-overview__programme"><a href="{{ '/research/current/' | relative_url }}">Explore my research programmes</a></p>
