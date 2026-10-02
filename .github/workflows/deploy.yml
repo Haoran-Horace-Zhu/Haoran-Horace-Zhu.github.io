@@ -7,6 +7,10 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_paper_files/**"
+      - "_plugins/**"
+      - "scripts/**"
+      - "tests/**"
       - "**.bib"
       - "**.html"
       - "**.js"
@@ -34,6 +38,10 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_paper_files/**"
+      - "_plugins/**"
+      - "scripts/**"
+      - "tests/**"
       - "**.bib"
       - "**.html"
       - "**.js"
@@ -60,6 +68,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: academic-site-deployment
+  cancel-in-progress: false
+
 jobs:
   deploy:
     # available images: https://github.com/actions/runner-images#available-images
@@ -67,6 +79,8 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
       - name: Setup Ruby 💎
         uses: ruby/setup-ruby@v1
         with:
@@ -77,11 +91,60 @@ jobs:
         with:
           python-version: "3.13"
           cache: "pip" # caching pip dependencies
+      - name: Test paper archive
+        run: |
+          bundle exec ruby tests/paper_archive_test.rb
+          python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Install and Build 🔧
         run: |
           pip3 install --upgrade nbconvert
+          export TZ=UTC
           export JEKYLL_ENV=production
           bundle exec jekyll build --trace
+      - name: Verify archive and protect published versions
+        env:
+          SOURCE_BASE: ${{ github.event.before || github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          base="${SOURCE_BASE:-HEAD^}"
+          if [[ "$base" =~ ^0+$ ]]; then base=HEAD^; fi
+          if ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            git fetch origin "$base" --depth=1
+          fi
+          initial_archive=false
+          if ! git cat-file -e "$base:_data/paper_archive.yml" 2>/dev/null; then
+            initial_archive=true
+          fi
+          archive_only=true
+          while IFS= read -r path; do
+            case "$path" in
+              _data/paper_archive.yml|_paper_files/*|_plugins/paper_archive.rb|_layouts/paper_archive.liquid|_layouts/paper_archive_index.liquid|_includes/paper_archive_metadata.liquid|assets/css/paper-archive.css|scripts/verify_paper_archive.py|tests/*|PAPER_ARCHIVE.md) ;;
+              _includes/head.liquid|_includes/metadata.liquid|_config.yml|.github/workflows/deploy.yml|.gitignore)
+                if [[ "$initial_archive" != true ]]; then archive_only=false; fi ;;
+              *) archive_only=false ;;
+            esac
+          done < <(git diff --name-only "$base" HEAD)
+          baseline="$RUNNER_TEMP/paper-archive-baseline"
+          mkdir -p "$baseline"
+          # A failed fetch must stop deployment, not silently skip the comparison.
+          git fetch origin gh-pages --depth=1
+          git archive FETCH_HEAD | tar -x -C "$baseline"
+          options=(--site _site --baseline "$baseline" --preserve-footer-date --preserve-notebook-title)
+          if [[ "$archive_only" != true ]]; then
+            options+=(--immutable-versions-only)
+          fi
+          # The programme pages remain hidden on the site until the owner restores them.
+          if ruby -ryaml -e 'exit(YAML.load_file("_config.yml")["research_programmes_visible"] == false ? 0 : 1)'; then
+            options+=(--forbid-route /research/current/)
+          fi
+          python3 scripts/verify_paper_archive.py "${options[@]}" --report "$RUNNER_TEMP/paper-archive-verification.json"
+      - name: Save archive verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-archive-verification
+          path: ${{ runner.temp }}/paper-archive-verification.json
+          if-no-files-found: ignore
       - name: Deploy 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4

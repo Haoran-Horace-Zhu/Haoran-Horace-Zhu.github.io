@@ -229,6 +229,10 @@ kramdown:
 research_programmes_visible: false # Restore after the October 2026 conference, together with the exclusions below.
 include: ["_pages"]
 exclude:
+  - tests/
+  - scripts/
+  - PAPER_ARCHIVE.md
+  - _paper_files/
   - bin/
   - CONTRIBUTING.md
   - CUSTOMIZE.md

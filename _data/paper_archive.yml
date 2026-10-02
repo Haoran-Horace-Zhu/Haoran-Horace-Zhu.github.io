@@ -1,0 +1,33 @@
+# Only records listed here are published. Do not scan local manuscript folders.
+schema_version: 1
+papers:
+  - bib_key: Zhu2026DiagonalTrace
+    slug: diagonal-trace-identities
+    current_version: v1
+    versions:
+      - id: v1
+        source: _paper_files/diagonal-trace-identities/v1.pdf
+        sha256: 24522f7e5365e6a1cf8bc91050c46a3aaf59cb1fbde2daf1adece0a770a3a188
+        archived_at: "2026-10-02T01:28:09Z"
+        archived_on: "2026-10-01"
+        archive_timezone: America/Los_Angeles
+        note: >-
+          Existing website PDF preserved unchanged. The archive date records the
+          creation of this versioned record, not the manuscript's first public posting.
+        snapshot:
+          title: Diagonal trace identities for bosonic and fermionic matrices
+          authors:
+            - Haoran Zhu
+          year: "2026"
+          journal: Theoretical and Mathematical Physics (to appear)
+          abstract: >-
+            We determine the second stabilised diagonal of finite-rank fermionic trace relations in the $\partial\psi$ model. In this paper, the formal letters of the model are treated as independent odd matrix letters, denoted $\psi_0,\psi_1,\psi_2,\ldots$. For every $N\geqslant 2$, the charge-$2N+2$ relation space at rank $N$ has odd dimension $4$ and even dimension $4$. More precisely, it has a basis consisting of the eight signed polarised Cayley--Hamilton trace identities obtained by inserting copies of the even word $\psi_0^2$. This proves a conjecture of Eleftheriou, Ji, and Murthy.
+          bibtex: |
+            @article{Zhu2026DiagonalTrace,
+              author={Zhu, Haoran},
+              title={Diagonal trace identities for bosonic and fermionic matrices},
+              journal={Theoretical and Mathematical Physics (to appear)},
+              year={2026},
+              url={https://haoran-horace-zhu.github.io/papers/diagonal-trace-identities/v1.html},
+              note={Archived copy, version 1}
+            }

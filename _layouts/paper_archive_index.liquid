@@ -1,0 +1,29 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="{{ '/assets/css/paper-archive.css' | relative_url }}">
+
+<section class="paper-archive paper-archive--index" aria-labelledby="paper-archive-title">
+  <nav class="paper-archive__breadcrumbs" aria-label="Paper archive navigation">
+    <a href="{{ '/research/' | relative_url }}">Research</a>
+  </nav>
+  <header class="paper-archive__header">
+    <p class="paper-archive__eyebrow">Personal paper archive</p>
+    <h1 id="paper-archive-title" class="paper-archive__title">Paper archive</h1>
+    <p class="paper-archive__intro">Research papers with full abstracts, downloadable PDFs and BibTeX citations.</p>
+    <p class="paper-archive__explanation">Archive dates record when copies were added here, not dates of first publication. See <a href="{{ '/research/' | relative_url }}">Research</a> for the full list of publications and preprints.</p>
+  </header>
+
+  <ol class="paper-archive__index-list">
+    {% for paper in page.archived_papers %}
+      <li class="paper-archive__index-entry">
+        <h2><a href="{{ paper.url | relative_url }}">{{ paper.title | escape }}</a></h2>
+        <p class="paper-archive__index-authors">{{ paper.authors | join: ', ' | escape }}</p>
+        <p class="paper-archive__publication">
+          {% if paper.journal and paper.journal != blank %}{{ paper.journal | escape }}<span aria-hidden="true"> · </span>{% endif %}
+          <span class="paper-archive__year">{{ paper.year | escape }}</span>
+        </p>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
