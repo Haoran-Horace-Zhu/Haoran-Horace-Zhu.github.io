@@ -7,7 +7,7 @@ profile:
   align: left
   image: haoran_zhu.jpg
   image_circular: false
-  more_info: "<p>School of Physical and Mathematical Sciences</p><p>Nanyang Technological University</p><p>Singapore</p>"
+  more_info: "<p>SPMS-MAS-04-02</p><p>Nanyang Technological University</p><p>Singapore</p>"
 
 education:
   courses:

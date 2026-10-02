@@ -62,7 +62,6 @@ nav_order: 2
 <details id="preprints" class="research-preprints">
   <summary>
     <h2 class="research-preprints__label">Preprints</h2>
-    <span class="research-preprints__control" aria-hidden="true"><span class="research-preprints__show">Show</span><span class="research-preprints__hide">Hide</span><span class="research-preprints__chevron"></span></span>
   </summary>
   <div class="research-bibliography__list">
     {% bibliography --template bib_research --query @*[entry_kind=preprint] %}

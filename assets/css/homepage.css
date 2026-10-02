@@ -104,6 +104,9 @@ body.homepage .home-selected-publications {
   margin-bottom: 2.4rem;
   padding-top: 0.75rem;
 }
+body.homepage .home-selected-publications__heading {
+  margin-bottom: 0.75rem;
+}
 body.homepage .home-selected-publications__heading h2,
 body.homepage .home-news h2 {
   font-size: 1.55rem;
