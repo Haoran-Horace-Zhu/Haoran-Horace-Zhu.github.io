@@ -17,11 +17,13 @@
   {% assign publication_url = entry.arxiv | prepend: 'https://arxiv.org/abs/' %}
 {% endif %}
 
-<article class="selected-publication-card" data-selected-order="{{ entry.selected_order | default: 999 }}">
+<article class="selected-publication-card{% if page.selected_hide_authors contains entry.key %} selected-publication-card--solo{% endif %}" data-selected-order="{{ entry.selected_order | default: 999 }}">
   <div class="selected-publication-card__meta">
     <span>{{ entry.year }}</span>
     {% if entry.coauthors %}
       <span>With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</span>
+    {% elsif page.selected_hide_authors contains entry.key %}
+      {% comment %}The homepage already identifies the sole author.{% endcomment %}
     {% else %}
       <span>Haoran Zhu</span>
     {% endif %}

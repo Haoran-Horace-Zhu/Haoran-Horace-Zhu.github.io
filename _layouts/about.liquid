@@ -11,7 +11,7 @@ layout: default
         {{ site.title }}
       {% endif %}
     </h1>
-    <p class="desc">{{ page.subtitle }}</p>
+    {% if page.subtitle %}<p class="desc">{{ page.subtitle }}</p>{% endif %}
   </header>
 
   <article>
@@ -108,10 +108,6 @@ layout: default
           <div>
             <h2 id="selected-publications-heading">Selected publications</h2>
           </div>
-          <div class="selected-publications-controls" role="group" aria-label="Selected publication navigation">
-            <button type="button" data-selected-publications-direction="-1" aria-label="Previous selected publications">←</button>
-            <button type="button" data-selected-publications-direction="1" aria-label="Next selected publications">→</button>
-          </div>
         </div>
         <a class="selected-publications-view-all" href="{{ '/research/' | relative_url }}">View all publications →</a>
         {% include selected_papers.liquid %}
@@ -124,7 +120,7 @@ layout: default
         <h2>
           <a href="{{ '/news/' | relative_url }}" style="color: inherit">News</a>
         </h2>
-        {% include news.liquid limit=true %}
+        {% include news.liquid limit=true all=true %}
       </section>
     {% endif %}
 
@@ -146,10 +142,7 @@ layout: default
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var section = document.querySelector('.home-selected-publications');
-      var scroller = section ? section.querySelector('.selected-publications-scroll') : null;
-      var controls = section ? section.querySelectorAll('[data-selected-publications-direction]') : null;
-
-      var publicationList = scroller ? scroller.querySelector('.bibliography') : null;
+      var publicationList = section ? section.querySelector('.bibliography') : null;
       if (publicationList) {
         Array.from(publicationList.children)
           .sort(function (left, right) {
@@ -162,30 +155,6 @@ layout: default
           });
       }
 
-      if (!scroller || !controls || !controls.length) return;
-
-      var updateControls = function () {
-        var edgeTolerance = 16;
-        var atStart = scroller.scrollLeft <= edgeTolerance;
-        var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - edgeTolerance;
-
-        controls.forEach(function (control) {
-          var direction = Number(control.dataset.selectedPublicationsDirection);
-          control.disabled = direction < 0 ? atStart : atEnd;
-        });
-      };
-
-      controls.forEach(function (control) {
-        control.addEventListener('click', function () {
-          var direction = Number(control.dataset.selectedPublicationsDirection);
-          var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          scroller.scrollBy({ left: direction * scroller.clientWidth * 0.82, behavior: reduceMotion ? 'auto' : 'smooth' });
-        });
-      });
-
-      scroller.addEventListener('scroll', updateControls, { passive: true });
-      window.addEventListener('resize', updateControls);
-      updateControls();
     });
   </script>
 {% endif %}

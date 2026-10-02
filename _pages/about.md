@@ -2,7 +2,6 @@
 layout: about
 title: About
 permalink: /
-subtitle: PhD Student in Mathematics · Nanyang Technological University
 
 profile:
   align: left
@@ -26,6 +25,8 @@ interests:
 
 news: true
 selected_papers: true
+selected_hide_authors:
+  - Zhu2026Larsson
 social: true
 ---
 
