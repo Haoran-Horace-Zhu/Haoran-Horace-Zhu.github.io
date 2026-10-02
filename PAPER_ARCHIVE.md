@@ -1,6 +1,6 @@
 # Personal paper archive
 
-This archive gives approved, self-hosted papers permanent landing pages, bibliographic metadata and versioned files. It does **not** change the existing homepage, Research listing, paper buttons, CV, navigation or search menu. It is not an arXiv mirror or a claim that a paper has been peer reviewed.
+This archive gives approved, self-hosted papers permanent landing pages, bibliographic metadata and versioned files. It preserves the presentation of the homepage and Research listing, paper buttons, CV, navigation and search menu. A Research title links to its archive only when explicitly opted in; currently this applies only to *Diagonal trace identities for bosonic and fermionic matrices*. It is not an arXiv mirror or a claim that a paper has been peer reviewed.
 
 ## Public addresses
 
@@ -29,7 +29,8 @@ The GitHub repository itself is public. Excluding a file from the built website 
 3. Obtain its digest with `shasum -a 256 _paper_files/<slug>/v1.pdf`.
 4. Add a record to the allowlist using the existing entry as the schema example. `bib_key` must match the bibliography. Supply the digest, an actual UTC `archived_at` timestamp, the corresponding local `archived_on` date, and its IANA timezone.
 5. Copy the agreed metadata and a complete BibTeX citation into the version's `snapshot`. The title, authors, year, abstract and supplied journal/DOI/arXiv fields must agree with the bibliography. A fixed-version BibTeX URL should point to `/papers/<slug>/v1.html`. Do not invent a DOI, publication date, journal acceptance, licence or priority claim.
-6. Run the checks below, inspect the new page on desktop and mobile, and publish only after they pass.
+6. With the owner's approval, set the paper-level `link_from_research: true`. The Research title then links to the stable latest record without changing its typography or other buttons. This is optional and defaults to false. It does not add the paper to News or Selected Publications. For a new self-hosted preprint, use `entry_kind={preprint}` in the bibliography and an absolute archive PDF URL, such as `https://haoran-horace-zhu.github.io/papers/<slug>/v1.pdf`; a relative bibliography PDF path is otherwise interpreted beneath `/assets/pdf/`. Do not repoint existing PDF buttons without a separate request.
+7. Run the checks below, inspect the new page on desktop and mobile, and publish only after they pass.
 
 The snapshot is intentional: later edits to the main bibliography must not silently rewrite an old archived version. Metadata corrections that change the current snapshot should be made as a new archive version, preserving the previous record.
 
@@ -54,14 +55,16 @@ Omit `--forbid-route` only after the owner has deliberately restored the program
 
 The workflow checks against the previously deployed `gh-pages` tree before publishing. For changes confined to archive infrastructure it compares every existing page's body, links, navigation/search scripts, head resources and existing assets. Generated footer dates are restored to their previous value: an infrastructure-only update must not change the visible 'Last updated' date of an otherwise unchanged page. The legacy notebook converter also generates a random temporary filename as its HTML title; only this precisely recognised temporary label is restored from the baseline. The rest of that document must still match. Existing global structured metadata may be corrected without changing presentation. Local builds use UTC, matching GitHub's build environment, so News dates do not shift with the developer's timezone.
 
+The explicit `--allow-archive-title-links` mode permits only the recognised title-link wrapper for opted-in archive records on Research. It does not permit changed title text, reordered papers, changed paper buttons, JavaScript click handlers or stylesheet changes. All unrelated pages remain under the strict comparison, including their footer dates. The ordinary strict mode still permits no changes to existing click targets.
+
 For ordinary content updates, verification still protects archived PDF/BibTeX bytes and the scholarly content of version pages, while permitting intentional changes to the rest of the site and shared navigation. Latest landing pages and `record.json` can evolve as versions are added. New archive-only CSS does not style existing pages.
 
-The generated-site verifier checks full visible abstracts, title/author/year consistency, canonical and citation URLs, valid JSON-LD, same-directory PDF links, checksums, BibTeX/record links, robots access, sitemap inclusion, internal links and forbidden routes. Verification reports are saved as workflow artifacts. A failed check prevents deployment. Deployment runs are serialised so an older concurrent run cannot remove a version that has just been published.
+The generated-site verifier checks full visible abstracts, title/author/year consistency, canonical and citation URLs, valid JSON-LD, same-directory PDF links, checksums, BibTeX/record links, robots access, sitemap inclusion, internal links and forbidden routes. Opted-in Research title links are checked against the corresponding latest record, not a fixed version or PDF. Verification reports are saved as workflow artifacts. A failed check prevents deployment. Deployment runs are serialised so an older concurrent run cannot remove a version that has just been published.
 
 ## Discoverability and its limits
 
 Each paper has a human-readable standalone page, full abstract, downloadable text-searchable PDF, Scholar-style `citation_*` tags and `ScholarlyArticle` JSON-LD. HTML records are included in the existing sitemap. The existing robots policy allows crawling and is not changed by this feature.
 
-Because the owner requested unchanged existing click behaviour, the current Research titles and buttons have not been repointed. Crawlers can discover the archive through the sitemap and follow the archive index/version links. This is less direct than linking every title from Research, but avoids an unrequested interface change. A future owner-approved title link can improve discovery without changing its typography.
+The Diagonal paper has a normal HTML link from its Research title to its archive. Its original PDF, Abstract and Bib buttons are unchanged, as are all other paper titles. This gives people and crawlers a direct route from the homepage through Research to the archive and its versioned files, in addition to the sitemap. Future archive titles can be connected individually with the same explicit opt-in. No background or contribution paragraph is required when the author's abstract already provides that information.
 
 There are no hidden keyword blocks, bot-only pages or fabricated publication dates. Public availability and correct metadata do not guarantee Google Scholar inclusion, prompt indexing, citation by a search-enabled AI, or inclusion in model training. Search Console submission can be done separately if the owner chooses; no account connection or submission is assumed.

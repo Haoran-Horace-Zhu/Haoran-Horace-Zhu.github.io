@@ -1,7 +1,8 @@
 ---
 ---
+{% assign archived_paper = site.data.generated_paper_archive | where: 'bib_key', entry.key | first %}
 <article class="bib-entry" id="{{ entry.key }}" data-paper-key="{{ entry.key }}" aria-labelledby="title-{{ entry.key }}">
-  <h3 class="bib-entry__title" id="title-{{ entry.key }}">{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</h3>
+  <h3 class="bib-entry__title" id="title-{{ entry.key }}">{% if archived_paper.link_from_research %}<a class="bib-entry__archive-link" href="{{ archived_paper.url | relative_url }}" style="color: inherit; font: inherit; text-decoration: none;">{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}</a>{% else %}{{ entry.title | markdownify | remove: '<p>' | remove: '</p>' }}{% endif %}</h3>
   {% if entry.coauthors %}
     <p class="bib-entry__coauthors">With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
   {% endif %}

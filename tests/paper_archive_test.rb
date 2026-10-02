@@ -244,9 +244,43 @@ class PaperArchiveTest < Minitest::Test
     assert_equal 'https://example.test/papers/example-paper/v1.pdf', landing['pdf_url']
     assert_equal 'https://example.test/papers/example-paper/v1.bib', landing['bib_url']
     assert_equal false, landing['is_version']
+    assert_equal false, landing['link_from_research']
     assert_equal true, archive.papers.first['versions'].first['is_version']
     assert_equal 'https://example.test/papers/example-paper/v1.html',
                  archive.papers.first['versions'].first['canonical_url']
+  end
+
+  def test_research_link_is_an_explicit_landing_only_choice
+    initial_version = model.papers.first['versions'].first
+    @paper['link_from_research'] = true
+    paper = model.papers.first
+    assert_equal true, paper['landing']['link_from_research']
+    assert_equal initial_version, paper['versions'].first
+    refute paper['versions'].first.key?('link_from_research')
+    refute paper['landing']['versions'].first.key?('link_from_research')
+    @paper['link_from_research'] = false
+    assert_equal false, model.papers.first['landing']['link_from_research']
+  end
+
+  def test_research_link_rejects_non_boolean_values
+    ['true', 'false', 1, 0, nil, [], {}].each do |value|
+      @paper['link_from_research'] = value
+      invalid(/link_from_research must be true or false/)
+    end
+  end
+
+  def test_research_link_is_exposed_to_current_index_and_record_only
+    @paper['link_from_research'] = true
+    site = site_fixture
+    PaperArchive::Generator.new.generate(site)
+    assert_equal true, site.data['generated_paper_archive'].first['link_from_research']
+    index = site.pages.find { |page| page.url == '/papers/' }
+    assert_equal true, index.data['archived_papers'].first['link_from_research']
+    json = JSON.parse(site.pages.find { |page| page.url.end_with?('record.json') }.content)
+    assert_equal true, json['paper']['link_from_research']
+    refute json['versions'].first.key?('link_from_research')
+    version = site.pages.find { |page| page.url.end_with?('/v1.html') }
+    refute version.data['archive'].key?('link_from_research')
   end
 
   def test_no_private_paths_in_public_records

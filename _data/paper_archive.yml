@@ -3,6 +3,7 @@ schema_version: 1
 papers:
   - bib_key: Zhu2026DiagonalTrace
     slug: diagonal-trace-identities
+    link_from_research: true
     current_version: v1
     versions:
       - id: v1

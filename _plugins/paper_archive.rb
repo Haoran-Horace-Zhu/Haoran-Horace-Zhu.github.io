@@ -125,7 +125,10 @@ module PaperArchive
       seen_slugs = {}
       @manifest['papers'].each do |paper|
         fail!('Every archive paper must be a mapping') unless paper.is_a?(Hash)
-        keys!(paper, %w[bib_key slug current_version versions], 'Archive paper')
+        keys!(paper, %w[bib_key slug current_version versions link_from_research], 'Archive paper')
+        if paper.key?('link_from_research') && ![true, false].include?(paper['link_from_research'])
+          fail!('Archive paper: link_from_research must be true or false')
+        end
         key = string!(paper, 'bib_key', 'Archive paper')
         slug = string!(paper, 'slug', key)
         fail!("#{key}: unsafe slug") unless slug.match?(/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/)
@@ -189,6 +192,8 @@ module PaperArchive
       current = summaries.find { |summary| summary['id'] == current_id }
       landing = archive_hash(snapshots[current_id], current, summaries, key, slug,
                              current_id, landing_path, false)
+      # Navigation is a current site choice, not part of an immutable version.
+      landing['link_from_research'] = paper.fetch('link_from_research', false)
       @papers << { 'landing' => landing, 'versions' => version_pages }
     end
 

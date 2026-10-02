@@ -114,8 +114,8 @@ class ArchiveFixture(unittest.TestCase):
                    '</article><footer>Last updated: October 01, 2026.</footer></body></html>')
         self.replace("research/index.html", "<h1>Research</h1>", '<h1 id="research">Research</h1>')
 
-    def run_verifier(self, baseline=None, preserve=False, immutable_only=False, forbid_routes=None, preserve_notebook=False):
-        checker = verify.Verifier(self.site, baseline, preserve, immutable_only, forbid_routes, preserve_notebook)
+    def run_verifier(self, baseline=None, preserve=False, immutable_only=False, forbid_routes=None, preserve_notebook=False, allow_title_links=False):
+        checker = verify.Verifier(self.site, baseline, preserve, immutable_only, forbid_routes, preserve_notebook, allow_title_links)
         checker._text_extractor = None
         return checker.run()
 
@@ -129,6 +129,23 @@ class ArchiveFixture(unittest.TestCase):
         if not with_archive:
             shutil.rmtree(target / "papers")
         return target
+
+    def research_entry(self, linked=True, details=False):
+        title = html.escape(TITLE)
+        if linked:
+            title = '<a class="bib-entry__archive-link" href="/papers/theorem/" style="' + verify.ARCHIVE_TITLE_STYLE + '">' + title + '</a>'
+        entry = ('<article class="bib-entry" id="TheoremKey" data-paper-key="TheoremKey">'
+                 '<h3 class="bib-entry__title" id="title-TheoremKey">' + title + '</h3>'
+                 '<div class="bib-entry__actions"><a href="/papers/theorem/v1.pdf">PDF</a>'
+                 '<button type="button" data-bib-panel="bibtex-TheoremKey">Bib</button></div></article>')
+        if details:
+            entry = '<details><summary>Preprints</summary>' + entry + '</details>'
+        self.write("research/index.html", document('<h1 id="research">Research</h1>' + entry))
+
+    def opt_in_research(self, linked=True, details=False):
+        self.entry.update({"link_from_research": True, "bib_key": "TheoremKey", "current_version": "v1"})
+        self.save_record()
+        self.research_entry(linked=linked, details=details)
 
     def test_valid_minimal_archive(self):
         report = self.run_verifier()
@@ -474,6 +491,154 @@ class ArchiveFixture(unittest.TestCase):
         baseline = self.baseline()
         self.replace("index.html", "</head>", '<base href="/other/"><meta name="viewport" content="width=1"></head>')
         self.assert_failure(self.run_verifier(baseline), "existing head title")
+
+    def test_research_link_is_required_only_for_explicitly_opted_in_records(self):
+        self.assertTrue(self.run_verifier()["ok"])
+        self.entry["link_from_research"] = False
+        self.save_record()
+        self.assertTrue(self.run_verifier()["ok"])
+        self.opt_in_research(linked=False)
+        self.assert_failure(self.run_verifier(), "exactly one ordinary title anchor")
+
+    def test_research_link_opt_in_has_strict_boolean_type(self):
+        self.entry["link_from_research"] = "true"
+        self.save_record()
+        self.assert_failure(self.run_verifier(), "link_from_research must be a boolean")
+
+    def test_research_title_to_landing_to_current_pdf_path(self):
+        self.opt_in_research()
+        report = self.run_verifier()
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["research_title_links_checked"], ["TheoremKey"])
+
+    def test_research_title_link_accepts_absolute_href(self):
+        self.opt_in_research()
+        self.replace("research/index.html", 'href="/papers/theorem/"', 'href="https://example.test/papers/theorem/"')
+        self.assertTrue(self.run_verifier()["ok"])
+
+    def test_research_title_cannot_target_a_frozen_version_or_pdf(self):
+        for target in ("v1.html", "v1.pdf", "?download=1", "#abstract"):
+            with self.subTest(target=target):
+                self.opt_in_research()
+                self.replace("research/index.html", 'href="/papers/theorem/"', 'href="/papers/theorem/' + target + '"')
+                self.assert_failure(self.run_verifier(), "stable archive landing canonical URL")
+
+    def test_research_title_link_must_wrap_the_exact_title(self):
+        self.opt_in_research()
+        self.replace("research/index.html", html.escape(TITLE) + '</a>', "Read paper</a>")
+        self.assert_failure(self.run_verifier(), "title link text differs")
+
+    def test_research_title_must_not_be_hidden_or_nofollow(self):
+        for attribute in ('hidden', 'rel="nofollow"', 'aria-hidden="true"'):
+            with self.subTest(attribute=attribute):
+                self.opt_in_research()
+                self.replace("research/index.html", '<a class="bib-entry__archive-link"', '<a ' + attribute + ' class="bib-entry__archive-link"')
+                self.assert_failure(self.run_verifier(), "visible and crawlable")
+
+    def test_research_title_in_closed_preprints_details_remains_valid(self):
+        self.opt_in_research(details=True)
+        self.assertTrue(self.run_verifier()["ok"])
+
+    def test_research_title_entry_ids_must_match_the_bibliography_key(self):
+        self.opt_in_research()
+        self.replace("research/index.html", 'id="TheoremKey"', 'id="OtherKey"')
+        self.assert_failure(self.run_verifier(), "matching id/data-paper-key")
+
+    def test_opted_in_landing_must_link_to_declared_current_pdf(self):
+        self.opt_in_research()
+        self.entry["current_version"] = "v2"
+        self.save_record()
+        self.assert_failure(self.run_verifier(), "declared current archive version")
+
+    def test_opted_in_landing_needs_a_real_pdf_anchor_not_just_metadata(self):
+        self.opt_in_research()
+        self.replace("papers/theorem/index.html", '<a href="v1.pdf">PDF</a>', '')
+        self.assert_failure(self.run_verifier(), "ordinary link to the current PDF")
+
+    def test_research_title_link_path_cannot_be_blocked_by_robots(self):
+        self.opt_in_research()
+        self.write("robots.txt", "User-agent: *\nDisallow: /research/\n")
+        self.assert_failure(self.run_verifier(), "Research title-link discovery")
+
+    def test_default_strict_baseline_still_rejects_the_new_title_link(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        self.assert_failure(self.run_verifier(baseline), "existing rendered body")
+
+    def test_explicit_title_link_allowance_requires_strict_baseline(self):
+        self.assert_failure(self.run_verifier(allow_title_links=True), "requires a strict --baseline")
+        baseline = self.baseline(with_archive=True)
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True, allow_title_links=True), "requires a strict --baseline")
+
+    def test_explicit_title_link_option_allows_only_the_exact_wrapper(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        report = self.run_verifier(baseline, allow_title_links=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["research_title_wrappers_allowed"], ["TheoremKey"])
+
+    def test_existing_approved_title_link_is_unchanged_in_strict_mode(self):
+        self.opt_in_research()
+        baseline = self.baseline(with_archive=True)
+        report = self.run_verifier(baseline, allow_title_links=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["research_title_wrappers_allowed"], [])
+
+    def test_title_wrapper_option_does_not_exempt_pdf_or_bib_buttons(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        self.replace("research/index.html", 'href="/papers/theorem/v1.pdf"', 'href="/other.pdf"')
+        self.replace("research/index.html", 'data-bib-panel="bibtex-TheoremKey"', 'data-bib-panel="wrong"')
+        self.assert_failure(self.run_verifier(baseline, allow_title_links=True), "existing rendered body")
+
+    def test_title_wrapper_option_does_not_exempt_other_markup_or_assets(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        self.replace("research/index.html", '<h1 id="research">Research</h1>', '<h1 id="research">Changed prose</h1>')
+        self.write("assets/site.css", "body{color:red}")
+        report = self.run_verifier(baseline, allow_title_links=True)
+        self.assert_failure(report, "existing rendered body")
+        self.assert_failure(report, "existing asset bytes changed")
+
+    def test_title_wrapper_option_rejects_extra_handlers_and_style_changes(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        for replacement in ('onclick="alert(1)" class="bib-entry__archive-link"', 'class="bib-entry__archive-link extra"'):
+            with self.subTest(replacement=replacement):
+                self.opt_in_research()
+                self.replace("research/index.html", 'class="bib-entry__archive-link"', replacement)
+                self.assert_failure(self.run_verifier(baseline, allow_title_links=True), "existing rendered body")
+        self.opt_in_research()
+        self.replace("research/index.html", verify.ARCHIVE_TITLE_STYLE, "color: red;")
+        self.assert_failure(self.run_verifier(baseline, allow_title_links=True), "existing rendered body")
+
+    def test_title_wrapper_option_does_not_allow_silent_opt_out_removal(self):
+        self.opt_in_research()
+        baseline = self.baseline(with_archive=True)
+        self.entry["link_from_research"] = False
+        self.save_record()
+        self.research_entry(linked=False)
+        self.assert_failure(self.run_verifier(baseline, allow_title_links=True), "existing rendered body")
+
+    def test_duplicate_anchor_attributes_cannot_hide_the_browser_click_target(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        self.replace("research/index.html", 'href="/papers/theorem/"', 'href="/wrong/" href="/papers/theorem/"')
+        report = self.run_verifier(baseline, allow_title_links=True)
+        self.assert_failure(report, "existing rendered body")
+        self.assert_failure(report, "duplicate HTML attributes")
+
+    def test_duplicate_styles_cannot_be_normalised_into_the_approved_style(self):
+        self.research_entry(linked=False)
+        baseline = self.baseline(with_archive=True)
+        self.opt_in_research()
+        self.replace("research/index.html", 'style="' + verify.ARCHIVE_TITLE_STYLE + '"', 'style="color:red" style="' + verify.ARCHIVE_TITLE_STYLE + '"')
+        self.assert_failure(self.run_verifier(baseline, allow_title_links=True), "existing rendered body")
 
 
 if __name__ == "__main__":

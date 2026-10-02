@@ -118,8 +118,8 @@ jobs:
           archive_only=true
           while IFS= read -r path; do
             case "$path" in
-              _data/paper_archive.yml|_paper_files/*|_plugins/paper_archive.rb|_layouts/paper_archive.liquid|_layouts/paper_archive_index.liquid|_includes/paper_archive_metadata.liquid|assets/css/paper-archive.css|scripts/verify_paper_archive.py|tests/*|PAPER_ARCHIVE.md) ;;
-              _includes/head.liquid|_includes/metadata.liquid|_config.yml|.github/workflows/deploy.yml|.gitignore)
+              _data/paper_archive.yml|_paper_files/*|_plugins/paper_archive.rb|_layouts/paper_archive.liquid|_layouts/paper_archive_index.liquid|_layouts/bib_research.liquid|_includes/paper_archive_metadata.liquid|assets/css/paper-archive.css|scripts/verify_paper_archive.py|tests/*|PAPER_ARCHIVE.md|.github/workflows/deploy.yml) ;;
+              _includes/head.liquid|_includes/metadata.liquid|_config.yml|.gitignore)
                 if [[ "$initial_archive" != true ]]; then archive_only=false; fi ;;
               *) archive_only=false ;;
             esac
@@ -132,6 +132,10 @@ jobs:
           options=(--site _site --baseline "$baseline" --preserve-footer-date --preserve-notebook-title)
           if [[ "$archive_only" != true ]]; then
             options+=(--immutable-versions-only)
+          else
+            # Only explicitly opted-in title anchor wrappers may change in Research.
+            # All other body content, buttons, styles and public assets stay protected.
+            options+=(--allow-archive-title-links)
           fi
           # The programme pages remain hidden on the site until the owner restores them.
           if ruby -ryaml -e 'exit(YAML.load_file("_config.yml")["research_programmes_visible"] == false ? 0 : 1)'; then

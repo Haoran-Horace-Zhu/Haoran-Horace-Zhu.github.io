@@ -38,6 +38,7 @@ LITERAL_TAGS = frozenset(("script", "style", "pre", "textarea"))
 CRAWLERS = ("*", "Googlebot", "Googlebot-Scholar", "OAI-SearchBot")
 VERSION_HTML = re.compile(r"^papers/[^/]+/v[1-9][0-9]*\.html$")
 GENERATED_METADATA = frozenset(("sitemap.xml", "sitemap.xml.gz", "sitemap_index.xml", "feed.xml", "atom.xml"))
+ARCHIVE_TITLE_STYLE = "color: inherit; font: inherit; text-decoration: none;"
 
 
 def text_key(value: object) -> str:
@@ -53,6 +54,16 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def explicitly_hidden(attributes: dict) -> bool:
+    """Closed parent details remain crawlable; explicitly hidden markup does not."""
+    style = re.sub(r"\s+", "", attributes.get("style") or "").lower()
+    return bool(
+        "hidden" in attributes or (attributes.get("aria-hidden") or "").lower() == "true"
+        or set((attributes.get("class") or "").split()) & {"d-none", "hidden"}
+        or "display:none" in style or "visibility:hidden" in style
+    )
+
+
 class Page(HTMLParser):
     """Small HTML event parser: retain all body attributes, links, and scripts."""
 
@@ -64,6 +75,8 @@ class Page(HTMLParser):
         self.head_contract: list[tuple] = []
         self.metadata: dict[str, list[str]] = {}
         self.links: list[str] = []
+        self.anchors: list[dict] = []
+        self.bib_entries: list[dict] = []
         self.canonicals: list[str] = []
         self.ids: set[str] = set()
         self.h1: list[str] = []
@@ -80,6 +93,7 @@ class Page(HTMLParser):
         self._year: tuple[int, list[str]] | None = None
         self._abstract: tuple[int, list[str]] | None = None
         self._article_start: int | None = None
+        self._anchor: dict | None = None
         self.has_body = False
         self.feed(source)
         self.close()
@@ -111,6 +125,23 @@ class Page(HTMLParser):
             self.ids.add(data["name"])
         if data.get("href"):
             self.links.append(data["href"])
+        if tag == "article" and "bib-entry" in (data.get("class") or "").split():
+            self.bib_entries.append(data)
+        if tag == "a":
+            entry = next((attrs for name, attrs in reversed(self.stack)
+                          if name == "article" and "bib-entry" in (attrs.get("class") or "").split()), {})
+            heading = next((attrs for name, attrs in reversed(self.stack)
+                            if name in ("h1", "h2", "h3", "h4", "h5", "h6")
+                            and "bib-entry__title" in (attrs.get("class") or "").split()), None)
+            heading_tag = next((name for name, attrs in reversed(self.stack)
+                                if attrs is heading), None)
+            self._anchor = {
+                "attrs": data, "raw_attrs": tuple(attrs), "text": [], "bib_key": entry.get("data-paper-key"),
+                "heading": heading,
+                "heading_tag": heading_tag,
+                "body_start": len(self.body) - 1 if self.inside("body") else None,
+                "hidden": any(explicitly_hidden(attrs) for _, attrs in self.stack + [(tag, data)]),
+            }
         if tag == "meta":
             name = (data.get("name") or data.get("property") or "").lower()
             self.metadata.setdefault(name, []).append(data.get("content") or "")
@@ -156,6 +187,11 @@ class Page(HTMLParser):
         if tag == "h1" and self._h1 is not None:
             self.h1.append(text_key("".join(self._h1)))
             self._h1 = None
+        if tag == "a" and self._anchor is not None:
+            self._anchor["text"] = text_key("".join(self._anchor["text"]))
+            self._anchor["body_end"] = len(self.body) - 1 if in_body else None
+            self.anchors.append(self._anchor)
+            self._anchor = None
         if tag == "script" and self._json is not None:
             self.json_ld.append("".join(self._json))
             self._json = None
@@ -185,6 +221,8 @@ class Page(HTMLParser):
             self._json.append(data)
         if self.inside("body") and not self.inside("script") and not self.inside("style"):
             self.visible_text.append(data)
+            if self._anchor is not None:
+                self._anchor["text"].append(data)
             for field in ("_author", "_year", "_abstract"):
                 capture = getattr(self, field)
                 if capture is not None:
@@ -234,12 +272,13 @@ def author_names(value: object) -> list[str]:
 class Verifier:
     def __init__(self, site: Path, baseline: Path | None = None, preserve_footer_date: bool = False,
                  immutable_versions_only: bool = False, forbid_routes: list[str] | None = None,
-                 preserve_notebook_title: bool = False):
+                 preserve_notebook_title: bool = False, allow_archive_title_links: bool = False):
         self.site = site.resolve()
         self.baseline = baseline.resolve() if baseline else None
         self.preserve_footer_date = preserve_footer_date
         self.immutable_versions_only = immutable_versions_only
         self.preserve_notebook_title = preserve_notebook_title
+        self.allow_archive_title_links = allow_archive_title_links
         self.forbid_routes = ["/" + route.strip("/") + "/" for route in (forbid_routes or [])]
         # Strict baseline mode is for archive-only changes: preserve an existing
         # programme embargo. Ordinary builds and version-only checks permit an
@@ -250,6 +289,8 @@ class Verifier:
         self.warnings: list[str] = []
         self.checked_pages: list[str] = []
         self.checked_pdfs: dict[str, dict] = {}
+        self.checked_research_links: list[str] = []
+        self.allowed_title_wrappers: list[str] = []
         self.restored_footers: list[str] = []
         self.restored_notebook_titles: list[str] = []
         self.pages: dict[Path, Page] = {}
@@ -365,7 +406,14 @@ class Verifier:
                     if before != after:
                         self.error(relative, "existing HTML fragment changed")
                 elif old_page.body != new_page.body:
-                    self.error(relative, "existing rendered body, attributes, or click targets changed")
+                    old_body, new_body = old_page.body, new_page.body
+                    if self.allow_archive_title_links and relative == "research/index.html":
+                        old_body, old_keys = self.without_authorised_title_wrappers(old_page)
+                        new_body, new_keys = self.without_authorised_title_wrappers(new_page)
+                        if old_body == new_body:
+                            self.allowed_title_wrappers.extend(sorted(new_keys - old_keys))
+                    if old_body != new_body:
+                        self.error(relative, "existing rendered body, attributes, or click targets changed")
                 if old_page.head_contract != new_page.head_contract:
                     self.error(relative, "existing head title, links, styles, or scripts changed")
             elif relative not in GENERATED_METADATA:
@@ -373,6 +421,44 @@ class Verifier:
                     continue
                 if sha256(old_path) != sha256(new_path):
                     self.error(relative, "existing asset bytes changed")
+
+    def without_authorised_title_wrappers(self, page: Page) -> tuple[list[tuple], set[str]]:
+        """Remove only the explicitly approved title anchor's two event tokens.
+
+        No title text, child formatting, neighbouring buttons, or other markup is
+        removed. Both pages are still compared in full, and the ordinary archive
+        checks independently require each opted-in link to exist and be crawlable.
+        """
+        papers = {}
+        for record_path in sorted((self.site / "papers").glob("*/record.json")):
+            record = self.read_record(record_path.parent)
+            if record and record["paper"].get("link_from_research") is True:
+                paper = record["paper"]
+                if isinstance(paper.get("bib_key"), str) and isinstance(paper.get("canonical_url"), str):
+                    papers[paper["bib_key"]] = paper
+        removed: set[int] = set()
+        keys: set[str] = set()
+        for anchor in page.anchors:
+            key = anchor["bib_key"]
+            paper = papers.get(key)
+            if not paper or anchor["heading"] is None or anchor["heading_tag"] != "h3":
+                continue
+            attrs = anchor["attrs"]
+            href = attrs.get("href")
+            if (set(attrs) != {"class", "style", "href"}
+                    or attrs.get("class") != "bib-entry__archive-link"
+                    or attrs.get("style") != ARCHIVE_TITLE_STYLE
+                    or not href or anchor["hidden"]
+                    or anchor["heading"].get("id") != "title-" + key
+                    or anchor["text"] != text_key(paper.get("title", ""))
+                    or urljoin(urljoin(paper["canonical_url"], "../../research/"), href) != paper["canonical_url"]):
+                continue
+            start, end = anchor["body_start"], anchor["body_end"]
+            if (start is not None and end is not None and page.body[end] == ("end", "a")
+                    and page.body[start] == ("start", "a", tuple(sorted(attrs.items())))):
+                removed.update((start, end))
+                keys.add(key)
+        return [token for index, token in enumerate(page.body) if index not in removed], keys
 
     def compare_scholarly_version(self, relative: str, before: Page, after: Page) -> None:
         """Freeze the archived article, not the site's future theme or navigation."""
@@ -472,6 +558,74 @@ class Verifier:
             self.error(relative, "record does not contain a valid PDF SHA-256")
         elif self.checked_pdfs[relative]["sha256"] != expected_hash.lower():
             self.error(relative, "PDF SHA-256 differs from record.json")
+
+    def check_research_title_link(self, record_path: Path, record: dict) -> None:
+        """Validate only explicitly opted-in Research → landing → current PDF paths."""
+        paper = record["paper"]
+        enabled = paper.get("link_from_research", False)
+        if not isinstance(enabled, bool):
+            self.error(self.relative(record_path), "link_from_research must be a boolean")
+            return
+        if not enabled:
+            return
+        key = paper.get("bib_key")
+        if not isinstance(key, str) or not key:
+            self.error(self.relative(record_path), "Research title-link opt-in requires a bib_key")
+            return
+        canonical = paper.get("canonical_url")
+        if not isinstance(canonical, str) or not canonical:
+            self.error(self.relative(record_path), "Research title-link opt-in requires a canonical URL")
+            return
+        research_path = self.site / "research/index.html"
+        if not research_path.is_file():
+            self.error("research/index.html", f"missing Research page for opted-in paper {key}")
+            return
+        page = self.page(research_path)
+        research_url = self.origin + self.base_path + "/research/"
+        entries = [attrs for attrs in page.bib_entries if attrs.get("data-paper-key") == key]
+        if len(entries) != 1 or entries[0].get("id") != key:
+            self.error("research/index.html", f"requires one bibliography entry with matching id/data-paper-key for {key}")
+        anchors = [anchor for anchor in page.anchors if anchor["bib_key"] == key and anchor["heading"] is not None]
+        if len(anchors) != 1:
+            self.error("research/index.html", f"requires exactly one ordinary title anchor for opted-in paper {key}")
+            return
+        anchor = anchors[0]
+        attrs = anchor["attrs"]
+        if len(attrs) != len(anchor["raw_attrs"]):
+            self.error("research/index.html", f"title link for {key} must not contain duplicate HTML attributes")
+        target = urljoin(research_url, attrs.get("href") or "")
+        if (not attrs.get("href") or target != paper.get("canonical_url")
+                or self.resolve_url(target, research_url) != record_path.parent / "index.html"):
+            self.error("research/index.html", f"title link for {key} must target the stable archive landing canonical URL")
+        if anchor["text"] != text_key(paper.get("title", "")):
+            self.error("research/index.html", f"title link text differs from the archived paper title for {key}")
+        if anchor["heading_tag"] != "h3" or anchor["heading"].get("id") != "title-" + key:
+            self.error("research/index.html", f"title heading id does not match paper key {key}")
+        if anchor["hidden"] or "nofollow" in (attrs.get("rel") or "").lower().split():
+            self.error("research/index.html", f"title link for {key} must be visible and crawlable (no hidden/nofollow)")
+        robots = ",".join(page.metadata.get("robots", []) + page.metadata.get("googlebot", [])).lower()
+        if re.search(r"\b(?:noindex|nofollow|none)\b", robots):
+            self.error("research/index.html", "opted-in Research title links are blocked by robots metadata")
+        if self.robot_parser:
+            for agent in CRAWLERS:
+                if not self.robot_parser.can_fetch(agent, research_url):
+                    self.error("research/index.html", f"robots.txt blocks Research title-link discovery for {agent}")
+        landing = record_path.parent / "index.html"
+        current = paper.get("current_version")
+        if not isinstance(current, str) or not re.fullmatch(r"v[1-9][0-9]*", current) or paper.get("version_id") != current:
+            self.error(self.relative(record_path), "opted-in landing must identify its declared current archive version")
+        elif self.resolve_url(str(paper.get("pdf_url", "")), paper["canonical_url"]) != record_path.parent / (current + ".pdf"):
+            self.error(self.relative(record_path), "opted-in landing PDF must match its declared current archive version")
+        if landing.is_file():
+            pdf_links = [link for link in self.page(landing).anchors
+                         if link["attrs"].get("href")
+                         and len(link["attrs"]) == len(link["raw_attrs"])
+                         and urljoin(paper["canonical_url"], link["attrs"]["href"]) == paper.get("pdf_url")
+                         and not link["hidden"]
+                         and "nofollow" not in (link["attrs"].get("rel") or "").lower().split()]
+            if not pdf_links:
+                self.error(self.relative(landing), "opted-in landing needs a visible, crawlable ordinary link to the current PDF")
+        self.checked_research_links.append(key)
 
     def check_paper(self, path: Path, page: Page) -> None:
         relative = self.relative(path)
@@ -616,6 +770,8 @@ class Verifier:
             self.error("baseline", "--immutable-versions-only requires --baseline")
         if self.preserve_notebook_title and self.baseline is None:
             self.error("baseline", "--preserve-notebook-title requires --baseline")
+        if self.allow_archive_title_links and (self.baseline is None or self.immutable_versions_only):
+            self.error("baseline", "--allow-archive-title-links requires a strict --baseline comparison")
         self.compare_baseline()
         archive = self.site / "papers"
         paths = sorted(archive.rglob("*.html")) if archive.is_dir() else []
@@ -679,6 +835,7 @@ class Verifier:
         for record_path, record in self.records.items():
             if record is None:
                 continue
+            self.check_research_title_link(record_path, record)
             for item in record["versions"]:
                 if not isinstance(item, dict):
                     self.error(self.relative(record_path), "version entries must be objects")
@@ -699,6 +856,8 @@ class Verifier:
             "forbidden_routes": sorted(set(self.forbid_routes)),
             "paper_pages_checked": self.checked_pages,
             "pdfs_checked": self.checked_pdfs,
+            "research_title_links_checked": self.checked_research_links,
+            "research_title_wrappers_allowed": self.allowed_title_wrappers,
             "footer_dates_restored": self.restored_footers,
             "notebook_titles_restored": self.restored_notebook_titles,
             "errors": self.errors,
@@ -713,6 +872,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--preserve-footer-date", action="store_true")
     parser.add_argument("--preserve-notebook-title", action="store_true",
                         help="restore only exact random Jekyll notebook titles in prior assets/*.ipynb.html")
+    parser.add_argument("--allow-archive-title-links", action="store_true",
+                        help="with a strict baseline, permit only exact opted-in Research title anchor wrappers")
     parser.add_argument("--immutable-versions-only", action="store_true",
                         help="with a baseline, protect only old version scholarly content and PDF/BibTeX bytes")
     parser.add_argument("--forbid-route", action="append", default=[],
@@ -720,7 +881,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--report", type=Path, help="write a JSON verification report")
     args = parser.parse_args(argv)
     verifier = Verifier(args.site, args.baseline, args.preserve_footer_date,
-                        args.immutable_versions_only, args.forbid_route, args.preserve_notebook_title)
+                        args.immutable_versions_only, args.forbid_route, args.preserve_notebook_title,
+                        args.allow_archive_title_links)
     try:
         report = verifier.run()
     except (OSError, UnicodeError, ValueError, TypeError) as exc:
