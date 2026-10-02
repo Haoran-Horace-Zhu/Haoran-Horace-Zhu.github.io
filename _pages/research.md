@@ -23,7 +23,6 @@ nav_order: 2
   <details class="research-theme">
     <summary>
       <span>Combinatorics</span>
-      <span class="research-theme__toggle" aria-hidden="true"></span>
     </summary>
     <p>Cayley graphs, symmetric functions, quantum determinants, quadratic forms, and association schemes.</p>
   </details>
@@ -31,7 +30,6 @@ nav_order: 2
   <details class="research-theme">
     <summary>
       <span>Probability Theory</span>
-      <span class="research-theme__toggle" aria-hidden="true"></span>
     </summary>
     <p>Markov chains, random walks, random partitions, random matrices, and cutoff phenomena.</p>
   </details>
@@ -39,14 +37,13 @@ nav_order: 2
   <details class="research-theme">
     <summary>
       <span>Mathematical Physics</span>
-      <span class="research-theme__toggle" aria-hidden="true"></span>
     </summary>
     <p>Vertex-operator calculus, integrable systems, and the boson–fermion correspondence.</p>
   </details>
 </div>
 
 <details class="research-other-interests">
-  <summary><span>Other interests</span><span class="research-theme__toggle" aria-hidden="true"></span></summary>
+  <summary><span>Other interests</span></summary>
   <p>Lie algebras, arithmetic schemes, hypermatrices, the Hurwitz composition problem, and quantum information.</p>
 </details>
 </section>
