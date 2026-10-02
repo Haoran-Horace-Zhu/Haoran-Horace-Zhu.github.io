@@ -311,8 +311,8 @@ details[open] > summary .research-theme__toggle::after {
   padding-bottom: 0.7rem;
 }
 
-.research-preprints .research-bibliography__list > h2.bibliography {
-  margin-top: 0.5rem;
+.research-preprints ol.bibliography > li:first-child {
+  border-top: 0;
 }
 
 .research-thesis > h2 {

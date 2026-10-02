@@ -64,7 +64,7 @@ nav_order: 2
     <h2 class="research-preprints__label">Preprints</h2>
   </summary>
   <div class="research-bibliography__list">
-    {% bibliography --template bib_research --query @*[entry_kind=preprint] %}
+    {% bibliography --template bib_research --group_by none --query @*[entry_kind=preprint] %}
   </div>
 </details>
 
@@ -78,5 +78,5 @@ nav_order: 2
 <p class="research-bibliography__profiles"><a href="https://arxiv.org/a/zhu_h_7.html">arXiv</a><span aria-hidden="true"> · </span><a href="https://scholar.google.com/citations?user=BB5H9Z0AAAAJ">Google Scholar</a></p>
 </div>
 
-<link rel="stylesheet" href="{{ '/assets/css/research-bibliography.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/research-bibliography.css' | relative_url | bust_file_cache }}">
 <script defer src="{{ '/assets/js/research-bibliography.js' | relative_url }}"></script>
