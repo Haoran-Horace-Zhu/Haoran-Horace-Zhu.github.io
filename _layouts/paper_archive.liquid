@@ -36,6 +36,7 @@ layout: default
       {% endif %}
     </div>
 
+    {% if archive.is_version %}
     <p class="paper-archive__record">
       Archive version {{ archive_version | remove_first: 'v' | escape }}.
       {% if archive.archived_on %}
@@ -52,6 +53,7 @@ layout: default
         <a href="{{ archive_landing_path | relative_url }}">Latest archive record</a>.
       {% endif %}
     </p>
+    {% endif %}
   </header>
 
   <section class="paper-archive__section" aria-labelledby="paper-archive-abstract">
@@ -61,6 +63,7 @@ layout: default
     </div>
   </section>
 
+  {% if archive.is_version %}
   <section class="paper-archive__section" aria-labelledby="paper-archive-versions">
     <h2 id="paper-archive-versions">Archive history</h2>
     <p class="paper-archive__explanation">These dates record when copies were added to this archive, not when the paper was first written, posted or published. Archive version numbers refer only to the copies stored here.</p>
@@ -98,6 +101,37 @@ layout: default
       {% endfor %}
     </ol>
   </section>
+  {% else %}
+  <section class="paper-archive__section" aria-labelledby="paper-archive-versions">
+    <h2 id="paper-archive-versions">Version history</h2>
+    <ol class="paper-archive__versions">
+      {% assign archive_versions = archive.versions | reverse %}
+      {% for version in archive_versions %}
+        <li class="paper-archive__version">
+          <h3>
+            <a href="{{ version.html_url | escape }}">Version {{ version.id | remove_first: 'v' | escape }}</a>
+            {% if archive_versions.size > 1 and version.id == archive.current_version %}
+              <span class="paper-archive__current">Current version</span>
+            {% endif %}
+          </h3>
+          <p class="paper-archive__version-date">Added to this archive on <time datetime="{{ version.archived_at | escape }}" title="{{ version.archive_timezone | escape }}">{{ version.archived_on | date: '%-d %B %Y' }}</time>.</p>
+          <p class="paper-archive__version-links">
+            <a href="{{ version.pdf_url | escape }}" aria-label="Read PDF of archive version {{ version.id | remove_first: 'v' | escape }}">PDF</a>
+            <span aria-hidden="true"> · </span>
+            <a href="{{ version.bib_url | escape }}" download aria-label="Download BibTeX for archive version {{ version.id | remove_first: 'v' | escape }}">BibTeX</a>
+          </p>
+          {% if version.sha256 and version.sha256 != blank %}
+            <details class="paper-archive__checksum">
+              <summary>File details</summary>
+              <p>SHA-256</p>
+              <code>{{ version.sha256 | escape }}</code>
+            </details>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
 
   <section class="paper-archive__section" aria-labelledby="paper-archive-citation">
     <h2 id="paper-archive-citation">Citation</h2>
