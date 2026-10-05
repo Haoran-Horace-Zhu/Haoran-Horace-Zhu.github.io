@@ -140,6 +140,19 @@ details[open] > summary .research-theme__toggle::after {
   margin: 0;
 }
 
+.research-notes {
+  margin-bottom: 2.2rem;
+}
+
+.research-notes__status {
+  color: var(--global-text-color-light);
+  display: inline-block;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
 .research-bibliography__note {
   color: var(--global-text-color-light);
   font-size: 0.8rem;
@@ -238,6 +251,10 @@ details[open] > summary .research-theme__toggle::after {
 
 .bib-entry__panel p {
   margin: 0;
+}
+
+.bib-entry__background p + p {
+  margin-top: 0.6rem;
 }
 
 .bib-entry__panel pre {

@@ -68,6 +68,15 @@ nav_order: 2
   </div>
 </details>
 
+<section id="notes" class="research-notes" aria-labelledby="notes-heading">
+  <header class="research-bibliography__heading">
+    <h2 id="notes-heading">Notes and results <span class="research-notes__status">(not intended for publication)</span></h2>
+  </header>
+  <div class="research-bibliography__list">
+    {% bibliography --template bib_research --group_by none --query @*[entry_kind=note] %}
+  </div>
+</section>
+
 <section id="thesis" class="research-thesis" aria-labelledby="thesis-heading">
   <h2 id="thesis-heading">Thesis</h2>
   <div class="research-bibliography__list">

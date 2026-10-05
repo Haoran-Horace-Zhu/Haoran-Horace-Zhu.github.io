@@ -94,6 +94,7 @@ jobs:
       - name: Test paper archive
         run: |
           bundle exec ruby tests/paper_archive_test.rb
+          bundle exec ruby tests/research_notes_test.rb
           python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Install and Build 🔧
         run: |
