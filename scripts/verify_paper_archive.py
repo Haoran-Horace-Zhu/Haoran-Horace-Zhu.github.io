@@ -5,8 +5,8 @@ The optional baseline is a previously built site, not a source checkout. All
 old public routes, document bodies, head resources, and assets are protected.
 Only generated HTML footer dates and known temporary notebook titles can be
 restored, and only when explicitly requested. No network requests or third-party
-Python packages are required. One exact, author-approved initial AD correction
-is recorded below; it is not a general permission to rewrite archived versions.
+Python packages are required. Exact, author-approved AD corrections are recorded
+below; they are not a general permission to rewrite archived versions.
 """
 
 from __future__ import annotations
@@ -57,6 +57,11 @@ INITIAL_AD_NEW_ABSTRACT = INITIAL_AD_OLD_ABSTRACT.replace(
     "We give a deterministic cutoff time",
     "This resolves a longstanding conjecture of Aldous and Diaconis. We give a deterministic cutoff time",
 )
+
+# A subsequent author-approved correction changes only the AI disclosure in the
+# same current PDF. Keep the complete record unchanged apart from its checksum.
+AD_DISCLOSURE_OLD_SHA = "be741a6a10b2ee58190c624839ce27397fd81cf16a80421e32a22710d4e6da98"
+AD_DISCLOSURE_NEW_SHA = "2de8eeb36f4932d6bc885d431be8c5f9220936db7e19e98ba83758b22386996d"
 
 
 def initial_ad_corrected_text(text: str) -> str:
@@ -425,6 +430,34 @@ class Verifier:
         except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
             return False, set()
 
+    def ad_disclosure_correction(self) -> bool:
+        """Allow only the pinned PDF disclosure correction to the single AD v1."""
+        if self.baseline is None or not isinstance(AD_DISCLOSURE_NEW_SHA, str):
+            return False
+        old_dir, new_dir = self.baseline / INITIAL_AD_PATH, self.site / INITIAL_AD_PATH
+        if not old_dir.resolve().is_relative_to(self.baseline) or not new_dir.resolve().is_relative_to(self.site):
+            return False
+        try:
+            old = json.loads((old_dir / "record.json").read_text(encoding="utf-8"))
+            new = json.loads((new_dir / "record.json").read_text(encoding="utf-8"))
+            if (len(old["versions"]) != 1 or len(new["versions"]) != 1
+                    or old["versions"][0]["version_id"] != "v1"
+                    or old["versions"][0]["sha256"] != AD_DISCLOSURE_OLD_SHA
+                    or old["paper"]["current_version"] != "v1"
+                    or old["paper"]["version_id"] != "v1"
+                    or old["paper"]["sha256"] != AD_DISCLOSURE_OLD_SHA
+                    or new != json.loads(json.dumps(old).replace(AD_DISCLOSURE_OLD_SHA, AD_DISCLOSURE_NEW_SHA))):
+                return False
+            old_pdf, new_pdf = old_dir / "v1.pdf", new_dir / "v1.pdf"
+            return (
+                old_pdf.resolve().is_relative_to(self.baseline)
+                and new_pdf.resolve().is_relative_to(self.site)
+                and sha256(old_pdf) == AD_DISCLOSURE_OLD_SHA
+                and sha256(new_pdf) == AD_DISCLOSURE_NEW_SHA
+            )
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
+            return False
+
     def compare_baseline(self) -> None:
         if self.baseline is None:
             return
@@ -435,7 +468,8 @@ class Verifier:
             self.error("baseline", "must be a different directory from the candidate site")
             return
         initial_ad, approved_removals = self.initial_ad_correction()
-        if initial_ad:
+        ad_disclosure = self.ad_disclosure_correction()
+        if initial_ad or ad_disclosure:
             self.approved_initial_corrections = [INITIAL_AD_PATH + "v1.html", INITIAL_AD_PATH + "v1.pdf"]
             self.approved_initial_corrections.extend(sorted(approved_removals))
         for old_path in sorted(self.baseline.rglob("*")):
@@ -458,6 +492,8 @@ class Verifier:
                 before, after = old_path.read_bytes(), new_path.read_bytes()
                 if initial_ad and relative == INITIAL_AD_PATH + "v1.html":
                     before = initial_ad_corrected_text(before.decode("utf-8")).encode("utf-8")
+                if ad_disclosure and relative == INITIAL_AD_PATH + "v1.html":
+                    before = before.replace(AD_DISCLOSURE_OLD_SHA.encode("ascii"), AD_DISCLOSURE_NEW_SHA.encode("ascii"))
                 if self.preserve_footer_date:
                     restored = restore_footer_date(before, after)
                     if restored != after:
@@ -501,7 +537,7 @@ class Verifier:
                 if in_archive and not re.fullmatch(r"papers/[^/]+/v[1-9][0-9]*\.(?:pdf|bib)", relative):
                     continue
                 if sha256(old_path) != sha256(new_path) and not (
-                    initial_ad and relative == INITIAL_AD_PATH + "v1.pdf"
+                    (initial_ad or ad_disclosure) and relative == INITIAL_AD_PATH + "v1.pdf"
                 ):
                     self.error(relative, "existing asset bytes changed")
 

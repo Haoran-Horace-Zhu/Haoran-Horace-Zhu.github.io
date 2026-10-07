@@ -36,6 +36,8 @@ The snapshot is intentional: later edits to the main bibliography must not silen
 
 An explicit author-approved correction to an initial release may instead be consolidated into that release. On 6 October 2026, the author requested this for the Aldous–Diaconis paper: the corrected abstract and PDF replace the initial copy, and the briefly created second archive entry is removed. The verifier permits only this exact recorded correction; all other archived copies remain protected. `show_version_history: false` suppresses the history block on this paper's latest landing page without changing other papers.
 
+The author also corrected the AI disclosure in the same current AD copy. This replacement is checked against the exact old and new PDF checksums; its archive record, dates, abstract and citation must otherwise remain identical. It does not create another version entry or permit changes to other archived files.
+
 ## Revisions and dates
 
 For a revision, append `v2` (then `v3`, etc.), use a new PDF path, timestamp, digest and metadata snapshot, and set `current_version` to that version. Never recycle a slug or version number. The latest record follows the current version; prior version PDFs, citations and scholarly content remain fixed. Old version pages retain the history known at their creation and link to the latest record.

@@ -39,7 +39,7 @@ papers:
     versions:
       - id: v1
         source: _paper_files/cutoff-random-cayley-graphs/v1.pdf
-        sha256: be741a6a10b2ee58190c624839ce27397fd81cf16a80421e32a22710d4e6da98
+        sha256: 2de8eeb36f4932d6bc885d431be8c5f9220936db7e19e98ba83758b22386996d
         archived_at: "2026-10-07T00:00:02Z"
         archived_on: "2026-10-06"
         archive_timezone: America/Los_Angeles
