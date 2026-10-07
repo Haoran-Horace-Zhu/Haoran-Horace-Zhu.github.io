@@ -119,7 +119,7 @@ jobs:
           archive_only=true
           while IFS= read -r path; do
             case "$path" in
-              _data/paper_archive.yml|_paper_files/*|_plugins/paper_archive.rb|_layouts/paper_archive.liquid|_layouts/paper_archive_index.liquid|_layouts/bib_research.liquid|_includes/paper_archive_metadata.liquid|assets/css/paper-archive.css|scripts/verify_paper_archive.py|tests/*|PAPER_ARCHIVE.md|.github/workflows/deploy.yml) ;;
+              _data/paper_archive.yml|_paper_files/*|_plugins/paper_archive.rb|_layouts/paper_archive.liquid|_layouts/paper_archive_index.liquid|_layouts/bib_research.liquid|_includes/paper_archive_metadata.liquid|assets/css/paper-archive.css|assets/css/paper-landing.css|scripts/verify_paper_archive.py|tests/*|PAPER_ARCHIVE.md|.github/workflows/deploy.yml) ;;
               _includes/head.liquid|_includes/metadata.liquid|_config.yml|.gitignore)
                 if [[ "$initial_archive" != true ]]; then archive_only=false; fi ;;
               *) archive_only=false ;;

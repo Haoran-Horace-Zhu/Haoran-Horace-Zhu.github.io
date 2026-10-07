@@ -4,16 +4,17 @@ layout: default
 {% assign archive = page.archive %}
 {% assign archive_version = archive.version_id | default: archive.current_version %}
 <link rel="stylesheet" href="{{ '/assets/css/paper-archive.css' | relative_url }}">
+{% unless archive.is_version %}<link rel="stylesheet" href="{{ '/assets/css/paper-landing.css' | relative_url }}">{% endunless %}
 
-<article class="paper-archive" aria-labelledby="paper-archive-title">
+<article class="paper-archive{% unless archive.is_version %} paper-landing{% endunless %}" aria-labelledby="paper-archive-title">
   <nav class="paper-archive__breadcrumbs" aria-label="Paper archive navigation">
     <a href="{{ '/research/' | relative_url }}">Research</a>
     <span aria-hidden="true">/</span>
-    <a href="{{ '/papers/' | relative_url }}">Paper archive</a>
+    <a href="{{ '/papers/' | relative_url }}">{% if archive.is_version %}Paper archive{% else %}Papers{% endif %}</a>
   </nav>
 
   <header class="paper-archive__header">
-    <p class="paper-archive__eyebrow">Personal paper archive</p>
+    {% if archive.is_version %}<p class="paper-archive__eyebrow">Personal paper archive</p>{% endif %}
     <h1 id="paper-archive-title" class="paper-archive__title">{{ archive.title | escape }}</h1>
     <ul class="paper-archive__authors" aria-label="Authors">
       {% for author in archive.authors %}
@@ -26,13 +27,13 @@ layout: default
     </p>
 
     <div class="paper-archive__downloads" aria-label="Paper files">
-      <a class="paper-archive__pdf" href="{{ archive.pdf_url | escape }}">Read PDF</a>
-      <a href="{{ archive.bib_url | escape }}" download>Download BibTeX</a>
+      <a class="paper-archive__pdf" href="{{ archive.pdf_url | escape }}">{% if archive.is_version %}Read PDF{% else %}PDF{% endif %}</a>
+      <a href="{{ archive.bib_url | escape }}" download>{% if archive.is_version %}Download BibTeX{% else %}BibTeX{% endif %}</a>
       {% if archive.doi and archive.doi != blank %}
-        <a href="https://doi.org/{{ archive.doi | escape }}">Journal article (DOI)</a>
+        <a href="https://doi.org/{{ archive.doi | escape }}">{% if archive.is_version %}Journal article (DOI){% else %}DOI{% endif %}</a>
       {% endif %}
       {% if archive.arxiv and archive.arxiv != blank %}
-        <a href="https://arxiv.org/abs/{{ archive.arxiv | escape }}">arXiv record</a>
+        <a href="https://arxiv.org/abs/{{ archive.arxiv | escape }}">{% if archive.is_version %}arXiv record{% else %}arXiv{% endif %}</a>
       {% endif %}
     </div>
 
@@ -102,24 +103,26 @@ layout: default
     </ol>
   </section>
   {% else %}
-  <section class="paper-archive__section" aria-labelledby="paper-archive-versions">
-    <h2 id="paper-archive-versions">Version history</h2>
+  <section class="paper-archive__section paper-landing__versions" aria-labelledby="paper-archive-versions">
+    <h2 id="paper-archive-versions">Versions</h2>
     <ol class="paper-archive__versions">
       {% assign archive_versions = archive.versions | reverse %}
       {% for version in archive_versions %}
         <li class="paper-archive__version">
+          <div class="paper-landing__version-line">
           <h3>
             <a href="{{ version.html_url | escape }}">Version {{ version.id | remove_first: 'v' | escape }}</a>
             {% if archive_versions.size > 1 and version.id == archive.current_version %}
-              <span class="paper-archive__current">Current version</span>
+              <span class="paper-archive__current">Latest</span>
             {% endif %}
           </h3>
-          <p class="paper-archive__version-date">Added to this archive on <time datetime="{{ version.archived_at | escape }}" title="{{ version.archive_timezone | escape }}">{{ version.archived_on | date: '%-d %B %Y' }}</time>.</p>
+          <p class="paper-archive__version-date">Added <time datetime="{{ version.archived_at | escape }}" title="{{ version.archive_timezone | escape }}">{{ version.archived_on | date: '%-d %B %Y' }}</time></p>
           <p class="paper-archive__version-links">
             <a href="{{ version.pdf_url | escape }}" aria-label="Read PDF of archive version {{ version.id | remove_first: 'v' | escape }}">PDF</a>
             <span aria-hidden="true"> · </span>
             <a href="{{ version.bib_url | escape }}" download aria-label="Download BibTeX for archive version {{ version.id | remove_first: 'v' | escape }}">BibTeX</a>
           </p>
+          </div>
           {% if version.sha256 and version.sha256 != blank %}
             <details class="paper-archive__checksum">
               <summary>File details</summary>
@@ -133,9 +136,16 @@ layout: default
   </section>
   {% endif %}
 
+  {% if archive.is_version %}
   <section class="paper-archive__section" aria-labelledby="paper-archive-citation">
     <h2 id="paper-archive-citation">Citation</h2>
     <p><a href="{{ archive.bib_url | escape }}" download>Download the BibTeX citation</a>.</p>
     <pre class="paper-archive__bibtex"><code>{{ archive.bibtex | escape }}</code></pre>
   </section>
+  {% else %}
+  <details class="paper-landing__citation">
+    <summary>BibTeX citation</summary>
+    <pre class="paper-archive__bibtex"><code>{{ archive.bibtex | escape }}</code></pre>
+  </details>
+  {% endif %}
 </article>
