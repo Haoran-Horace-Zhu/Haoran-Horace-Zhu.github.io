@@ -8,6 +8,7 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "verify_paper_archive.py"
@@ -146,6 +147,144 @@ class ArchiveFixture(unittest.TestCase):
         self.entry.update({"link_from_research": True, "bib_key": "TheoremKey", "current_version": "v1"})
         self.save_record()
         self.research_entry(linked=linked, details=details)
+
+    def initial_ad_fixture(self, transient_v2=False):
+        """Add the exact abstract migration beside an unrelated protected paper."""
+        old_pdf, new_pdf = PDF + b"old AD", PDF + b"corrected AD"
+        for name, value in (("INITIAL_AD_OLD_SHA", hashlib.sha256(old_pdf).hexdigest()),
+                            ("INITIAL_AD_NEW_SHA", hashlib.sha256(new_pdf).hexdigest())):
+            override = patch.object(verify, name, value)
+            override.start()
+            self.addCleanup(override.stop)
+        folder = verify.INITIAL_AD_PATH
+        url = ORIGIN + "/" + folder
+        title = "Cutoff for random Cayley graphs of finite groups"
+
+        def version(number, abstract, checksum):
+            return {
+                "title": title, "authors": ["Haoran Zhu"], "year": "2026", "abstract": abstract,
+                "current_version": number, "version_id": number,
+                "canonical_url": url + number + ".html", "pdf_url": url + number + ".pdf",
+                "bib_url": url + number + ".bib", "sha256": checksum,
+                "bibtex": "@article{AD, title={" + title + "}, url={" + url + number + ".html}}\n",
+                "record_url": url + "record.json", "archived_at": "2026-10-07T00:00:02Z",
+                "archived_on": "2026-10-06", "archive_timezone": "America/Los_Angeles",
+                "note": "First version.",
+            }
+
+        def page(name, item):
+            schema = {"@context": "https://schema.org", "@type": "ScholarlyArticle",
+                      "headline": title, "author": [{"@type": "Person", "name": "Haoran Zhu"}],
+                      "url": item["canonical_url"], "abstract": item["abstract"],
+                      "encoding": {"contentUrl": item["pdf_url"], "sha256": item["sha256"]}}
+            self.write(folder + name,
+                       '<html><head><title>' + title + '</title><link rel="canonical" href="' + item["canonical_url"] + '">'
+                       '<meta name="citation_title" content="' + title + '">'
+                       '<meta name="citation_author" content="Haoran Zhu">'
+                       '<meta name="citation_publication_date" content="2026">'
+                       '<meta name="citation_pdf_url" content="' + item["pdf_url"] + '">'
+                       '<meta name="citation_abstract_html_url" content="' + item["canonical_url"] + '">'
+                       '<script type="application/ld+json">' + json.dumps(schema) + '</script></head>'
+                       '<body><article class="paper-archive"><h1>' + title + '</h1>'
+                       '<span class="paper-author">Haoran Zhu</span><span class="paper-year">2026</span>'
+                       '<div class="paper-archive__abstract"><p>' + item["abstract"] + '</p></div>'
+                       '<a href="' + item["pdf_url"] + '">PDF</a>'
+                       '<a href="' + item["bib_url"] + '">BibTeX</a>'
+                       '<code>' + item["sha256"] + '</code></article></body></html>')
+
+        def publish(versions):
+            latest = dict(versions[-1], canonical_url=url)
+            self.write(folder + "record.json", json.dumps({"schema_version": 1, "paper": latest, "versions": versions}))
+            page("index.html", latest)
+            for item in versions:
+                name = item["version_id"]
+                page(name + ".html", item)
+                self.write(folder + name + ".bib", item["bibtex"])
+
+        first = version("v1", verify.INITIAL_AD_OLD_ABSTRACT, verify.INITIAL_AD_OLD_SHA)
+        corrected = dict(first, abstract=verify.INITIAL_AD_NEW_ABSTRACT, sha256=verify.INITIAL_AD_NEW_SHA)
+        versions = [first]
+        self.write(folder + "v1.pdf", old_pdf)
+        if transient_v2:
+            versions.append(version("v2", verify.INITIAL_AD_NEW_ABSTRACT, verify.INITIAL_AD_NEW_SHA))
+            self.write(folder + "v2.pdf", new_pdf)
+        publish(versions)
+        locations = [url, url + "v1.html"] + ([url + "v2.html"] if transient_v2 else [])
+        self.replace("sitemap.xml", "</urlset>", "".join('<url><loc>' + loc + '</loc></url>' for loc in locations) + "</urlset>")
+        baseline = self.baseline(with_archive=True)
+        publish([corrected])
+        self.write(folder + "v1.pdf", new_pdf)
+        if transient_v2:
+            for suffix in ("html", "pdf", "bib"):
+                (self.site / folder / ("v2." + suffix)).unlink()
+            self.replace("sitemap.xml", '<url><loc>' + url + 'v2.html</loc></url>', "")
+        return baseline
+
+    def test_initial_ad_correction_from_v1_only(self):
+        report = self.run_verifier(self.initial_ad_fixture(), immutable_only=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["approved_initial_corrections"],
+                         [verify.INITIAL_AD_PATH + "v1.html", verify.INITIAL_AD_PATH + "v1.pdf"])
+
+    def test_initial_ad_correction_removes_only_the_known_transient_v2(self):
+        report = self.run_verifier(self.initial_ad_fixture(transient_v2=True), immutable_only=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(len(report["approved_initial_corrections"]), 5)
+
+    def test_corrected_ad_baseline_needs_no_exception(self):
+        self.initial_ad_fixture(transient_v2=True)
+        baseline = self.root / "corrected-baseline"
+        shutil.copytree(self.site, baseline)
+        report = self.run_verifier(baseline, immutable_only=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["approved_initial_corrections"], [])
+
+    def test_initial_ad_correction_rejects_wrong_new_pdf(self):
+        baseline = self.initial_ad_fixture()
+        self.write(verify.INITIAL_AD_PATH + "v1.pdf", PDF + b"unapproved replacement")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_initial_ad_correction_rejects_wrong_old_pdf(self):
+        baseline = self.initial_ad_fixture()
+        (baseline / verify.INITIAL_AD_PATH / "v1.pdf").write_bytes(PDF + b"unknown old version")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_initial_ad_correction_rejects_extra_abstract_change(self):
+        baseline = self.initial_ad_fixture()
+        for name in ("record.json", "index.html", "v1.html"):
+            self.replace(verify.INITIAL_AD_PATH + name, verify.INITIAL_AD_NEW_ABSTRACT,
+                         verify.INITIAL_AD_NEW_ABSTRACT + " Another claim.")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "immutable version article")
+
+    def test_initial_ad_correction_rejects_extra_version_article_change(self):
+        baseline = self.initial_ad_fixture()
+        self.replace(verify.INITIAL_AD_PATH + "v1.html", "</article>", "<p>Unapproved change</p></article>")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "immutable version article")
+
+    def test_initial_ad_correction_rejects_changed_original_date(self):
+        baseline = self.initial_ad_fixture()
+        self.replace(verify.INITIAL_AD_PATH + "record.json", "2026-10-07T00:00:02Z", "2026-10-07T00:00:03Z")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_initial_ad_correction_rejects_unknown_transient_pdf(self):
+        baseline = self.initial_ad_fixture(transient_v2=True)
+        (baseline / verify.INITIAL_AD_PATH / "v2.pdf").write_bytes(PDF + b"another version")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing public route/asset is missing")
+
+    def test_initial_ad_correction_does_not_allow_other_paper_replacement(self):
+        baseline = self.initial_ad_fixture(transient_v2=True)
+        self.write("papers/theorem/v1.pdf", PDF + b"unrelated change")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_initial_ad_correction_does_not_allow_other_paper_removal(self):
+        baseline = self.initial_ad_fixture(transient_v2=True)
+        (self.site / "papers/theorem/v1.html").unlink()
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing public route/asset is missing")
+
+    def test_initial_ad_correction_does_not_allow_bibtex_replacement(self):
+        baseline = self.initial_ad_fixture()
+        self.write(verify.INITIAL_AD_PATH + "v1.bib", BIB)
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
 
     def test_valid_minimal_archive(self):
         report = self.run_verifier()

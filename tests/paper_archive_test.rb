@@ -190,6 +190,16 @@ class PaperArchiveTest < Minitest::Test
     refute site.data.key?('generated_paper_archive')
   end
 
+  def test_history_visibility_is_a_current_landing_choice
+    assert_equal true, model.papers.first['landing']['show_version_history']
+    @paper['show_version_history'] = false
+    paper = model.papers.first
+    assert_equal false, paper['landing']['show_version_history']
+    refute paper['versions'].first.key?('show_version_history')
+    @paper['show_version_history'] = 'false'
+    invalid(/show_version_history must be true or false/)
+  end
+
   def test_adapter_rejects_existing_page_collision
     site = site_fixture
     existing = Jekyll::PageWithoutAFile.new(site, @source, 'papers', 'index.html')

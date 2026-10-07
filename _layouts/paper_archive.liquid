@@ -102,7 +102,7 @@ layout: default
       {% endfor %}
     </ol>
   </section>
-  {% else %}
+  {% elsif archive.show_version_history != false %}
   <section class="paper-archive__section paper-landing__versions" aria-labelledby="paper-archive-versions">
     <h2 id="paper-archive-versions">Versions</h2>
     <ol class="paper-archive__versions">
