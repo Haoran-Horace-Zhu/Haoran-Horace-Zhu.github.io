@@ -5,7 +5,7 @@ The optional baseline is a previously built site, not a source checkout. All
 old public routes, document bodies, head resources, and assets are protected.
 Only generated HTML footer dates and known temporary notebook titles can be
 restored, and only when explicitly requested. No network requests or third-party
-Python packages are required. Exact, author-approved AD corrections are recorded
+Python packages are required. Exact, author-approved current-copy corrections are recorded
 below; they are not a general permission to rewrite archived versions.
 """
 
@@ -63,12 +63,42 @@ INITIAL_AD_NEW_ABSTRACT = INITIAL_AD_OLD_ABSTRACT.replace(
 AD_DISCLOSURE_OLD_SHA = "be741a6a10b2ee58190c624839ce27397fd81cf16a80421e32a22710d4e6da98"
 AD_DISCLOSURE_NEW_SHA = "2de8eeb36f4932d6bc885d431be8c5f9220936db7e19e98ba83758b22386996d"
 
+# The author approved replacing only the current Oliveira copy, without a new
+# archive version. Pin both public PDFs and the complete abstract change.
+OLIVEIRA_PATH = "papers/symmetric-exclusion-independent-random-walks/"
+OLIVEIRA_OLD_SHA = "0ca6dfe2299b7d6c3e105a75964ce8c63beb3274434d001cbfba726accf773e0"
+OLIVEIRA_NEW_SHA = "2a249511acfd390507f9ad4951ac7ad3582a6f801a2fba20fe02c04478d0ed11"
+OLIVEIRA_OLD_ABSTRACT = (
+    "We prove that the total-variation mixing time of the symmetric exclusion process is at most a universal "
+    "constant times that of the same number of independent random walks, resolving a longstanding conjecture "
+    "of Oliveira. The comparison holds on every finite connected weighted graph, uniformly in the number of "
+    "particles, and extends to $L^2$ mixing times. We also compare the Dirichlet forms of exclusion on the given "
+    "graph and on the complete graph, with a coefficient that is optimal up to a universal constant."
+)
+OLIVEIRA_NEW_ABSTRACT = (
+    r"We prove that the total-variation $\varepsilon$-mixing time of the $k$-particle symmetric exclusion process "
+    r"is at most $34$ times the single-particle mixing time at error $\varepsilon/k$. The bound holds for every "
+    r"$\varepsilon\in(0,1)$ on every finite connected graph with symmetric edge rates, and $k$ may be replaced "
+    r"by the number of vacancies. This settles a conjecture of Oliveira. We also obtain bounds for the $L^2$ "
+    r"and $L^\infty$ mixing times in terms of independent walks, and a Dirichlet-form inequality with the "
+    r"complete graph whose coefficient is optimal up to a universal constant. Further consequences include "
+    r"logarithmic Sobolev inequalities and energy bounds for the spin-$1/2$ Heisenberg ferromagnet."
+)
+
 
 def initial_ad_corrected_text(text: str) -> str:
     """The only allowed scholarly changes in the corrected AD v1."""
     return text.replace(INITIAL_AD_OLD_ABSTRACT, INITIAL_AD_NEW_ABSTRACT).replace(
         INITIAL_AD_OLD_SHA, INITIAL_AD_NEW_SHA
     )
+
+
+def oliveira_corrected_text(text: str) -> str:
+    """Normalize only the approved abstract/checksum delta in Oliveira v1 HTML."""
+    # JSON-LD needs escaped TeX backslashes; visible HTML does not.
+    return text.replace(json.dumps(OLIVEIRA_OLD_ABSTRACT), json.dumps(OLIVEIRA_NEW_ABSTRACT)).replace(
+        OLIVEIRA_OLD_ABSTRACT, OLIVEIRA_NEW_ABSTRACT
+    ).replace(OLIVEIRA_OLD_SHA, OLIVEIRA_NEW_SHA)
 
 
 def text_key(value: object) -> str:
@@ -458,6 +488,44 @@ class Verifier:
         except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
             return False
 
+    def oliveira_current_copy_correction(self) -> bool:
+        """Allow only the pinned PDF/abstract replacement of the single Oliveira v1."""
+        if self.baseline is None:
+            return False
+        old_dir, new_dir = self.baseline / OLIVEIRA_PATH, self.site / OLIVEIRA_PATH
+        if not old_dir.resolve().is_relative_to(self.baseline) or not new_dir.resolve().is_relative_to(self.site):
+            return False
+        try:
+            old = json.loads((old_dir / "record.json").read_text(encoding="utf-8"))
+            new = json.loads((new_dir / "record.json").read_text(encoding="utf-8"))
+            if len(old["versions"]) != 1 or old["paper"]["show_version_history"] is not True:
+                return False
+            expected = json.loads(json.dumps(old))
+            for entry in (expected["paper"], expected["versions"][0]):
+                if (entry["bib_key"] != "Zhu2026SymmetricExclusion"
+                        or entry["current_version"] != "v1" or entry["version_id"] != "v1"
+                        or entry["sha256"] != OLIVEIRA_OLD_SHA
+                        or entry["abstract"] != OLIVEIRA_OLD_ABSTRACT
+                        or len(entry["versions"]) != 1
+                        or entry["versions"][0]["id"] != "v1"
+                        or entry["versions"][0]["sha256"] != OLIVEIRA_OLD_SHA):
+                    return False
+                entry["sha256"] = OLIVEIRA_NEW_SHA
+                entry["abstract"] = OLIVEIRA_NEW_ABSTRACT
+                entry["versions"][0]["sha256"] = OLIVEIRA_NEW_SHA
+            expected["paper"]["show_version_history"] = False
+            if new != expected:
+                return False
+            old_pdf, new_pdf = old_dir / "v1.pdf", new_dir / "v1.pdf"
+            return (
+                old_pdf.resolve().is_relative_to(self.baseline)
+                and new_pdf.resolve().is_relative_to(self.site)
+                and sha256(old_pdf) == OLIVEIRA_OLD_SHA
+                and sha256(new_pdf) == OLIVEIRA_NEW_SHA
+            )
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
+            return False
+
     def compare_baseline(self) -> None:
         if self.baseline is None:
             return
@@ -469,9 +537,12 @@ class Verifier:
             return
         initial_ad, approved_removals = self.initial_ad_correction()
         ad_disclosure = self.ad_disclosure_correction()
+        oliveira_correction = self.oliveira_current_copy_correction()
         if initial_ad or ad_disclosure:
             self.approved_initial_corrections = [INITIAL_AD_PATH + "v1.html", INITIAL_AD_PATH + "v1.pdf"]
             self.approved_initial_corrections.extend(sorted(approved_removals))
+        if oliveira_correction:
+            self.approved_initial_corrections.extend([OLIVEIRA_PATH + "v1.html", OLIVEIRA_PATH + "v1.pdf"])
         for old_path in sorted(self.baseline.rglob("*")):
             if not old_path.is_file():
                 continue
@@ -494,6 +565,8 @@ class Verifier:
                     before = initial_ad_corrected_text(before.decode("utf-8")).encode("utf-8")
                 if ad_disclosure and relative == INITIAL_AD_PATH + "v1.html":
                     before = before.replace(AD_DISCLOSURE_OLD_SHA.encode("ascii"), AD_DISCLOSURE_NEW_SHA.encode("ascii"))
+                if oliveira_correction and relative == OLIVEIRA_PATH + "v1.html":
+                    before = oliveira_corrected_text(before.decode("utf-8")).encode("utf-8")
                 if self.preserve_footer_date:
                     restored = restore_footer_date(before, after)
                     if restored != after:
@@ -537,7 +610,8 @@ class Verifier:
                 if in_archive and not re.fullmatch(r"papers/[^/]+/v[1-9][0-9]*\.(?:pdf|bib)", relative):
                     continue
                 if sha256(old_path) != sha256(new_path) and not (
-                    (initial_ad or ad_disclosure) and relative == INITIAL_AD_PATH + "v1.pdf"
+                    ((initial_ad or ad_disclosure) and relative == INITIAL_AD_PATH + "v1.pdf")
+                    or (oliveira_correction and relative == OLIVEIRA_PATH + "v1.pdf")
                 ):
                     self.error(relative, "existing asset bytes changed")
 

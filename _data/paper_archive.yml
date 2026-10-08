@@ -63,10 +63,11 @@ papers:
   - bib_key: Zhu2026SymmetricExclusion
     slug: symmetric-exclusion-independent-random-walks
     current_version: v1
+    show_version_history: false
     versions:
       - id: v1
         source: _paper_files/symmetric-exclusion-independent-random-walks/v1.pdf
-        sha256: 0ca6dfe2299b7d6c3e105a75964ce8c63beb3274434d001cbfba726accf773e0
+        sha256: 2a249511acfd390507f9ad4951ac7ad3582a6f801a2fba20fe02c04478d0ed11
         archived_at: "2026-10-07T00:00:02Z"
         archived_on: "2026-10-06"
         archive_timezone: America/Los_Angeles
@@ -78,7 +79,7 @@ papers:
           year: "2026"
           journal: Preprint
           abstract: >-
-            We prove that the total-variation mixing time of the symmetric exclusion process is at most a universal constant times that of the same number of independent random walks, resolving a longstanding conjecture of Oliveira. The comparison holds on every finite connected weighted graph, uniformly in the number of particles, and extends to $L^2$ mixing times. We also compare the Dirichlet forms of exclusion on the given graph and on the complete graph, with a coefficient that is optimal up to a universal constant.
+            We prove that the total-variation $\varepsilon$-mixing time of the $k$-particle symmetric exclusion process is at most $34$ times the single-particle mixing time at error $\varepsilon/k$. The bound holds for every $\varepsilon\in(0,1)$ on every finite connected graph with symmetric edge rates, and $k$ may be replaced by the number of vacancies. This settles a conjecture of Oliveira. We also obtain bounds for the $L^2$ and $L^\infty$ mixing times in terms of independent walks, and a Dirichlet-form inequality with the complete graph whose coefficient is optimal up to a universal constant. Further consequences include logarithmic Sobolev inequalities and energy bounds for the spin-$1/2$ Heisenberg ferromagnet.
           bibtex: |
             @article{Zhu2026SymmetricExclusion,
               author={Zhu, Haoran},

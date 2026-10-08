@@ -286,6 +286,139 @@ class ArchiveFixture(unittest.TestCase):
         self.write(verify.INITIAL_AD_PATH + "v1.bib", BIB)
         self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
 
+    def oliveira_fixture(self):
+        """Publish the exact current-copy delta beside an unrelated archive."""
+        old_pdf, new_pdf = PDF + b"old Oliveira", PDF + b"approved Oliveira"
+        for name, value in (("OLIVEIRA_OLD_SHA", hashlib.sha256(old_pdf).hexdigest()),
+                            ("OLIVEIRA_NEW_SHA", hashlib.sha256(new_pdf).hexdigest())):
+            override = patch.object(verify, name, value)
+            override.start()
+            self.addCleanup(override.stop)
+        folder = verify.OLIVEIRA_PATH
+        url = ORIGIN + "/" + folder
+        title = "Symmetric exclusion versus independent random walks via the Octopus inequality"
+        bibtex = "@article{Zhu2026SymmetricExclusion, title={" + title + "}, url={" + url + "v1.html}}\n"
+
+        def publish(abstract, checksum, show_history, pdf):
+            summary = {"id": "v1", "sha256": checksum, "note": "First version."}
+            version = {
+                "bib_key": "Zhu2026SymmetricExclusion", "title": title,
+                "authors": ["Haoran Zhu"], "year": "2026", "journal": "Preprint", "abstract": abstract,
+                "current_version": "v1", "version_id": "v1", "versions": [summary],
+                "canonical_url": url + "v1.html", "pdf_url": url + "v1.pdf",
+                "bib_url": url + "v1.bib", "record_url": url + "record.json", "bibtex": bibtex,
+                "sha256": checksum, "archived_at": "2026-10-07T00:00:02Z",
+                "archived_on": "2026-10-06", "archive_timezone": "America/Los_Angeles", "note": "First version.",
+            }
+            latest = dict(version, canonical_url=url, show_version_history=show_history)
+            self.write(folder + "record.json", json.dumps({"schema_version": 1, "paper": latest, "versions": [version]}))
+            self.write(folder + "v1.pdf", pdf)
+            self.write(folder + "v1.bib", bibtex)
+            for name, item in (("index.html", latest), ("v1.html", version)):
+                schema = {
+                    "@context": "https://schema.org", "@type": "ScholarlyArticle", "headline": title,
+                    "author": [{"@type": "Person", "name": "Haoran Zhu"}], "url": item["canonical_url"],
+                    "abstract": abstract, "description": abstract,
+                    "encoding": {"contentUrl": item["pdf_url"], "sha256": checksum},
+                }
+                self.write(folder + name,
+                           '<html><head><title>' + title + '</title><link rel="canonical" href="' + item["canonical_url"] + '">'
+                           '<meta name="citation_title" content="' + title + '">'
+                           '<meta name="citation_author" content="Haoran Zhu">'
+                           '<meta name="citation_publication_date" content="2026">'
+                           '<meta name="citation_pdf_url" content="' + item["pdf_url"] + '">'
+                           '<meta name="citation_abstract_html_url" content="' + item["canonical_url"] + '">'
+                           '<script type="application/ld+json">' + json.dumps(schema) + '</script></head>'
+                           '<body><article class="paper-archive"><h1>' + title + '</h1>'
+                           '<span class="paper-author">Haoran Zhu</span><span class="paper-year">2026</span>'
+                           '<div class="paper-archive__abstract"><p>' + html.escape(abstract) + '</p></div>'
+                           '<a href="' + item["pdf_url"] + '">PDF</a><a href="' + item["bib_url"] + '">BibTeX</a>'
+                           '<code>' + checksum + '</code></article></body></html>')
+
+        publish(verify.OLIVEIRA_OLD_ABSTRACT, verify.OLIVEIRA_OLD_SHA, True, old_pdf)
+        self.replace("sitemap.xml", "</urlset>", '<url><loc>' + url + '</loc></url>'
+                     '<url><loc>' + url + 'v1.html</loc></url></urlset>')
+        baseline = self.baseline(with_archive=True)
+        publish(verify.OLIVEIRA_NEW_ABSTRACT, verify.OLIVEIRA_NEW_SHA, False, new_pdf)
+        return baseline
+
+    def test_oliveira_current_copy_replacement_is_exactly_allowed(self):
+        baseline = self.oliveira_fixture()
+        for immutable_only in (False, True):
+            with self.subTest(immutable_only=immutable_only):
+                report = self.run_verifier(baseline, immutable_only=immutable_only)
+                self.assertTrue(report["ok"], report)
+                self.assertEqual(report["approved_initial_corrections"],
+                                 [verify.OLIVEIRA_PATH + "v1.html", verify.OLIVEIRA_PATH + "v1.pdf"])
+
+    def test_updated_oliveira_baseline_needs_no_exception(self):
+        self.oliveira_fixture()
+        baseline = self.root / "updated-baseline"
+        shutil.copytree(self.site, baseline)
+        report = self.run_verifier(baseline, immutable_only=True)
+        self.assertTrue(report["ok"], report)
+        self.assertEqual(report["approved_initial_corrections"], [])
+
+    def test_oliveira_replacement_rejects_wrong_old_pdf(self):
+        baseline = self.oliveira_fixture()
+        (baseline / verify.OLIVEIRA_PATH / "v1.pdf").write_bytes(PDF + b"unknown old copy")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_oliveira_replacement_rejects_wrong_new_pdf(self):
+        baseline = self.oliveira_fixture()
+        self.write(verify.OLIVEIRA_PATH + "v1.pdf", PDF + b"unapproved new copy")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_oliveira_replacement_preserves_all_other_record_fields(self):
+        baseline = self.oliveira_fixture()
+        path = self.site / verify.OLIVEIRA_PATH / "record.json"
+        approved = path.read_text(encoding="utf-8")
+        for field, value in (("title", "Another title"), ("authors", ["Another Author"]), ("year", "2027"),
+                             ("abstract", verify.OLIVEIRA_NEW_ABSTRACT + " Another claim."),
+                             ("bibtex", BIB), ("archived_at", "2026-10-07T00:00:03Z"),
+                             ("archived_on", "2026-10-07"), ("archive_timezone", "UTC"),
+                             ("note", "A new note"), ("current_version", "v2")):
+            with self.subTest(field=field):
+                record = json.loads(approved)
+                record["paper"][field] = value
+                record["versions"][0][field] = value
+                self.write(verify.OLIVEIRA_PATH + "record.json", json.dumps(record))
+                self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+        path.write_text(approved, encoding="utf-8")
+
+    def test_oliveira_replacement_rejects_an_extra_version(self):
+        baseline = self.oliveira_fixture()
+        path = self.site / verify.OLIVEIRA_PATH / "record.json"
+        record = json.loads(path.read_text(encoding="utf-8"))
+        record["versions"].append(dict(record["versions"][0], version_id="v2"))
+        self.write(verify.OLIVEIRA_PATH + "record.json", json.dumps(record))
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_oliveira_replacement_rejects_extra_version_page_changes(self):
+        baseline = self.oliveira_fixture()
+        self.replace(verify.OLIVEIRA_PATH + "v1.html", "</article>", "<p>Unapproved change</p></article>")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "immutable version article")
+
+    def test_oliveira_replacement_does_not_allow_bibtex_replacement(self):
+        baseline = self.oliveira_fixture()
+        self.write(verify.OLIVEIRA_PATH + "v1.bib", BIB)
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_oliveira_replacement_does_not_allow_other_paper_replacement(self):
+        baseline = self.oliveira_fixture()
+        self.write("papers/theorem/v1.pdf", PDF + b"unrelated replacement")
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing asset bytes changed")
+
+    def test_oliveira_replacement_does_not_allow_other_paper_removal(self):
+        baseline = self.oliveira_fixture()
+        (self.site / "papers/theorem/v1.html").unlink()
+        self.assert_failure(self.run_verifier(baseline, immutable_only=True), "existing public route/asset is missing")
+
+    def test_oliveira_replacement_does_not_exempt_unrelated_pages_in_strict_mode(self):
+        baseline = self.oliveira_fixture()
+        self.replace("index.html", "<h1>Home</h1>", "<h1>Changed home</h1>")
+        self.assert_failure(self.run_verifier(baseline), "existing rendered body")
+
     def test_valid_minimal_archive(self):
         report = self.run_verifier()
         self.assertTrue(report["ok"], report)

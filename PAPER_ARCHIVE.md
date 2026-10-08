@@ -38,6 +38,8 @@ An explicit author-approved correction to an initial release may instead be cons
 
 The author also corrected the AI disclosure in the same current AD copy. This replacement is checked against the exact old and new PDF checksums; its archive record, dates, abstract and citation must otherwise remain identical. It does not create another version entry or permit changes to other archived files.
 
+The author subsequently approved replacing the current Oliveira paper with the updated manuscript and its exact abstract, keeping the existing `v1.pdf` address and a single archive entry. The public PDF omits the contact footnote and author asterisk; its mathematical text is unchanged from the approved updated manuscript. The verifier pins the old and new public PDF checksums and the complete abstract change. Only those fields and the latest landing page's `show_version_history: false` choice may change; the title, authors, citation, original archive dates and all unrelated archived copies remain protected. This specific replacement does not authorize future in-place revisions.
+
 ## Revisions and dates
 
 For a revision, append `v2` (then `v3`, etc.), use a new PDF path, timestamp, digest and metadata snapshot, and set `current_version` to that version. Never recycle a slug or version number. The latest record follows the current version; prior version PDFs, citations and scholarly content remain fixed. Old version pages retain the history known at their creation and link to the latest record.
