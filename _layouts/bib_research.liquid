@@ -21,6 +21,7 @@
     {% if entry.doi %}<a href="{% unless entry.doi contains '://' %}https://doi.org/{% endunless %}{{ entry.doi }}">DOI</a>{% endif %}
     {% if entry.arxiv %}<a href="https://arxiv.org/abs/{{ entry.arxiv }}">arXiv</a>{% endif %}
     {% if entry.pdf %}<a href="{% if entry.pdf contains '://' %}{{ entry.pdf }}{% else %}{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}{% endif %}">PDF</a>{% endif %}
+    {% if entry.slides %}<a href="{% if entry.slides contains '://' %}{{ entry.slides }}{% else %}{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}{% endif %}">Slides</a>{% endif %}
     {% if entry.html %}<a href="{% if entry.html contains '://' %}{{ entry.html }}{% else %}{{ entry.html | prepend: '/assets/html/' | relative_url }}{% endif %}">HTML</a>{% endif %}
     {% if entry.website %}<a href="{{ entry.website }}">Website</a>{% endif %}
     {% if entry.bibtex_show %}<button type="button" hidden data-bib-panel="bibtex-{{ entry.key }}" aria-controls="bibtex-{{ entry.key }}" aria-expanded="false">Bib</button>{% endif %}

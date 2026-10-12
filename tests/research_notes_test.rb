@@ -67,6 +67,32 @@ class ResearchNotesTest < Minitest::Test
     refute_includes render(@entry.merge('entry_kind' => 'preprint')), '>Background</button>'
   end
 
+  def test_local_slides_link_uses_pdf_directory
+    html = render(@entry.merge('slides' => 'example-slides.pdf'))
+    assert_includes html, 'href="/assets/pdf/example-slides.pdf">Slides</a>'
+    assert_operator html.index('>PDF</a>'), :<, html.index('>Slides</a>')
+  end
+
+  def test_absolute_slides_link_is_preserved
+    html = render(@entry.merge('slides' => 'https://example.org/talk.pdf'))
+    assert_includes html, 'href="https://example.org/talk.pdf">Slides</a>'
+    refute_includes html, '/assets/pdf/https://'
+  end
+
+  def test_slides_link_is_absent_without_slides
+    refute_includes render, '>Slides</a>'
+  end
+
+  def test_slides_are_not_part_of_bibtex_citation
+    entry = @entry.merge(
+      'slides' => 'example-slides.pdf',
+      'bibtex' => @entry['bibtex'].sub("  year = {2026}", "  slides = {example-slides.pdf},\n  year = {2026}")
+    )
+    citation = render(entry)[/<pre><code>(.*?)<\/code><\/pre>/m, 1]
+    refute_includes citation, 'slides'
+    assert_includes citation, 'A mathematical note'
+  end
+
   def test_background_is_not_part_of_bibtex_citation
     citation = render[/<pre><code>(.*?)<\/code><\/pre>/m, 1]
     refute_match(/background|personal account|entry_kind/, citation)
