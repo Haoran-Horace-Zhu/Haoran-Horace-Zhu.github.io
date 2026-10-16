@@ -63,6 +63,18 @@ INITIAL_AD_NEW_ABSTRACT = INITIAL_AD_OLD_ABSTRACT.replace(
 AD_DISCLOSURE_OLD_SHA = "be741a6a10b2ee58190c624839ce27397fd81cf16a80421e32a22710d4e6da98"
 AD_DISCLOSURE_NEW_SHA = "2de8eeb36f4932d6bc885d431be8c5f9220936db7e19e98ba83758b22386996d"
 
+# The author moved this paper's download to ResearchGate and requested removal
+# of the one hosted copy. This is an exact five-route removal, not a general
+# exemption for deleting archives or changing another paper's published files.
+AD_REMOVAL_SHA = "2de8eeb36f4932d6bc885d431be8c5f9220936db7e19e98ba83758b22386996d"
+AD_REMOVAL_KEY = "Zhu2026RandomCayleyCutoff"
+AD_REMOVAL_TITLE = "Cutoff for random Cayley graphs of finite groups"
+AD_RESEARCHGATE_URL = (
+    "https://www.researchgate.net/publication/415311390_"
+    "Cutoff_for_random_Cayley_graphs_of_finite_groups"
+)
+AD_REMOVAL_FILES = frozenset(("index.html", "v1.html", "v1.pdf", "v1.bib", "record.json"))
+
 # The author approved replacing only the current Oliveira copy, without a new
 # archive version. Pin both public PDFs and the complete abstract change.
 OLIVEIRA_PATH = "papers/symmetric-exclusion-independent-random-walks/"
@@ -354,6 +366,7 @@ class Verifier:
         self.restored_footers: list[str] = []
         self.restored_notebook_titles: list[str] = []
         self.approved_initial_corrections: list[str] = []
+        self.approved_archive_removals: list[str] = []
         self.pages: dict[Path, Page] = {}
         self.records: dict[Path, dict | None] = {}
         self.origin: str | None = None
@@ -526,6 +539,52 @@ class Verifier:
         except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
             return False
 
+    def ad_archive_removal(self) -> set[str]:
+        """Recognize only the authorised AD removal with its replacement link."""
+        if self.baseline is None:
+            return set()
+        old_dir, new_dir = self.baseline / INITIAL_AD_PATH, self.site / INITIAL_AD_PATH
+        if (not old_dir.resolve().is_relative_to(self.baseline)
+                or not new_dir.resolve().is_relative_to(self.site)
+                or old_dir.is_symlink() or new_dir.exists() or new_dir.is_symlink()):
+            return set()
+        try:
+            old_files = list(old_dir.iterdir())
+            if ({path.name for path in old_files} != AD_REMOVAL_FILES
+                    or any(not path.is_file() or path.is_symlink() for path in old_files)
+                    or sha256(old_dir / "v1.pdf") != AD_REMOVAL_SHA):
+                return set()
+            record = json.loads((old_dir / "record.json").read_text(encoding="utf-8"))
+            if record["schema_version"] != 1 or len(record["versions"]) != 1:
+                return set()
+            landing = record["paper"]["canonical_url"]
+            parsed = urlsplit(landing)
+            if (parsed.scheme != "https" or not parsed.netloc or parsed.query or parsed.fragment
+                    or not parsed.path.endswith("/" + INITIAL_AD_PATH)):
+                return set()
+            for entry, canonical in ((record["paper"], landing), (record["versions"][0], landing + "v1.html")):
+                if (entry["bib_key"] != AD_REMOVAL_KEY or entry["title"] != AD_REMOVAL_TITLE
+                        or entry["slug"] != "cutoff-random-cayley-graphs"
+                        or entry["authors"] != ["Haoran Zhu"] or entry["year"] != "2026"
+                        or entry["current_version"] != "v1" or entry["version_id"] != "v1"
+                        or entry["sha256"] != AD_REMOVAL_SHA or entry["canonical_url"] != canonical
+                        or entry["pdf_url"] != landing + "v1.pdf"
+                        or entry["bib_url"] != landing + "v1.bib"
+                        or len(entry["versions"]) != 1
+                        or entry["versions"][0]["id"] != "v1"
+                        or entry["versions"][0]["sha256"] != AD_REMOVAL_SHA):
+                    return set()
+            research = self.page(self.site / "research/index.html")
+            entries = [entry for entry in research.bib_entries if entry.get("data-paper-key") == AD_REMOVAL_KEY]
+            links = [link for link in research.anchors if link["bib_key"] == AD_REMOVAL_KEY and link["text"] == "PDF"]
+            if (len(entries) != 1 or len(links) != 1 or links[0]["hidden"]
+                    or links[0]["attrs"].get("href") != AD_RESEARCHGATE_URL
+                    or len(links[0]["attrs"]) != len(links[0]["raw_attrs"])):
+                return set()
+            return {INITIAL_AD_PATH + name for name in AD_REMOVAL_FILES}
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError, IndexError):
+            return set()
+
     def compare_baseline(self) -> None:
         if self.baseline is None:
             return
@@ -536,6 +595,9 @@ class Verifier:
             self.error("baseline", "must be a different directory from the candidate site")
             return
         initial_ad, approved_removals = self.initial_ad_correction()
+        archive_removals = self.ad_archive_removal()
+        self.approved_archive_removals = sorted(archive_removals)
+        approved_removals |= archive_removals
         ad_disclosure = self.ad_disclosure_correction()
         oliveira_correction = self.oliveira_current_copy_correction()
         if initial_ad or ad_disclosure:
@@ -1054,6 +1116,7 @@ class Verifier:
             "footer_dates_restored": self.restored_footers,
             "notebook_titles_restored": self.restored_notebook_titles,
             "approved_initial_corrections": self.approved_initial_corrections,
+            "approved_archive_removals": self.approved_archive_removals,
             "errors": self.errors,
             "warnings": self.warnings,
         }

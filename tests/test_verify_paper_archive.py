@@ -419,6 +419,132 @@ class ArchiveFixture(unittest.TestCase):
         self.replace("index.html", "<h1>Home</h1>", "<h1>Changed home</h1>")
         self.assert_failure(self.run_verifier(baseline), "existing rendered body")
 
+    def ad_removal_fixture(self):
+        """Keep Research unchanged while removing only the approved hosted copy."""
+        pdf = PDF + b"approved AD removal copy"
+        override = patch.object(verify, "AD_REMOVAL_SHA", hashlib.sha256(pdf).hexdigest())
+        override.start()
+        self.addCleanup(override.stop)
+        folder = verify.INITIAL_AD_PATH
+        url = ORIGIN + "/" + folder
+        summary = {"id": "v1", "sha256": verify.AD_REMOVAL_SHA}
+        version = {
+            "bib_key": verify.AD_REMOVAL_KEY, "title": verify.AD_REMOVAL_TITLE,
+            "slug": "cutoff-random-cayley-graphs", "authors": ["Haoran Zhu"], "year": "2026",
+            "current_version": "v1", "version_id": "v1", "sha256": verify.AD_REMOVAL_SHA,
+            "versions": [summary], "canonical_url": url + "v1.html",
+            "pdf_url": url + "v1.pdf", "bib_url": url + "v1.bib",
+        }
+        record = {"schema_version": 1, "paper": dict(version, canonical_url=url), "versions": [version]}
+        self.write(folder + "record.json", json.dumps(record))
+        self.write(folder + "v1.pdf", pdf)
+        self.write(folder + "v1.bib", "@article{" + verify.AD_REMOVAL_KEY + "}\n")
+        for name in ("index.html", "v1.html"):
+            self.write(folder + name, document('<h1>' + verify.AD_REMOVAL_TITLE + '</h1>'))
+        entry = ('<article class="bib-entry" data-paper-key="' + verify.AD_REMOVAL_KEY + '">'
+                 '<h3 class="bib-entry__title">' + verify.AD_REMOVAL_TITLE + '</h3>'
+                 '<div class="bib-entry__actions"><a href="' + verify.AD_RESEARCHGATE_URL + '">PDF</a></div></article>')
+        self.write("research/index.html", document('<h1 id="research">Research</h1>' + entry))
+        self.replace("papers/index.html", '</body>', '<a href="' + url + '">AD</a></body>')
+        self.replace("sitemap.xml", '</urlset>', '<url><loc>' + url + '</loc></url></urlset>')
+        baseline = self.baseline(with_archive=True)
+        shutil.rmtree(self.site / folder)
+        self.replace("papers/index.html", '<a href="' + url + '">AD</a>', '')
+        self.replace("sitemap.xml", '<url><loc>' + url + '</loc></url>', '')
+        return baseline
+
+    def assert_ad_removal_rejected(self, baseline):
+        for immutable_only in (False, True):
+            with self.subTest(immutable_only=immutable_only):
+                report = self.run_verifier(baseline, immutable_only=immutable_only)
+                self.assert_failure(report, "existing public route/asset is missing")
+                self.assertEqual(report["approved_archive_removals"], [])
+
+    def test_ad_archive_removal_is_exact_in_strict_and_immutable_modes(self):
+        baseline = self.ad_removal_fixture()
+        for immutable_only in (False, True):
+            with self.subTest(immutable_only=immutable_only):
+                report = self.run_verifier(baseline, immutable_only=immutable_only,
+                                           forbid_routes=["/" + verify.INITIAL_AD_PATH])
+                self.assertTrue(report["ok"], report)
+                self.assertEqual(report["approved_archive_removals"],
+                                 sorted(verify.INITIAL_AD_PATH + name for name in verify.AD_REMOVAL_FILES))
+                self.assertEqual(report["approved_initial_corrections"], [])
+                self.assertIn("papers/theorem/v1.html", report["paper_pages_checked"])
+
+    def test_ad_archive_removal_rejects_unknown_pdf_hash(self):
+        baseline = self.ad_removal_fixture()
+        (baseline / verify.INITIAL_AD_PATH / "v1.pdf").write_bytes(PDF + b"unapproved copy")
+        self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_rejects_extra_version_file(self):
+        baseline = self.ad_removal_fixture()
+        (baseline / verify.INITIAL_AD_PATH / "v2.pdf").write_bytes(PDF)
+        self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_rejects_extra_record_version(self):
+        baseline = self.ad_removal_fixture()
+        path = baseline / verify.INITIAL_AD_PATH / "record.json"
+        record = json.loads(path.read_text())
+        record["versions"].append(dict(record["versions"][0], version_id="v2"))
+        path.write_text(json.dumps(record))
+        self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_rejects_wrong_record_identity(self):
+        baseline = self.ad_removal_fixture()
+        path = baseline / verify.INITIAL_AD_PATH / "record.json"
+        original = path.read_text()
+        for field, value in (("bib_key", "UnrelatedPaper"), ("title", "Another paper"),
+                             ("version_id", "v2"), ("sha256", "0" * 64)):
+            with self.subTest(field=field):
+                record = json.loads(original)
+                record["versions"][0][field] = value
+                path.write_text(json.dumps(record))
+                self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_rejects_partial_removal(self):
+        baseline = self.ad_removal_fixture()
+        self.write(verify.INITIAL_AD_PATH + "v1.pdf", (baseline / verify.INITIAL_AD_PATH / "v1.pdf").read_bytes())
+        self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_requires_exact_visible_researchgate_pdf_link(self):
+        baseline = self.ad_removal_fixture()
+        path = self.site / "research/index.html"
+        original = path.read_text()
+        for candidate in (
+            original.replace(verify.AD_RESEARCHGATE_URL, "https://example.org/wrong-paper"),
+            original.replace('>PDF</a>', '>ResearchGate</a>'),
+            original.replace('<a href="' + verify.AD_RESEARCHGATE_URL, '<a hidden href="' + verify.AD_RESEARCHGATE_URL),
+            original.replace(verify.AD_REMOVAL_KEY, "AnotherPaper"),
+        ):
+            with self.subTest(candidate=candidate):
+                path.write_text(candidate)
+                self.assert_ad_removal_rejected(baseline)
+
+    def test_ad_archive_removal_protects_other_paper_deletion(self):
+        baseline = self.ad_removal_fixture()
+        (self.site / "papers/theorem/v1.pdf").unlink()
+        for immutable_only in (False, True):
+            report = self.run_verifier(baseline, immutable_only=immutable_only)
+            self.assert_failure(report, "papers/theorem/v1.pdf: existing public route/asset is missing")
+
+    def test_ad_archive_removal_protects_other_paper_bytes(self):
+        baseline = self.ad_removal_fixture()
+        self.write("papers/theorem/v1.bib", BIB + "unrelated change")
+        for immutable_only in (False, True):
+            self.assert_failure(self.run_verifier(baseline, immutable_only=immutable_only), "existing asset bytes changed")
+
+    def test_ad_archive_removal_protects_unrelated_presentation(self):
+        baseline = self.ad_removal_fixture()
+        self.replace("index.html", "<h1>Home</h1>", "<h1>Changed home</h1>")
+        self.assert_failure(self.run_verifier(baseline), "existing rendered body")
+
+    def test_removed_ad_route_cannot_be_republished(self):
+        self.ad_removal_fixture()
+        self.write(verify.INITIAL_AD_PATH + "v1.pdf", PDF)
+        report = self.run_verifier(forbid_routes=["/" + verify.INITIAL_AD_PATH])
+        self.assert_failure(report, "hidden research programme was generated")
+
     def test_valid_minimal_archive(self):
         report = self.run_verifier()
         self.assertTrue(report["ok"], report)

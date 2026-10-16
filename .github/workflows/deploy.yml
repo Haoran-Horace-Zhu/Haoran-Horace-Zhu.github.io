@@ -131,6 +131,8 @@ jobs:
           git fetch origin gh-pages --depth=1
           git archive FETCH_HEAD | tar -x -C "$baseline"
           options=(--site _site --baseline "$baseline" --preserve-footer-date --preserve-notebook-title)
+          # This paper is now linked only through ResearchGate; do not republish its removed archive.
+          options+=(--forbid-route /papers/cutoff-random-cayley-graphs/)
           if [[ "$archive_only" != true ]]; then
             options+=(--immutable-versions-only)
           else

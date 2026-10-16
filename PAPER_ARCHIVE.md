@@ -42,6 +42,8 @@ The author subsequently approved replacing the current Oliveira paper with the u
 
 ## Revisions and dates
 
+On 15 October 2026, the author requested removal of the website-hosted copy of *Cutoff for random Cayley graphs of finite groups*. Its PDF, landing page, version page, local citation file and machine-readable archive record are no longer published. The Research listing remains unchanged in appearance: its **PDF** link and citation URL point to the author's ResearchGate publication page. The deployment verifier permits only the exact approved removal and continues to protect all other archived papers. This does not rewrite Git history.
+
 For a revision, append `v2` (then `v3`, etc.), use a new PDF path, timestamp, digest and metadata snapshot, and set `current_version` to that version. Never recycle a slug or version number. The latest record follows the current version; prior version PDFs, citations and scholarly content remain fixed. Old version pages retain the history known at their creation and link to the latest record.
 
 An **archive date** records the creation of that archive copy. It is not evidence of the first public posting, the date of a mathematical result, or the journal publication date. The first record preserves an already-public PDF unchanged, and explicitly says so. Citation dates come from the bibliography, never from an archive timestamp. Version numbers are labelled **archive versions**, not manuscript or arXiv versions.
