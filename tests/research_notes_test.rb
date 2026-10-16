@@ -100,6 +100,17 @@ class ResearchNotesTest < Minitest::Test
     assert_includes citation, '2026'
   end
 
+  def test_pdf_label_is_preserved_for_researchgate_link
+    url = 'https://www.researchgate.net/publication/415311390_Cutoff_for_random_Cayley_graphs_of_finite_groups'
+    entry = @entry.merge('entry_kind' => 'preprint', 'pdf' => url, 'url' => url)
+    html = render(entry)
+    assert_includes html, "href=\"#{url}\">PDF</a>"
+    refute_includes html, '>ResearchGate</a>'
+    refute_includes html[/<h3\b.*?<\/h3>/m], '<a '
+    assert_includes html, 'data-bib-panel="abstract-ExampleNote"'
+    assert_includes html, 'data-bib-panel="bibtex-ExampleNote"'
+  end
+
   def test_notes_section_has_its_own_query_and_follows_preprints
     page = File.read(File.expand_path('../_pages/research.md', __dir__))
     assert_operator page.index('id="preprints"'), :<, page.index('id="notes"')
