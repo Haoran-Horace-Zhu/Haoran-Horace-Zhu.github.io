@@ -44,6 +44,6 @@ I am a PhD student in Mathematics at Nanyang Technological University, working u
   <p><em>For some projects, I’ll stick to the old-fashioned way, with no AI at all. I think it’s time I kept a bit of the fun for myself.</em></p>
 </div>
 
-<div class="homepage-reflection">
+<div class="homepage-reflection homepage-journal-statement">
   <p><em>European Journal of Combinatorics is a trash journal. I will never submit a paper to it or serve as a reviewer for it.</em></p>
 </div>

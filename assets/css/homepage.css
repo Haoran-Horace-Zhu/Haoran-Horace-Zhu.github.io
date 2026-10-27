@@ -15,6 +15,11 @@ html:not([data-theme=dark]) body.homepage {
 html:not([data-theme=dark]) body.homepage .homepage-reflection {
   background-color: var(--global-bg-color);
 }
+body.homepage .homepage-journal-statement {
+  border: 2px solid #111111;
+  border-radius: 0;
+  color: var(--global-text-color);
+}
 html:not([data-theme=dark]) body.homepage .profile,
 html:not([data-theme=dark]) body.homepage .academic-overview__section {
   background-color: #f5f9fe;
