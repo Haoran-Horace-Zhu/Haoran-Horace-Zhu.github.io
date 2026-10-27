@@ -28,6 +28,7 @@ selected_papers: true
 selected_hide_authors:
   - Zhu2026Larsson
 social: true
+journal_statement_visible: false
 ---
 
 I am a PhD student in Mathematics at Nanyang Technological University, working under the supervision of [Professor Gary Greaves](https://grwgrvs.github.io/). My research lies at the interface of combinatorics, probability, and mathematical physics.
@@ -44,6 +45,8 @@ I am a PhD student in Mathematics at Nanyang Technological University, working u
   <p><em>For some projects, I’ll stick to the old-fashioned way, with no AI at all. I think it’s time I kept a bit of the fun for myself.</em></p>
 </div>
 
+{% if page.journal_statement_visible %}
 <div class="homepage-reflection homepage-journal-statement">
   <p><em>European Journal of Combinatorics is a trash journal. I will never submit a paper to it or serve as a reviewer for it.</em></p>
 </div>
+{% endif %}
