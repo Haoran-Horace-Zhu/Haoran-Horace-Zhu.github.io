@@ -57,6 +57,23 @@ body {
   margin-top: 0.85rem;
 }
 
+.homepage-reflection.reflection-note {
+  margin: 0.9rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid #a7bed5;
+  color: #202b36;
+  font-size: 1rem;
+}
+
+.homepage-reflection.reflection-note > p {
+  color: inherit;
+}
+
+html[data-theme="dark"] .homepage-reflection.reflection-note {
+  border-color: #4c6c86;
+  color: var(--global-text-color);
+}
+
 .navbar {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);

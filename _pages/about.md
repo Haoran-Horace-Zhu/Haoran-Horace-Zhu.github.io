@@ -33,16 +33,16 @@ journal_statement_visible: false
 
 I am a PhD student in Mathematics at Nanyang Technological University, working under the supervision of [Professor Gary Greaves](https://grwgrvs.github.io/). My research lies at the interface of combinatorics, probability, and mathematical physics.
 
-<div class="homepage-reflection">
-  <p><em>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</em></p>
+<div class="homepage-reflection reflection-note">
+  <p>I have always enjoyed building theory by solving problems; now I am learning to solve problems by building theory.</p>
 </div>
 
-<div class="homepage-reflection homepage-ai-statement">
-  <p><em>For any of my papers that carry an AI-use statement, I take full responsibility for the work and give up all credit for it.</em></p>
+<div class="homepage-reflection reflection-note homepage-ai-statement">
+  <p>For any of my papers that carry an AI-use statement, I take full responsibility for the work and give up all credit for it.</p>
 </div>
 
-<div class="homepage-reflection homepage-ai-free-projects">
-  <p><em>For some projects, I’ll stick to the old-fashioned way, with no AI at all. I think it’s time I kept a bit of the fun for myself.</em></p>
+<div class="homepage-reflection reflection-note homepage-ai-free-projects">
+  <p>For some projects, I’ll stick to the old-fashioned way, with no AI at all. I think it’s time I kept a bit of the fun for myself.</p>
 </div>
 
 {% if page.journal_statement_visible %}
