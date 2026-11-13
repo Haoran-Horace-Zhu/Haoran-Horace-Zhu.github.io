@@ -24,14 +24,14 @@ nav_order: 2
     <summary>
       <span>Combinatorics</span>
     </summary>
-    <p>Cayley graphs, symmetric functions, quantum determinants, quadratic forms, and association schemes.</p>
+    <p>Cayley graphs, symmetric functions, quadratic forms, and association schemes.</p>
   </details>
 
   <details class="research-theme">
     <summary>
       <span>Probability Theory</span>
     </summary>
-    <p>Markov chains, random walks, random partitions, random matrices, and cutoff phenomena.</p>
+    <p>Markov chains, random walks, the interchange process, the exclusion process, cutoff phenomena, and random partitions.</p>
   </details>
 
   <details class="research-theme">
@@ -44,7 +44,7 @@ nav_order: 2
 
 <details class="research-other-interests">
   <summary><span>Other interests</span></summary>
-  <p>Lie algebras, arithmetic schemes, hypermatrices, the Hurwitz composition problem, and quantum information.</p>
+  <p>Lie algebras, arithmetic schemes, the Hurwitz composition problem, hypermatrices, quantum determinants, random matrices, and quantum information.</p>
 </details>
 </section>
 
