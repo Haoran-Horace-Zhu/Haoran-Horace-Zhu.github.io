@@ -6,6 +6,7 @@ description: Publications and preprints in combinatorics, probability, algebra, 
 hide_description: true
 nav: true
 nav_order: 2
+preprints_visible: false # Set to true to restore the expandable list.
 ---
 
 <section class="research-overview" aria-label="Research interests">
@@ -59,14 +60,22 @@ nav_order: 2
   </div>
 </section>
 
-<details id="preprints" class="research-preprints">
-  <summary>
-    <h2 class="research-preprints__label">Preprints</h2>
-  </summary>
-  <div class="research-bibliography__list">
-    {% bibliography --template bib_research --group_by none --query @*[entry_kind=preprint] %}
+{% if page.preprints_visible %}
+  <details id="preprints" class="research-preprints">
+    <summary class="research-preprints__header">
+      <h2 class="research-preprints__label">Preprints</h2>
+    </summary>
+    <div class="research-bibliography__list">
+      {% bibliography --template bib_research --group_by none --query @*[entry_kind=preprint] %}
+    </div>
+  </details>
+{% else %}
+  <div id="preprints" class="research-preprints">
+    <div class="research-preprints__header">
+      <h2 class="research-preprints__label">Preprints</h2>
+    </div>
   </div>
-</details>
+{% endif %}
 
 <section id="notes" class="research-notes" aria-labelledby="notes-heading">
   <header class="research-bibliography__heading">

@@ -270,15 +270,18 @@ details[open] > summary .research-theme__toggle::after {
   margin: 2.5rem 0 2.2rem;
 }
 
-.research-preprints > summary {
+.research-preprints__header {
   align-items: center;
-  cursor: pointer;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   list-style: none;
   min-height: 4.4rem;
   padding: 0.9rem 0;
+}
+
+.research-preprints > summary {
+  cursor: pointer;
 }
 
 .research-preprints > summary::-webkit-details-marker {
