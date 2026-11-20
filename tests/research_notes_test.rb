@@ -39,6 +39,17 @@ class ResearchNotesTest < Minitest::Test
     )
   end
 
+  def test_ntu_thesis_placeholder_precedes_existing_thesis_bibliography
+    page = File.read(File.expand_path('../_pages/research.md', __dir__))
+    thesis = page[/<section id="thesis".*?<\/section>/m]
+    refute_nil thesis
+    assert_includes thesis, 'id="title-NTUPhDThesis">TBD</h3>'
+    assert_includes thesis, '<em>Nanyang Technological University</em>, 202X'
+    assert_operator thesis.index('id="NTUPhDThesis"'), :<, thesis.index('{% bibliography')
+    placeholder = thesis[/<article.*?<\/article>/m]
+    refute_match(/<a\b|<button\b/, placeholder)
+  end
+
   def test_note_title_is_plain_even_when_archive_is_opted_in
     title = render(linked: true)[/<h3\b.*?<\/h3>/m]
     assert_includes title, 'A mathematical note'
