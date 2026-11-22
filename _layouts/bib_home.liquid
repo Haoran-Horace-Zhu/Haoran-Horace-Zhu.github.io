@@ -21,7 +21,7 @@
   <div class="selected-publication-card__meta">
     <span>{{ entry.year }}</span>
     {% if entry.coauthors %}
-      <span>With {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</span>
+      <span>with {{ entry.coauthors | markdownify | remove: '<p>' | remove: '</p>' }}</span>
     {% elsif page.selected_hide_authors contains entry.key %}
       {% comment %}The homepage already identifies the sole author.{% endcomment %}
     {% else %}
