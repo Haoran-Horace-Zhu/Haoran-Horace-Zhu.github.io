@@ -43,7 +43,7 @@ class ResearchNotesTest < Minitest::Test
     page = File.read(File.expand_path('../_pages/research.md', __dir__))
     thesis = page[/<section id="thesis".*?<\/section>/m]
     refute_nil thesis
-    assert_includes thesis, 'id="title-NTUPhDThesis">Fill Gap Problem</h3>'
+    assert_includes thesis, 'id="title-NTUPhDThesis">TBD</h3>'
     assert_includes thesis, '<em>Nanyang Technological University</em>, 202X'
     assert_operator thesis.index('id="NTUPhDThesis"'), :<, thesis.index('{% bibliography')
     placeholder = thesis[/<article.*?<\/article>/m]

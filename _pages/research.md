@@ -92,7 +92,7 @@ preprints_visible: true # Set to false to close the expandable list.
     <ol class="bibliography">
       <li>
         <article class="bib-entry" id="NTUPhDThesis" aria-labelledby="title-NTUPhDThesis">
-          <h3 class="bib-entry__title" id="title-NTUPhDThesis">Fill Gap Problem</h3>
+          <h3 class="bib-entry__title" id="title-NTUPhDThesis">TBD</h3>
           <p class="bib-entry__venue"><em>Nanyang Technological University</em>, 202X</p>
         </article>
       </li>
