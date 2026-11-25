@@ -6,7 +6,7 @@ description: Publications and preprints in combinatorics, probability, algebra, 
 hide_description: true
 nav: true
 nav_order: 2
-preprints_visible: true # Set to false to close the expandable list.
+preprints_visible: false # Set to false to close the expandable list.
 ---
 
 <section class="research-overview" aria-label="Research interests">
